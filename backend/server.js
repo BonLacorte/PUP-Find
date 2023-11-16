@@ -28,8 +28,8 @@ app.use(express.urlencoded({limit: '70mb', extended: true, parameterLimit: 50000
 app.use(cookieParser())
 
 app.use('/', express.static(path.join(__dirname, 'public')))
-app.use('/', (req, res) => {
-    res.send("Server is running")
+app.get('/', (req, res) => {
+    res.sendStatus(200).json("Server is running")
 })
 
 app.use('/chat', require('./routes/chatRoutes'))
@@ -59,20 +59,20 @@ app.use(errorHandler)
 mongoose.set('strictQuery', false);
 
 const server = app.listen(
-    PORT,
-    console.log(`Server running on PORT ${PORT}...`)
+    PORT, () => {
+        console.log(`Server running on PORT ${PORT}...`)
+    }
 );
-
 
 
 const io = require("socket.io")(server, {
     pingTimeout: 60000,
     cors: {
-        origin: '*',
-      // credentials: true,
+        // origin: '*',
+        // credentials: true,
+        corsOptions
     },
 });
-
 
 
 // const io = socketIO(server);

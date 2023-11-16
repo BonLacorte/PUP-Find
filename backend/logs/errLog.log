@@ -1639,3 +1639,5 @@ Use mongoose.model(name, schema)	POST	/chat/add-lostitem-processes	http://localh
 20231114	21:20:49	b346136b-6eaf-4c07-8ba6-9c51b9e453f2	TypeError: Cannot read properties of null (reading 'length')	PUT	/report/65536ba085c9be1025a0cb67	http://localhost:3501
 20231114	21:22:32	2ec27319-f826-4de9-8836-7315ef9d0378	TypeError: Cannot read properties of null (reading 'length')	PUT	/report/65536ba085c9be1025a0cb67	http://localhost:3501
 20231116	13:10:12	cbf2949f-d8dc-4345-bb13-2c8c65ca113c	CastError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"	DELETE	/user/undefined	http://localhost:3501
+20231116	22:24:12	9f8588cb-b88d-4645-b695-93ddbac47253	Error: Cannot set headers after they are sent to the client	GET	/	undefined
+20231116	22:25:05	6f46872b-2ef1-40d9-b375-9a58b79ae0d2	Error: Cannot set headers after they are sent to the client	GET	/	undefined
