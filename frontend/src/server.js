@@ -1,3 +1,3 @@
-export const server = "'https://pup-find-server.onrender.com'";
+export const server = "'https://pupfind-server.onrender.com'";
 
 
