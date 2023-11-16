@@ -1,3 +1,3 @@
-export const server = "http://localhost:3500";
+export const server = "'https://pup-find-server.onrender.com'";
 
 
