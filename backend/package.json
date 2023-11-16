@@ -4,8 +4,8 @@
   "description": "PUP-Find",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -23,10 +23,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.1",
     "mongoose-sequence": "^5.3.1",
+    "nodemon": "^3.0.1",
     "socket.io": "^4.7.2",
     "uuid": "^9.0.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
   }
 }
