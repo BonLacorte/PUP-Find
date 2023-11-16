@@ -20,7 +20,11 @@ connectDB()
 
 app.use(logger)
 
-app.use(cors(corsOptions))
+app.use(cors({
+    origin: ['https://pup-find-server.vercel.app',],
+    credentials: true,
+    optionsSuccessStatus: 200
+}))
 
 app.use(express.json({limit: '70mb'}))
 app.use(express.urlencoded({limit: '70mb', extended: true, parameterLimit: 50000}));
