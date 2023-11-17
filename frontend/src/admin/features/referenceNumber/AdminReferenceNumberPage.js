@@ -3,7 +3,8 @@ import useAdminAuth from '../../hooks/useAdminAuth';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
-import { DataGrid } from '@material-ui/data-grid';
+// import { DataGrid } from '@material-ui/data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { server } from '../../../server';
 
 const AdminReferenceNumberPage = () => {
@@ -293,7 +294,14 @@ const AdminReferenceNumberPage = () => {
                         <DataGrid
                             rows={row}
                             columns={columns}
-                            pageSize={10}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {
+                                        pageSize: 10,
+                                    },
+                                },
+                            }}
+                            pageSizeOptions={10}
                             disableSelectionOnClick
                             autoHeight
                         />

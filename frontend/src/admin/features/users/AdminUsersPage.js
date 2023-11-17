@@ -6,7 +6,7 @@ import AdminEditUserForm from './AdminEditUserForm'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react'
 import PulseLoader from 'react-spinners/PulseLoader'
-import { DataGrid } from "@material-ui/data-grid";
+import { DataGrid } from '@mui/x-data-grid';
 import { toast } from 'react-toastify';
 import { server } from '../../../server'
 
@@ -288,8 +288,20 @@ const AdminUsersPage = () => {
                         // <div className="flex justify-center">
                             // <div className="flex flex-col">
                                 <div className="w-full pt-1 mt-5 lg:mt-10 bg-white">
-                                    <DataGrid rows={row} columns={columns} disableSelectionOnClick
-                autoHeight pageSize={10}/>
+                                    <DataGrid 
+                                        rows={row} 
+                                        columns={columns} 
+                                        disableSelectionOnClick
+                                        autoHeight 
+                                        initialState={{
+                                            pagination: {
+                                                paginationModel: {
+                                                    pageSize: 10,
+                                                },
+                                            },
+                                        }}
+                                        pageSizeOptions={10}
+                                    />
                                 </div>
                             // </div> 
                         // </div>

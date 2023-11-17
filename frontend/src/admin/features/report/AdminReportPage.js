@@ -4,7 +4,7 @@ import { Link, useNavigate,  } from 'react-router-dom'
 import useAdminAuth from '../../hooks/useAdminAuth'
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react'
 import PulseLoader from 'react-spinners/PulseLoader'
-import { DataGrid } from "@material-ui/data-grid";
+import { DataGrid } from '@mui/x-data-grid';
 import { server } from '../../../server'
 
 const AdminReportPage = () => {
@@ -341,7 +341,14 @@ const AdminReportPage = () => {
                             <DataGrid
                                 rows={row}
                                 columns={columns}
-                                pageSize={10}
+                                initialState={{
+                                    pagination: {
+                                        paginationModel: {
+                                            pageSize: 10,
+                                        },
+                                    },
+                                }}
+                                pageSizeOptions={10}
                                 disableSelectionOnClick
                                 autoHeight
                                 // onRowClick={(params) => {

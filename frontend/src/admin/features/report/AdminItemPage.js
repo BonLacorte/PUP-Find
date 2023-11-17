@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import useAdminAuth from '../../hooks/useAdminAuth';
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
-import { DataGrid } from "@material-ui/data-grid";
+// import { DataGrid } from "@material-ui/data-grid";
+import { DataGrid } from '@mui/x-data-grid';
 import { toast } from 'react-toastify';
 import { server } from '../../../server';
 
@@ -423,7 +424,14 @@ const AdminItemPage = () => {
                         <DataGrid
                             rows={row}
                             columns={columns}
-                            pageSize={10}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {
+                                        pageSize: 10,
+                                    },
+                                },
+                            }}
+                            pageSizeOptions={10}
                             disableSelectionOnClick
                             autoHeight
                             onRowClick={(params) => {
