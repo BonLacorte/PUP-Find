@@ -202,8 +202,8 @@ const AdminFoundReportPage = () => {
                     </button> */}
                     <button
                         onClick={() => {
-                            // console.log('report', params.row.original)
-                            navigate(`/admin/dash/reports/found/edit/${params.row.original.id}`, {state: { report: params.row.original}})
+                            console.log('report', params.row.original)
+                            // navigate(`/admin/dash/reports/found/edit/${params.row.original.id}`, {state: { report: params.row.original}})
                     }} className="text-blue-500 font-bold py-2 px-2 rounded mr-2">
                         Edit
                     </button> 
@@ -244,50 +244,48 @@ const AdminFoundReportPage = () => {
     const row = React.useMemo(
         () =>
             reports.map((item) => {
-                console.log(`item`,item)
-            const images =item.itemImage && item.itemImage.length > 0
-                ? item.itemImage.map((image) => ({
-                    public_id: image.public_id,
-                    url: image.url,
-                }))
-                : null;
-            return {
-                creatorName: item.creatorId.uid,
-                creatorPic: item.creatorId.pic.url,
-                image: 
-                    images && images.length > 0
-                    ? images[0].url
-                    : 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png',
-                itemName: item.itemName,
-                itemDescription: item.itemDescription,
-                reportStatus: item.reportStatus,
-                reportType: item.reportType,
-                createdAt: item.createdAt,
-                id: item._id,
-                phoneNumber: item.phoneNumber,
-                creatorId: {
-                    name: item.creatorId.name,
-                    uid: item.creatorId.uid,
-                    email: item.creatorId.email,
-                    phoneNumber: item.creatorId.phoneNumber,
-                    membership: item.creatorId.membership,
-                    specification: item.creatorId.specification,
-                    facebookLink: item.creatorId.facebookLink,
-                    twitterLink: item.creatorId.twitterLink,
-                    pic: {
-                        public_id: item.creatorId.pic.public_id,
-                        url: item.creatorId.pic.url,
+                // console.log(`item`,item)
+                const images = item.itemImage && item.itemImage.length > 0
+                    ? item.itemImage.map((image) => ({
+                        public_id: image.public_id,
+                        url: image.url,
+                    }))
+                    : null;
+                return {
+                    creatorName: item.creatorId.uid,
+                    creatorPic: item.creatorId.pic.url,
+                    image: 
+                        images && images.length > 0
+                        ? images[0].url
+                        : 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png',
+                    itemName: item.itemName,
+                    itemDescription: item.itemDescription,
+                    reportStatus: item.reportStatus,
+                    reportType: item.reportType,
+                    createdAt: item.createdAt,
+                    id: item._id,
+                    phoneNumber: item.phoneNumber,
+                    creatorId: {
+                        name: item.creatorId.name,
+                        uid: item.creatorId.uid,
+                        email: item.creatorId.email,
+                        phoneNumber: item.creatorId.phoneNumber,
+                        membership: item.creatorId.membership,
+                        specification: item.creatorId.specification,
+                        facebookLink: item.creatorId.facebookLink,
+                        twitterLink: item.creatorId.twitterLink,
+                        pic: {
+                            public_id: item.creatorId.pic.public_id,
+                            url: item.creatorId.pic.url,
+                        },
                     },
-                },
-                itemImage: images,
-                location: item.location,
-                date: item.date,
+                    itemImage: images,
+                    location: item.location,
+                    date: item.date,
                 };
             }),
         [reports]
     );
-
-    console.log(`row11111`,row)
 
     useEffect(() => {
         getAllReports()

@@ -2,9 +2,27 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import useAdminAuth from '../../hooks/useAdminAuth';
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
-// import { DataGrid } from "@material-ui/data-grid";
-import { DataGrid } from '@mui/x-data-grid';
+import { useTable, useSortBy, usePagination } from "react-table";
+import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    chakra,
+    Text
+} from '@chakra-ui/react';
+import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { toast } from 'react-toastify';
 import { server } from '../../../server';
 
@@ -14,11 +32,12 @@ const AdminItemPage = () => {
     const location = useLocation();
     const report  = location.state
 
+    // console.log(`REPORT`, report)
+    // console.log(`REPORT.ID`, report.report.id)
+
     const [selectedImage, setSelectedImage] = useState(null);
     const [itemFirstImage, setItemFirstImage] = useState(report.report.itemImage === null || report.report.itemImage === undefined || report.report.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : report.report.itemImage[0].url)
     const [oldImage, setOldImage] = useState(report.report.itemImage === null || report.report.itemImage === undefined || report.report.itemImage.length === 0 ? [] : report.report.itemImage);
-    
-    
 
     const navigate = useNavigate()
 
@@ -32,11 +51,19 @@ const AdminItemPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedReport, setSelectedReport] = useState(null);
 
+    // CSS styles for the table container
+    const tableContainerStyles = {
+        overflowX: 'auto',
+        maxWidth: '100%',
+        width: '100%',
+        // minWidth: '600px', // Set the minimum width for the table
+    };
+
     // Function to open the modal and set the selected report
     const openModal = (report) => {
         console.log(`open modal report`, report)
-        setSelectedReport(report);
-        console.log(`open modal`,selectedReport)
+        setSelectedReport(report.original);
+        console.log(`open modal selectedReport`,selectedReport)
         setIsModalOpen(true);
     };
 
@@ -93,102 +120,9 @@ const AdminItemPage = () => {
     };
 
 
-    const handleSort = (column) => {
-        // Toggle sorting order if the same column is clicked again
-        if (column === sortColumn) {
-            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-        } else {
-            // Set the new sorting column and default to ascending order
-            setSortColumn(column);
-            setSortOrder('asc');
-        }
-    };
-
-    // Sorting function for the 'date' column
-    const sortByDate = (a, b) => {
-        if (sortOrder === 'asc') {
-            return new Date(a.date) - new Date(b.date);
-        } else {
-            return new Date(b.date) - new Date(a.date);
-        }
-    };
-
-    // Sorting function for the 'item name' column
-    const sortByName = (a, b) => {
-        const nameA = a.itemName.toLowerCase();
-        const nameB = b.itemName.toLowerCase();
-
-        if (sortOrder === 'asc') {
-            return nameA.localeCompare(nameB);
-        } else {
-            return nameB.localeCompare(nameA);
-        }
-    };
-
-    // Sorting function for the 'report status' column
-    const sortByStatus = (a, b) => {
-        const statusA = a.reportStatus.toLowerCase();
-        const statusB = b.reportStatus.toLowerCase();
-
-        if (sortOrder === 'asc') {
-            return statusA.localeCompare(statusB);
-        } else {
-            return statusB.localeCompare(statusA);
-        }
-    };
-
-    // Use a switch statement to determine which sorting function to apply
-    const sortFunction = (column) => {
-        switch (column) {
-            case 'date':
-                return sortByDate;
-            case 'item':
-                return sortByName;
-            case 'status':
-                return sortByStatus;
-            default:
-                return sortByDate; // Default sorting
-        }
-    };
-
-    // Apply sorting based on the selected column
-    const sortedReports = [...reports].sort(sortFunction(sortColumn));
-
-    const getTableHeaders = () => {
-        return (
-            <>
-                <th scope="col" className="px-6 py-3 bg-customBackground text-left text-sm font-medium">
-                    <button onClick={() => handleSort('item')}>
-                        Item {sortColumn === 'item' && sortOrder === 'asc' && <span>▲</span>}
-                        {sortColumn === 'item' && sortOrder === 'desc' && <span>▼</span>}
-                    </button>
-                </th>
-                <th scope="col" className="px-6 py-3 bg-customBackground text-left text-sm font-medium">
-                    <button onClick={() => handleSort('status')}>
-                        Status {sortColumn === 'status' && sortOrder === 'asc' && <span>▲</span>}
-                        {sortColumn === 'status' && sortOrder === 'desc' && <span>▼</span>}
-                    </button>
-                </th>
-                <th scope="col" className="px-6 py-3 bg-customBackground text-left text-sm font-medium">
-                    <button onClick={() => handleSort('date')}>
-                        {selectedReportType === 'Found' ? 'Date Found' : 'Date Missing'} {sortColumn === 'date' && sortOrder === 'asc' && <span>▲</span>}
-                        {sortColumn === 'date' && sortOrder === 'desc' && <span>▼</span>}
-                    </button>
-                </th>
-                <th scope="col" className="px-6 py-3 bg-customBackground text-left text-sm font-medium">
-                    Ref. Number
-                </th>
-                <th scope="col" className="px-6 py-3 bg-customBackground text-left text-sm font-medium">
-                    Report Creator
-                </th>
-            </>
-        );
-    };
-
     // Create a function to fetch all reports
     const getAllReports = async (reportType, query) => {
-        let reportTypeUrl = null
-        reportType === 'Found' ? reportTypeUrl = 'FoundReport' : reportTypeUrl = 'MissingReport'
+        let reportTypeUrl = `MissingReport`;
         try {
             const config = {
                 headers: {
@@ -206,106 +140,147 @@ const AdminItemPage = () => {
             if (query) {
                 url += reportTypeUrl ? `&search=${query}` : `?search=${query}`;
             }
-            // console.log(url)
-            const { data } = await axios.get(url, config); // Replace with your API endpoint
-            setReports(data); // Set the reports in state
-            // console.log(reports)
+            // console.log(`report.report.creatorId.uid`,report.report.creatorId.uid)
+            const { data } = await axios.get(url, config);
+
+            const filteredData = data.filter((item) => item.creatorId.uid !== report.report.creatorId.uid && item.reportStatus === "Missing");
+
+            setReports(filteredData);
         } catch (error) {
             console.error(error);
         }
     };
     
-    const columns = [
+    const columns = React.useMemo(
+        () => [
         {
-            field: 'itemName',
-            headerName: 'Item',
-            minWidth: 150, flex: 0.7,
-            sortable: true,
-            renderCell: (params) => {
+            accessor: 'itemName',
+            Header: 'Item',
+            Cell: (params) => {
                 return (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <img src={params.row.image} alt="" className="w-10 h-10 rounded-full mr-2" />
-                        {params.row.itemName}
+                        <img src={params.row.original.image} alt="" className="w-10 h-10 rounded-full mr-2" />
+                        {params.row.original.itemName}
                     </div>
                 );
             },
         },
         {
-            field: 'reportStatus',
-            headerName: 'Status',
-            minWidth: 150, flex: 0.7,
-            sortable: true,
+            accessor: 'reportStatus',
+            Header: 'Status',
         },
         {
-            field: 'createdAt',
-            headerName: 'Date Reported',
-            minWidth: 150, flex: 0.7,
-            sortable: true,
-            valueFormatter: (params) => {
-                return new Date(params.value).toLocaleDateString();
+            accessor: 'createdAt',
+            Header: 'Date Reported',
+            Cell: (params) => {
+                return new Date(params.row.original.createdAt).toLocaleDateString();
             },
         },
         {
-            field: 'id',
-            headerName: 'Ref. Number',
-            minWidth: 150, flex: 0.7,
+            accessor: 'id',
+            Header: 'Ref. Number',
         },
         {
-            field: 'creatorId',
-            headerName: 'Report Creator',
-            minWidth: 150, flex: 0.7,
-            valueFormatter: (params) => {
-                return params.value.name || '-';
+            accessor: 'creatorId',
+            Header: 'Report Creator',
+            Cell: (params) => {
+                return (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <img src={params.row.original.creatorPic} alt="" className="w-10 h-10 rounded-full mr-2" />
+                        {params.row.original.creatorName}
+                    </div>
+                )
             },
         },
-    ];
+    ],[]
+    )
 
-    const row = [];
-
-    reports &&
-    reports.forEach((item) => {
-        // console.log(`item`,item)
-        if (report.report.creatorId.name !== item.creatorId.name && item.reportStatus === "Missing") {
-            row.push({
-                image: item.itemImage && item.itemImage.length > 0 ? item.itemImage[0].url : 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png',
-                itemName: item.itemName,
-                itemDescription: item.itemDescription,
-                reportStatus: item.reportStatus,
-                reportType: item.reportType,
-                createdAt: item.createdAt,
-                id: item._id, 
-                phoneNumber: item.phoneNumber,
-                creatorId:{
-                    name: item.creatorId.name,
-                    uid: item.creatorId.uid,
-                    email: item.creatorId.email,
-                    phoneNumber: item.creatorId.phoneNumber,
-                    membership: item.creatorId.membership,
-                    specification: item.creatorId.specification,
-                    facebookLink: item.creatorId.facebookLink,
-                    twitterLink: item.creatorId.twitterLink,
-                    pic:
-                    {
-                        public_id: item.creatorId.pic.public_id,
-                        url: item.creatorId.pic.url,
+    const row = React.useMemo(
+        () =>
+            reports.map((item) => {
+                // console.log(`item`,item)
+                
+                const images = item.itemImage && item.itemImage.length > 0
+                    ? item.itemImage.map((image) => ({
+                        public_id: image.public_id,
+                        url: image.url,
+                    }))
+                    : null;
+                    return {
+                        creatorName: item.creatorId.uid,
+                        creatorPic: item.creatorId.pic.url,
+                        image: 
+                            images && images.length > 0
+                            ? images[0].url
+                            : 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png',
+                        itemName: item.itemName,
+                        itemDescription: item.itemDescription,
+                        reportStatus: item.reportStatus,
+                        reportType: item.reportType,
+                        createdAt: item.createdAt,
+                        id: item._id, 
+                        phoneNumber: item.phoneNumber,
+                        creatorId:{
+                            name: item.creatorId.name,
+                            uid: item.creatorId.uid,
+                            email: item.creatorId.email,
+                            phoneNumber: item.creatorId.phoneNumber,
+                            membership: item.creatorId.membership,
+                            specification: item.creatorId.specification,
+                            facebookLink: item.creatorId.facebookLink,
+                            twitterLink: item.creatorId.twitterLink,
+                            pic:
+                            {
+                                public_id: item.creatorId.pic.public_id,
+                                url: item.creatorId.pic.url,
+                            }
+                        },
+                        itemImage: images,
+                        location: item.location,
+                        date: item.date
                     }
-                },
-                itemImage: item.itemImage && item.itemImage.length > 0 ? [{
-                    public_id: item.itemImage[0].public_id,
-                    url: item.itemImage[0].url,
-                }] : null,
-                location: item.location,
-                date: item.date
-            });
-        }
-    });
+                
+            }),
+        [reports]
+    );
 
-    // console.log(`row`,row)
+    console.log(`row`,row)
 
     // Use useEffect to fetch all reports when the component mounts
     useEffect(() => {
         getAllReports(selectedReportType);
+        // eslint-disable-next-line
     }, []);
+
+    const { 
+        getTableProps, 
+        getTableBodyProps, 
+        headerGroups, 
+        page, 
+        prepareRow, 
+        canPreviousPage, 
+        canNextPage, 
+        pageOptions, 
+        pageCount, 
+        gotoPage, 
+        nextPage, 
+        previousPage, 
+        state: { pageIndex, pageSize },
+    } = useTable(
+        { 
+            columns, 
+            data: row,
+            initialState: { pageIndex: 0, pageSize: 10 },
+        }, 
+            useSortBy,
+            usePagination
+        );
+    
+    // Displayed data range
+    const displayedDataRange = `${pageIndex * pageSize + 1}-${Math.min(
+        (pageIndex + 1) * pageSize,
+        row.length
+    )} of ${row.length}`;
 
     return (
         <>
@@ -420,25 +395,46 @@ const AdminItemPage = () => {
                 </div>
 
                 <div className="flex justify-center">
-                    <div className="w-full pt-1 mt-5 lg:mt-10 bg-white">
-                        <DataGrid
-                            rows={row}
-                            columns={columns}
-                            initialState={{
-                                pagination: {
-                                    paginationModel: {
-                                        pageSize: 10,
-                                    },
-                                },
-                            }}
-                            pageSizeOptions={10}
-                            disableSelectionOnClick
-                            autoHeight
-                            onRowClick={(params) => {
-                                console.log(`params`, params.row)
-                                openModal(params.row)
-                            }}
-                        />
+                    <div className="w-full pt-1 mt-5 lg:mt-10 bg-white" style={tableContainerStyles}>
+                        <Table {...getTableProps()}>
+                            <Thead>
+                                {headerGroups.map((headerGroup) => (
+                                <Tr {...headerGroup.getHeaderGroupProps()}>
+                                    {headerGroup.headers.map((column) => (
+                                    <Th
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
+                                        isNumeric={column.isNumeric}
+                                    >
+                                        {column.render('Header')}
+                                        <chakra.span pl="4">
+                                        {column.isSorted ? (
+                                            column.isSortedDesc ? (
+                                            <TriangleDownIcon aria-label="sorted descending" />
+                                            ) : (
+                                            <TriangleUpIcon aria-label="sorted ascending" />
+                                            )
+                                        ) : null}
+                                        </chakra.span>
+                                    </Th>
+                                    ))}
+                                </Tr>
+                                ))}
+                            </Thead>
+                            <Tbody {...getTableBodyProps()}>
+                                {page.map((row) => {
+                                    prepareRow(row);
+                                    return (
+                                        <Tr {...row.getRowProps()} onClick={() => openModal(row)}>
+                                        {row.cells.map((cell) => (
+                                            <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                                                {cell.render('Cell')}
+                                            </Td>
+                                        ))}
+                                        </Tr>
+                                    );
+                                })}
+                            </Tbody>
+                        </Table>
                     </div>
                 </div>
             </div>
