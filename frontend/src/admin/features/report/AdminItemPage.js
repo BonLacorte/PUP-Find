@@ -435,6 +435,29 @@ const AdminItemPage = () => {
                                 })}
                             </Tbody>
                         </Table>
+
+                        {/* Pagination */}
+                        <div className="flex justify-center mt-4">
+                            <button
+                                onClick={() => previousPage()}
+                                disabled={!canPreviousPage}
+                                className="bg-primaryColor text-white font-bold py-2 px-4 rounded mr-2"
+                            >
+                                Previous
+                            </button>
+                            <button
+                                onClick={() => nextPage()}
+                                disabled={!canNextPage}
+                                className="bg-primaryColor text-white font-bold py-2 px-4 rounded"
+                            >
+                                Next
+                            </button>
+                        </div>
+
+                        {/* Displayed data range text */}
+                        <p className="text-center mt-2">
+                            {displayedDataRange}
+                        </p>
                     </div>
                 </div>
             </div>
