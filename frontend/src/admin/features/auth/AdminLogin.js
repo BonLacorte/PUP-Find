@@ -21,7 +21,6 @@ const AdminLogin = () => {
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState('')
     const [adminPersist, setAdminPersist] = useAdminPersist()
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate()
     const dispatch = useDispatch();
@@ -51,11 +50,6 @@ const AdminLogin = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if (isSubmitting) {
-            // If the button is already submitting, ignore the click
-            return;
-        }
-        setIsSubmitting(true);
         try {
             const data = await login({ email, password }).unwrap()
             const accessToken = data.accessToken
@@ -64,28 +58,18 @@ const AdminLogin = () => {
             dispatch(setCredentials({ accessToken }))
             setEmail('')
             setPassword('')
-            // toast.success("User successfully logged in!");
             navigate('/admin/dash')
         } catch (err) {
             if (!err.status) {
-                // setErrMsg('No Server Response');
-                toast.error(err);
-                setIsSubmitting(false);
+                setErrMsg('No Server Response');
             } else if (err.status === 400) {
-                // setErrMsg('Missing Username or Password');
-                toast.error(err);
-                setIsSubmitting(false);
+                setErrMsg('Missing Username or Password');
             } else if (err.status === 401) {
-                // setErrMsg('Unauthorized');
-                toast.error(err);
-                setIsSubmitting(false);
+                setErrMsg('Unauthorized');
             } else {
-                // setErrMsg(err.data?.message);
-                toast.error(err);
-                setIsSubmitting(false);
+                setErrMsg(err.data?.message);
             }
             errRef.current.focus();
-            setIsSubmitting(false);
         }
     }
 

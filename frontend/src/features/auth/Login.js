@@ -64,24 +64,23 @@ const Login = () => {
             setEmail('')
             setPassword('')
             setIsSubmitting(false);
-            toast.success("User successfully logged in!");
             navigate('/dash/')
         } catch (err) {
         if (!err.status) {
             // setErrMsg('No Server Response');
-            toast.error(err);
+            toast.error('No Server Response');
             setIsSubmitting(false);
         } else if (err.status === 400) {
             // setErrMsg('Missing Username or Password');
-            toast.error(err);
+            toast.error('Missing Username or Password');
             setIsSubmitting(false);
         } else if (err.status === 401) {
             // setErrMsg('Unauthorized');
-            toast.error(err);
+            toast.error('Unauthorized');
             setIsSubmitting(false);
         } else {
             // setErrMsg(err.data?.message);
-            toast.error(err);
+            toast.error(err.data?.message);
             setIsSubmitting(false);
         }
         errRef.current.focus();

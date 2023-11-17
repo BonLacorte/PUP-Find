@@ -49,7 +49,12 @@ const getReportCounts = async (req, res, next) => {
             (a, b) => b[1] - a[1]
         );
 
-        const missingReportCount = missingReports.length;
+        const missingReportCount = await Report.countDocuments({
+            reportType: 'MissingReport',
+            reportStatus: 'Missing',
+            ...(startDate && endDate ? { createdAt: { $gte: startDate, $lte: endDate } } : {}),
+        });
+
         const claimedReportCount = await ClaimedReport.countDocuments({
             ...(startDate && endDate ? { createdAt: { $gte: startDate, $lte: endDate } } : {}),
         });
