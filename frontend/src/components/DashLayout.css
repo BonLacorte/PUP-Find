@@ -1,0 +1,17 @@
+/* styles.css */
+
+.scrollable-container {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    touch-action: pan-y;
+}
+
+.scrollable-container::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollable-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

@@ -20,6 +20,7 @@ const router = createBrowserRouter([
 
 root.render(
   <React.StrictMode>
+    {/* <ThemeProvider theme={MuiTheme}> */}
     <ChakraProvider>
     <Provider store={store}>
       {/* <PersistGate loading={null} persistor={persistor}> */}
@@ -27,7 +28,7 @@ root.render(
       {/* </PersistGate> */}
     </Provider>
     </ChakraProvider>
-    
+    {/* </ThemeProvider> */}
   </React.StrictMode>
 );
 

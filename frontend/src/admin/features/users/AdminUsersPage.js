@@ -4,11 +4,32 @@ import axios from 'axios'
 import AdminNewUserForm from './AdminNewUserForm'
 import AdminEditUserForm from './AdminEditUserForm'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react'
 import PulseLoader from 'react-spinners/PulseLoader'
-import { DataGrid } from '@mui/x-data-grid';
+// import { DataGrid } from '@mui/x-data-grid';
+import { useTable, useSortBy, usePagination } from "react-table";
+import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    chakra
+} from '@chakra-ui/react';
+import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { toast } from 'react-toastify';
 import { server } from '../../../server'
+
+
 
 const AdminUsersPage = () => {
     const { accessToken } = useAdminAuth()
@@ -23,6 +44,13 @@ const AdminUsersPage = () => {
     const [users, setUsers] = useState([])
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
+
+    // CSS styles for the table container
+    const tableContainerStyles = {
+        overflowX: 'auto',
+        maxWidth: '100%',
+        width: '100%',
+    };
 
     const handleCategoryChange = (e) => {
         setSelectedCategoryReport(e.target.value)
@@ -136,78 +164,113 @@ const AdminUsersPage = () => {
         // eslint-disable-next-line
     }, [])
 
-    const columns = [
-        // { field: 'id', headerName: 'Id', minWidth: 150, flex: 0.7 },
-        { 
-            field: 'name', 
-            headerName: 'Name', 
-            minWidth: 150, 
-            flex: 0.7,
-            renderCell: (params) => {
-                return (
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <img src={params.row.image} alt="" className="w-10 h-10 rounded-full mr-2" />
-                        {params.row.name}
-                    </div>
-                );
+    const columns = React.useMemo(
+        () => [
+            {
+                Header: 'Name',
+                accessor: 'name',
+                Cell: (params) => (
+                    <>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <img src={params.row.original.image} alt="" className="w-10 h-10 rounded-full mr-2" />
+                            {params.row.original.name}
+                        </div>
+                    </>
+                )
             },
-        },
-        { field: 'uid', headerName: 'Id', minWidth: 150, flex: 0.7 },
-        { field: 'specification', headerName: 'Section/Department/Role', minWidth: 150, flex: 0.7 },
-        { field: 'email', headerName: 'Email', minWidth: 150, flex: 0.7 },
-        { field: 'phoneNumber', headerName: 'Contact', minWidth: 150, flex: 0.7 },
-        {
-            field: 'actions',
-            headerName: 'Action',
-            minWidth: 150, flex: 0.7,
-            renderCell: (params) => (
-                <>
-                    <button 
-                        onClick={() => {
-                            // console.log('user', params.row)
-                            // console.log('id', params.row.id)
-                            navigate(`/admin/dash/users/edit/${params.row.id}`, {state: { user: params.row}})
-                        }} 
-                        className='text-blue-500 font-bold py-2 px-2 rounded mr-2'
-                    >
-                        Edit
-                    </button>
-                    <button
-                        onClick={() => {
-                            setUserToDelete(params.row)
-                            onOpen()
-                        }}
-                        className="text-red-500 font-bold py-2 px-2 rounded"
-                    >
-                        Delete
-                    </button>
-                </>
-            ),
-        },
-    ];
+            {
+                Header: 'Id',
+                accessor: 'uid',
+            },
+            {
+                Header: 'Section/Department/Role',
+                accessor: 'specification',
+            },
+            {
+                Header: 'Email',
+                accessor: 'email',
+            },
+            {
+                Header: 'Contact',
+                accessor: 'phoneNumber',
+            },
+            {
+                Header: 'Action',
+                accessor: 'actions',
+                Cell:
+                (params) => (
+                    <>
+                        <button 
+                            onClick={() => {
+                                // console.log('rowData', params)
+                                console.log('user', params.row.original)
+                                navigate(`/admin/dash/users/edit/${params.row.original.id}`, {state: { user: params.row.original}})
+                            }} className='text-blue-500 font-bold py-2 px-2 rounded mr-2'
+                        >
+                            Edit
+                        </button>
+                        <button
+                            onClick={() => {
+                                setUserToDelete(params.row.original)
+                                onOpen()
+                            }}
+                            className="text-red-500 font-bold py-2 px-2 rounded"
+                        >
+                            Delete
+                        </button>
+                    </>
+                )
+            },
+        ],
+        [],
+    )
+    
+    const row = React.useMemo(
+        () => 
+        users.map((item) => ({
+            image: item.pic.url,
+            id: item._id,
+            name: item.name,
+            uid: item.uid,
+            specification: item.specification,
+            email: item.email,
+            phoneNumber: item.phoneNumber,
+            pic: {
+                public_id: item.pic.public_id,
+                url: item.pic.url,
+            },
+        }
+    )), [users]);
 
-    const row = [];
+    const { 
+        getTableProps, 
+        getTableBodyProps, 
+        headerGroups, 
+        page, 
+        prepareRow, 
+        canPreviousPage, 
+        canNextPage, 
+        pageOptions, 
+        pageCount, 
+        gotoPage, 
+        nextPage, 
+        previousPage, 
+        state: { pageIndex, pageSize },
+    } = useTable(
+        { 
+            columns, 
+            data: row,
+            initialState: { pageIndex: 0, pageSize: 10 },
+        }, 
+            useSortBy,
+            usePagination
+        );
 
-    users &&
-        users.forEach((item) => {
-            console.log(`item`,item)
-            row.push({
-                image: item.pic.url,
-                id: item._id, 
-                name: item.name,
-                uid: item.uid,
-                specification: item.specification,
-                email: item.email,
-                phoneNumber: item.phoneNumber,
-                pic:
-                {
-                    public_id: item.pic.public_id,
-                    url: item.pic.url,
-                }
-            });
-        });
-
-    // console.log(`row`,row)
+    // Displayed data range
+    const displayedDataRange = `${pageIndex * pageSize + 1}-${Math.min(
+        (pageIndex + 1) * pageSize,
+        row.length
+    )} of ${row.length}`;
 
     let content
 
@@ -285,26 +348,79 @@ const AdminUsersPage = () => {
                     ) : editingUser ? (
                         <AdminEditUserForm user={editingUser} onUpdateUser={handleUpdateUser} />
                     ) : (
-                        // <div className="flex justify-center">
-                            // <div className="flex flex-col">
-                                <div className="w-full pt-1 mt-5 lg:mt-10 bg-white">
-                                    <DataGrid 
-                                        rows={row} 
-                                        columns={columns} 
-                                        disableSelectionOnClick
-                                        autoHeight 
-                                        initialState={{
-                                            pagination: {
-                                                paginationModel: {
-                                                    pageSize: 10,
-                                                },
-                                            },
-                                        }}
-                                        pageSizeOptions={10}
-                                    />
-                                </div>
-                            // </div> 
-                        // </div>
+                        
+                        <div className="w-full pt-1 mt-5 lg:mt-10 bg-white border" style={tableContainerStyles}>
+                            {/* <DataGrid 
+                                rows={row} 
+                                columns={columns} 
+                                disableSelectionOnClick
+                                autoHeight 
+                                autoPageSize
+                            /> */}
+                            <Table {...getTableProps()}>
+                                <Thead>
+                                    {headerGroups.map((headerGroup) => (
+                                    <Tr {...headerGroup.getHeaderGroupProps()}>
+                                        {headerGroup.headers.map((column) => (
+                                        <Th
+                                            {...column.getHeaderProps(column.getSortByToggleProps())}
+                                            isNumeric={column.isNumeric}
+                                        >
+                                            {column.render('Header')}
+                                            <chakra.span pl="4">
+                                            {column.isSorted ? (
+                                                column.isSortedDesc ? (
+                                                <TriangleDownIcon aria-label="sorted descending" />
+                                                ) : (
+                                                <TriangleUpIcon aria-label="sorted ascending" />
+                                                )
+                                            ) : null}
+                                            </chakra.span>
+                                        </Th>
+                                        ))}
+                                    </Tr>
+                                    ))}
+                                </Thead>
+                                <Tbody {...getTableBodyProps()}>
+                                    {page.map((row) => {
+                                        prepareRow(row);
+                                        return (
+                                            <Tr {...row.getRowProps()}>
+                                            {row.cells.map((cell) => (
+                                                <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                                                {cell.render('Cell')}
+                                                </Td>
+                                            ))}
+                                            </Tr>
+                                        );
+                                    })}
+                                </Tbody>
+                            </Table>
+                            
+                            {/* Pagination */}
+                            <div className="flex justify-center mt-4">
+                                <button
+                                    onClick={() => previousPage()}
+                                    disabled={!canPreviousPage}
+                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded mr-2"
+                                >
+                                    Previous
+                                </button>
+                                <button
+                                    onClick={() => nextPage()}
+                                    disabled={!canNextPage}
+                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Next
+                                </button>
+                            </div>
+
+                            {/* Displayed data range text */}
+                            <p className="text-center mt-2">
+                                {displayedDataRange}
+                            </p>
+                        </div>
+    
                     )}
                 </div>
                 <Modal isOpen={isOpen} onClose={onClose}>

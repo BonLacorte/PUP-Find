@@ -151,7 +151,7 @@ const ProfileEditForm = ({ user }) => {
 
     return (
             <>
-                <div className="bg-white flex flex-col justify-center items-center w-screen h-full border-blue-700">
+                <div className="bg-white flex flex-col justify-center items-center w-screen border-blue-700">
                     <div className="absolute hidden lg:flex flex-col left-0 bottom-0">
                         <img alt="" src="https://file.rendit.io/n/d4pFfFHPbtM6Gj5j2YWE.svg" className="w-20 h-16 absolute top-64 left-0" />
                         <img alt="" src="https://file.rendit.io/n/KPfOZKCRuRSFGmey9AWj.svg" className="w-12 h-56 absolute top-24 left-0" />

@@ -2,9 +2,27 @@ import React, { useEffect, useState } from 'react'
 import useAdminAuth from '../../hooks/useAdminAuth';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
-// import { DataGrid } from '@material-ui/data-grid';
-import { DataGrid } from '@mui/x-data-grid';
+import { useTable, useSortBy, usePagination } from "react-table";
+import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    chakra
+} from '@chakra-ui/react';
+import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
+import { toast } from 'react-toastify';
 import { server } from '../../../server';
 
 const AdminReferenceNumberPage = () => {
@@ -20,6 +38,13 @@ const AdminReferenceNumberPage = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [claimedReportToDelete, setClaimedReportToDelete] = useState(null);
     const [claimedReportToDownload, setClaimedReportToDownload] = useState(null);
+
+    // CSS styles for the table container
+    const tableContainerStyles = {
+        overflowX: 'auto',
+        maxWidth: '100%',
+        width: '100%',
+    };
 
     const handleSort = (column) => {
         // Toggle sorting order if the same column is clicked again
@@ -89,39 +114,39 @@ const AdminReferenceNumberPage = () => {
         }
     };
 
-    const columns = [
+    const columns = React.useMemo(
+        () => [
         {
-            field: 'itemDetails', // Use a custom field name
-            headerName: 'Item',
-            minWidth: 150, flex: 0.7,
-            renderCell: (params) => {
+            accessor: 'itemDetails', // Use a custom field name
+            Header: 'Item',
+            Cell: (params) => {
                 return (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <img src={params.row.image} alt="" className="w-10 h-10 rounded-full mr-2" />
-                        {params.row.itemName}
+                        <img src={params.row.original.image} alt="" className="w-10 h-10 rounded-full mr-2" />
+                        {params.row.original.itemName}
                     </div>
                 );
             },
         },
         {
-            field: 'id',
-            headerName: 'Ref. Number',
-            minWidth: 150, flex: 0.7,
+            accessor: 'id',
+            Header: 'Ref. Number',
         },
         {
-            field: 'createdAt',
-            headerName: 'Date Claimed',
-            minWidth: 150, flex: 0.7,
+            accessor: 'createdAt',
+            Header: 'Date Claimed',
+            Cell: (params) => {
+                return new Date(params.row.original.createdAt).toLocaleDateString();
+            }
         },
         {
-            field: 'actions',
-            headerName: 'Action',
-            minWidth: 150, flex: 0.7,
-            renderCell: (params) => (
+            accessor: 'actions',
+            Header: 'Action',
+            Cell: (params) => (
                 <div>
                     <button
                         onClick={() => {
-                            navigate(`/admin/dash/referenceNumber/info/`, { state: { claimedReport: params.row } });
+                            navigate(`/admin/dash/referenceNumber/info/`, { state: { claimedReport: params.row.original } });
                             // console.log(`admin report page`,params.row)
                         }}
                         className="text-blue-500 font-bold py-2 px-2 rounded mr-2"
@@ -131,7 +156,7 @@ const AdminReferenceNumberPage = () => {
                     </button>
                     <button
                         onClick={() => {
-                            setClaimedReportToDelete(params.row);
+                            setClaimedReportToDelete(params.row.original);
                             console.log(`delete`, claimedReportToDelete)
                             console.log(`delete`, claimedReportToDelete.id)
                             onOpen();
@@ -142,8 +167,8 @@ const AdminReferenceNumberPage = () => {
                     </button>
                     <button
                         onClick={() => {
-                            setClaimedReportToDownload(params.row);
-                            navigate(`/admin/dash/referenceNumber/download/`, { state: { claimedReport: params.row } });
+                            setClaimedReportToDownload(params.row.original);
+                            navigate(`/admin/dash/referenceNumber/download/`, { state: { claimedReport: params.row.original } });
                         }}
                         className="text-green-500 font-bold py-2 px-2 rounded mr-2"
                     >
@@ -152,18 +177,18 @@ const AdminReferenceNumberPage = () => {
                 </div>
             ),
         },
-    ];
+    ],[]
+    )
 
-    const row = [];
-
-    claimedReports &&
-    claimedReports.forEach((item) => {
+    const row = React.useMemo(
+        () => 
+        claimedReports.map((item) => {
         // console.log(`item`,item)
         const images = item.foundReportId.itemImage && item.foundReportId.itemImage.length > 0 ? item.foundReportId.itemImage.map(image => ({
             public_id: image.public_id,
             url: image.url,
         })) : null;
-        row.push({
+        return {
             image: images && images.length > 0 ? images[0].url : 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png',
             itemName: item.foundReportId.itemName, // Add this line to include the itemName property
             id: item._id, 
@@ -223,9 +248,11 @@ const AdminReferenceNumberPage = () => {
                 reportStatus: item.missingReportId.reportStatus,
                 reportType: item.missingReportId.reportType,
                 id: item.missingReportId._id, 
-            },
-        });
-    });
+            }
+        }
+    }),
+    [claimedReports]
+);
 
     // console.log(`row`,row)
 
@@ -234,6 +261,36 @@ const AdminReferenceNumberPage = () => {
         getAllClaimedReports();
         // eslint-disable-next-line
     }, []);
+
+    const { 
+        getTableProps, 
+        getTableBodyProps, 
+        headerGroups, 
+        page, 
+        prepareRow, 
+        canPreviousPage, 
+        canNextPage, 
+        pageOptions, 
+        pageCount, 
+        gotoPage, 
+        nextPage, 
+        previousPage, 
+        state: { pageIndex, pageSize },
+    } = useTable(
+        { 
+            columns, 
+            data: row,
+            initialState: { pageIndex: 0, pageSize: 10 },
+        }, 
+            useSortBy,
+            usePagination
+        );
+    
+    // Displayed data range
+    const displayedDataRange = `${pageIndex * pageSize + 1}-${Math.min(
+        (pageIndex + 1) * pageSize,
+        row.length
+    )} of ${row.length}`;
 
     const handleExportToCSV = () => {
         const reversedClaimedReports = [...claimedReports].reverse(); // Reverse the sortedReports array
@@ -291,20 +348,45 @@ const AdminReferenceNumberPage = () => {
                 </div>
                 <div className="flex justify-center">
                     <div className="w-full pt-1 mt-5 lg:mt-10 bg-white">
-                        <DataGrid
-                            rows={row}
-                            columns={columns}
-                            initialState={{
-                                pagination: {
-                                    paginationModel: {
-                                        pageSize: 10,
-                                    },
-                                },
-                            }}
-                            pageSizeOptions={10}
-                            disableSelectionOnClick
-                            autoHeight
-                        />
+                        <Table {...getTableProps()}>
+                            <Thead>
+                                {headerGroups.map((headerGroup) => (
+                                <Tr {...headerGroup.getHeaderGroupProps()}>
+                                    {headerGroup.headers.map((column) => (
+                                    <Th
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
+                                        isNumeric={column.isNumeric}
+                                    >
+                                        {column.render('Header')}
+                                        <chakra.span pl="4">
+                                        {column.isSorted ? (
+                                            column.isSortedDesc ? (
+                                            <TriangleDownIcon aria-label="sorted descending" />
+                                            ) : (
+                                            <TriangleUpIcon aria-label="sorted ascending" />
+                                            )
+                                        ) : null}
+                                        </chakra.span>
+                                    </Th>
+                                    ))}
+                                </Tr>
+                                ))}
+                            </Thead>
+                            <Tbody {...getTableBodyProps()}>
+                                {page.map((row) => {
+                                    prepareRow(row);
+                                    return (
+                                        <Tr {...row.getRowProps()}>
+                                        {row.cells.map((cell) => (
+                                            <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                                            {cell.render('Cell')}
+                                            </Td>
+                                        ))}
+                                        </Tr>
+                                    );
+                                })}
+                            </Tbody>
+                        </Table>
                     </div>
                 </div>
                 

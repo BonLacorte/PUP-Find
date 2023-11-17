@@ -2,9 +2,27 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate,  } from 'react-router-dom'
 import useAdminAuth from '../../hooks/useAdminAuth'
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react'
 import PulseLoader from 'react-spinners/PulseLoader'
-import { DataGrid } from '@mui/x-data-grid';
+import { useTable, useSortBy, usePagination } from "react-table";
+import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    chakra
+} from '@chakra-ui/react';
+import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons';
 import { toast } from 'react-toastify';
 import { server } from '../../../server'
 
@@ -19,6 +37,14 @@ const AdminMissingReportPage = () => {
     const [reports, setReports] = useState([]) 
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true) 
+
+    // CSS styles for the table container
+    const tableContainerStyles = {
+        overflowX: 'auto',
+        maxWidth: '100%',
+        width: '100%',
+        // minWidth: '600px', // Set the minimum width for the table
+    };
 
     const handleSearchChange = (e) => {
         const query = e.target.value
@@ -109,66 +135,64 @@ const AdminMissingReportPage = () => {
         }
     }
 
-    const columns = [
+    const columns = React.useMemo(
+        () => [
         {
-            field: 'itemName',
-            headerName: 'Item',
-            minWidth: 150, flex: 0.7,
-            sortable: true,
-            renderCell: (params) => {
+            accessor: 'itemName',
+            Header: 'Item',
+            Cell: (params) => {
                 return (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <img src={params.row.image} alt="" className="w-10 h-10 rounded-full mr-2" />
-                        {params.row.itemName}
+                        <img src={params.row.original.image} alt="" className="w-10 h-10 rounded-full mr-2" />
+                        {params.row.original.itemName}
                     </div>
                 );
             },
         },
         {
-            field: 'reportStatus',
-            headerName: 'Status',
-            minWidth: 150, flex: 0.7,
-            sortable: true,
+            accessor: 'reportStatus',
+            Header: 'Status',
         },
         {
-            field: 'createdAt',
-            headerName: 'Date Reported',
-            minWidth: 150, flex: 0.7,
-            sortable: true,
-            valueFormatter: (params) => {
-                return new Date(params.value).toLocaleDateString();
+            accessor: 'createdAt',
+            Header: 'Date Reported',
+            Cell: (params) => {
+                return new Date(params.row.original.createdAt).toLocaleDateString();
+            }
+        },
+        {
+            accessor: 'id',
+            Header: 'Ref. Number',
+        },
+        {
+            accessor: 'creatorId',
+            Header: 'Report Creator',
+            Cell: (params) => {
+                return (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <img src={params.row.original.creatorPic} alt="" className="w-10 h-10 rounded-full mr-2" />
+                    {params.row.original.creatorName}
+                </div>
+                )
             },
         },
         {
-            field: 'id',
-            headerName: 'Ref. Number',
-            minWidth: 150, flex: 0.7,
-        },
-        {
-            field: 'creatorId',
-            headerName: 'Report Creator',
-            minWidth: 150, flex: 0.7,
-            valueFormatter: (params) => {
-                return params.value.name || '-';
-            },
-        },
-        {
-            field: 'actions',
-            headerName: 'Action',
+            accessor: 'actions',
+            Header: 'Action',
             minWidth: 150, flex: 0.7,
             sortable: false,
-            renderCell: (params) => (
+            Cell: (params) => (
                 <>
                     <button
                         onClick={() => {
-                            navigate(`/admin/dash/reports/missing/edit/${params.row.id}`, {state: { report: params.row}})
+                            navigate(`/admin/dash/reports/missing/edit/${params.row.original.id}`, {state: { report: params.row.original}})
                     }} className="text-blue-500 font-bold py-2 px-2 rounded mr-2">
                         Edit
                     </button> 
                     
                     <button 
                         onClick={() => {
-                            navigate(`/admin/dash/reports/missing/info`, {state: { report: params.row}})
+                            navigate(`/admin/dash/reports/missing/info`, {state: { report: params.row.original}})
                             // console.log(`admin report page`,params.row)
                     }} className="text-blue-500 font-bold py-2 px-2 rounded mr-2">
                         Info
@@ -185,8 +209,8 @@ const AdminMissingReportPage = () => {
 
                     <button
                         onClick={() => {
-                            setReportToDelete(params.row)
-                            console.log(`delete click`, params.row)
+                            setReportToDelete(params.row.original)
+                            console.log(`delete click`, params.row.original)
                             onOpen() // Open the delete confirmation modal
                         }}
                         className="text-red-500 font-bold py-2 px-2 rounded"
@@ -196,46 +220,50 @@ const AdminMissingReportPage = () => {
                 </>
             ),
         },
-    ];
+    ],[]
+    )
 
-    const row = [];
-
-    reports &&
-    reports.forEach((item) => {
-        // console.log(`item`,item)
-        const images = item.itemImage && item.itemImage.length > 0 ? item.itemImage.map(image => ({
-            public_id: image.public_id,
-            url: image.url,
-        })) : null;
-        row.push({
-            image: images && images.length > 0 ? images[0].url : 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png',
-            itemName: item.itemName,
-            itemDescription: item.itemDescription,
-            reportStatus: item.reportStatus,
-            reportType: item.reportType,
-            createdAt: item.createdAt,
-            id: item._id, 
-            phoneNumber: item.phoneNumber,
-            creatorId:{
-                name: item.creatorId.name,
-                uid: item.creatorId.uid,
-                email: item.creatorId.email,
-                phoneNumber: item.creatorId.phoneNumber,
-                membership: item.creatorId.membership,
-                specification: item.creatorId.specification,
-                facebookLink: item.creatorId.facebookLink,
-                twitterLink: item.creatorId.twitterLink,
-                pic:
-                {
-                    public_id: item.creatorId.pic.public_id,
-                    url: item.creatorId.pic.url,
-                }
-            },
-            itemImage: images,
-            location: item.location,
-            date: item.date
-        });
-    });
+    const row = React.useMemo(
+        () =>
+            reports.map((item) => {
+                console.log(`item`,item)
+            const images = item.itemImage && item.itemImage.length > 0 ? item.itemImage.map(image => ({
+                public_id: image.public_id,
+                url: image.url,
+            })) : null;
+            return {
+                creatorName: item.creatorId.uid,
+                creatorPic: item.creatorId.pic.url,
+                image: images && images.length > 0 ? images[0].url : 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png',
+                itemName: item.itemName,
+                itemDescription: item.itemDescription,
+                reportStatus: item.reportStatus,
+                reportType: item.reportType,
+                createdAt: item.createdAt,
+                id: item._id, 
+                phoneNumber: item.phoneNumber,
+                creatorId:{
+                    name: item.creatorId.name,
+                    uid: item.creatorId.uid,
+                    email: item.creatorId.email,
+                    phoneNumber: item.creatorId.phoneNumber,
+                    membership: item.creatorId.membership,
+                    specification: item.creatorId.specification,
+                    facebookLink: item.creatorId.facebookLink,
+                    twitterLink: item.creatorId.twitterLink,
+                    pic:
+                    {
+                        public_id: item.creatorId.pic.public_id,
+                        url: item.creatorId.pic.url,
+                    }
+                },
+                itemImage: images,
+                location: item.location,
+                date: item.date
+            };
+        }),
+    [reports]
+);
 
     // console.log(`row`,row)
 
@@ -243,6 +271,37 @@ const AdminMissingReportPage = () => {
         getAllReports()
         // eslint-disable-next-line
     }, [])
+
+    const { 
+        getTableProps, 
+        getTableBodyProps, 
+        headerGroups, 
+        page, 
+        prepareRow, 
+        canPreviousPage, 
+        canNextPage, 
+        pageOptions, 
+        pageCount, 
+        gotoPage, 
+        nextPage, 
+        previousPage, 
+        state: { pageIndex, pageSize },
+    } = useTable(
+        { 
+            columns, 
+            data: row,
+            initialState: { pageIndex: 0, pageSize: 10 },
+        }, 
+            useSortBy,
+            usePagination
+        );
+    
+    // Displayed data range
+    const displayedDataRange = `${pageIndex * pageSize + 1}-${Math.min(
+        (pageIndex + 1) * pageSize,
+        row.length
+    )} of ${row.length}`;
+
 
     let content
 
@@ -301,29 +360,69 @@ const AdminMissingReportPage = () => {
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <div className="w-full pt-1 mt-5 lg:mt-10 bg-white">
-                            <DataGrid
-                                rows={row}
-                                columns={columns}
-                                initialState={{
-                                    pagination: {
-                                        paginationModel: {
-                                            pageSize: 10,
-                                        },
-                                    },
-                                }}
-                                pageSizeOptions={10}
-                                disableSelectionOnClick
-                                autoHeight
-                                // onRowClick={(params) => {
-                                //     navigate(
-                                //         selectedReportType === 'Found'
-                                //             ? `/admin/dash/reports/found/edit/${params.row._id}`
-                                //             : `/admin/dash/reports/missing/edit/${params.row._id}`,
-                                //         { state: { report: params.row } }
-                                //     );
-                                // }}
-                            />
+                        <div className="w-full pt-1 mt-5 lg:mt-10 bg-white border" style={tableContainerStyles}>
+                            <Table {...getTableProps()}>
+                                <Thead>
+                                    {headerGroups.map((headerGroup) => (
+                                    <Tr {...headerGroup.getHeaderGroupProps()}>
+                                        {headerGroup.headers.map((column) => (
+                                        <Th
+                                            {...column.getHeaderProps(column.getSortByToggleProps())}
+                                            isNumeric={column.isNumeric}
+                                        >
+                                            {column.render('Header')}
+                                            <chakra.span pl="4">
+                                            {column.isSorted ? (
+                                                column.isSortedDesc ? (
+                                                <TriangleDownIcon aria-label="sorted descending" />
+                                                ) : (
+                                                <TriangleUpIcon aria-label="sorted ascending" />
+                                                )
+                                            ) : null}
+                                            </chakra.span>
+                                        </Th>
+                                        ))}
+                                    </Tr>
+                                    ))}
+                                </Thead>
+                                <Tbody {...getTableBodyProps()}>
+                                    {page.map((row) => {
+                                        prepareRow(row);
+                                        return (
+                                            <Tr {...row.getRowProps()}>
+                                            {row.cells.map((cell) => (
+                                                <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
+                                                {cell.render('Cell')}
+                                                </Td>
+                                            ))}
+                                            </Tr>
+                                        );
+                                    })}
+                                </Tbody>
+                            </Table>
+
+                            {/* Pagination */}
+                            <div className="flex justify-center mt-4">
+                                <button
+                                    onClick={() => previousPage()}
+                                    disabled={!canPreviousPage}
+                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded mr-2"
+                                >
+                                    Previous
+                                </button>
+                                <button
+                                    onClick={() => nextPage()}
+                                    disabled={!canNextPage}
+                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Next
+                                </button>
+                            </div>
+
+                            {/* Displayed data range text */}
+                            <p className="text-center mt-2">
+                                {displayedDataRange}
+                            </p>
                         </div>
                     </div>
                 </div>
