@@ -21,6 +21,7 @@ const AdminLogin = () => {
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState('')
     const [adminPersist, setAdminPersist] = useAdminPersist()
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate()
     const dispatch = useDispatch();
@@ -50,6 +51,11 @@ const AdminLogin = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (isSubmitting) {
+            // If the button is already submitting, ignore the click
+            return;
+        }
+        setIsSubmitting(true);
         try {
             const data = await login({ email, password }).unwrap()
             const accessToken = data.accessToken
@@ -62,15 +68,20 @@ const AdminLogin = () => {
             navigate('/admin/dash')
         } catch (err) {
             if (!err.status) {
-                setErrMsg('No Server Response');
+                // setErrMsg('No Server Response');
+                toast.error(err);
             } else if (err.status === 400) {
                 setErrMsg('Missing Username or Password');
+                toast.error(err);
             } else if (err.status === 401) {
-                setErrMsg('Unauthorized');
+                // setErrMsg('Unauthorized');
+                toast.error(err);
             } else {
                 setErrMsg(err.data?.message);
+                toast.error(err);
             }
             errRef.current.focus();
+            setIsSubmitting(false);
         }
     }
 

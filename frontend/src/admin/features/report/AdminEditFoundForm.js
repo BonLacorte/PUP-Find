@@ -25,6 +25,7 @@ const AdminEditFoundForm = () => {
     const [reportType, setReportType] = useState("FoundReport")
     const [reportStatus, setReportStatus] = useState(report.report.reportStatus)
     const [creatorId, setCreatorId] = useState(report.report.creatorId.uid);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const onItemNameChanged = (e) => setItemName(e.target.value);
     const onDateFound = (e) => setDateFound(e.target.value);
@@ -79,18 +80,13 @@ const AdminEditFoundForm = () => {
 
     const editReport = async (event) => {
         event.preventDefault()
-        console.log(canSaveFoundReport)
-        console.log("canSaveFoundReport")
 
-        // Check if the entered UID exists in users and get the _id
-        // const creatorId = findUserIdByUid(idNum);
+        if (isSubmitting) {
+            // If the button is already submitting, ignore the click
+            return;
+        }
+        setIsSubmitting(true);
 
-        // if (!creatorId) {
-        //     console.log('User with this UID does not exist.');
-        // return;
-        // }
-
-        console.log(name)
         try {
             const config = {
                 headers: {
@@ -119,6 +115,7 @@ const AdminEditFoundForm = () => {
         } catch (error) {
             console.log(error)
             toast.error(error.response.data.message);
+            setIsSubmitting(false);
         };
     }
 
@@ -299,8 +296,8 @@ const AdminEditFoundForm = () => {
                             </div>
                         </div>
 
-                        <button className="border-solid border-primaryColor bg-primaryColor flex flex-col justify-center h-12 shrink-0 items-center border-2 mt-4 font-sans font-medium tracking-[0.5] leading-[16px] text-white">
-                            Submit changes
+                        <button className="border-solid border-primaryColor bg-primaryColor flex flex-col justify-center h-12 shrink-0 items-center border-2 mt-4 font-sans font-medium tracking-[0.5] leading-[16px] text-white" disabled={isSubmitting}>
+                            {isSubmitting ? 'Editing found report...' : 'Edit found report'}
                         </button>
                         
                     </form>

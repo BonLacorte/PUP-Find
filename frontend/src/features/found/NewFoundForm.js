@@ -21,6 +21,7 @@ const NewFoundForm = () => {
     const [reportType, setReportType] = useState("FoundReport")
     const [reportStatus, setReportStatus] = useState("Processing")
     const [newFoundReport, setNewFoundReport] = useState(null)
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const onItemNameChanged = (e) => setItemName(e.target.value);
     const onDateFound = (e) => setDateFound(e.target.value);
@@ -70,7 +71,15 @@ const NewFoundForm = () => {
         event.preventDefault()
         console.log(canSave)
         console.log(name)
+
+        if (isSubmitting) {
+            // If the button is already submitting, ignore the click
+            return;
+        }
+
+
         try {
+            setIsSubmitting(true);
             const config = {
                 headers: {
                     "Content-type": "application/json",
@@ -100,7 +109,9 @@ const NewFoundForm = () => {
         } catch (error) {
             console.log(error)
             toast.error(error.response.data.message);
-        };
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
     return (
@@ -243,11 +254,9 @@ const NewFoundForm = () => {
                                 </div>
 
                                 <button 
-                                    className="border-solid border-primaryColor bg-primaryColor font-semibold py-2 px-4 rounded-md w-full mt-4 text-white"
+                                    className="border-solid border-primaryColor bg-primaryColor font-semibold py-2 px-4 rounded-md w-full mt-4 text-white" disabled={isSubmitting}s
                                 >
-                                    
-                                        Submit report
-                                    
+                                    {isSubmitting ? 'Submitting...' : 'Submit report'}
                                 </button>
                                 
                             </form>

@@ -25,6 +25,7 @@ const AdminNewUserForm = () => {
     const [facebookLink, setFacebookLink] = useState("")
     const [specificationLabel, setSpecificationLabel] = useState('Section: (Ex: BSIT 3-2)');
     const [passwordError, setPasswordError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const onNameChanged = (e) => setName(e.target.value);
     const onIdNumChanged = (e) => setIdNum(e.target.value);
@@ -87,9 +88,15 @@ const AdminNewUserForm = () => {
         console.log(canSave)
         event.preventDefault();
         
+        if (isSubmitting) {
+            // If the button is already submitting, ignore the click
+            return;
+        }
+        setIsSubmitting(true);
         if (password !== confirmPassword) {
             setPasswordError("Passwords do not match");
             toast.error("Passwords do not match");
+            setIsSubmitting(false);
             return; // Stop the form submission
         } else {
             setPasswordError(''); // Reset the password error if they match
@@ -120,6 +127,7 @@ const AdminNewUserForm = () => {
             } catch (error) {
                 console.log('User registration failed:', error);
                 toast.error(error.response.data.message);
+                setIsSubmitting(false);
             }
         }
     }
@@ -330,8 +338,9 @@ const AdminNewUserForm = () => {
                             </div>
                         </div>
                         <div className="text-center">
-                            <button type="submit" className="bg-primaryColor text-white font-bold py-2 px-4 rounded">
+                            <button type="submit" className="bg-primaryColor text-white font-bold py-2 px-4 rounded" disabled={isSubmitting}>
                                 Add User
+                                {isSubmitting ? 'Adding User...' : 'Add User'}
                             </button>
                         </div>
                     </form>

@@ -26,6 +26,7 @@ const AdminEditUserForm = ({user}) => {
     const [facebookLink, setFacebookLink] = useState(user.facebookLink)
     const [specificationLabel, setSpecificationLabel] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const onNameChanged = (e) => setName(e.target.value);
     const onIdNumChanged = (e) => setIdNum(e.target.value);
@@ -88,11 +89,17 @@ const AdminEditUserForm = ({user}) => {
     // Function to update user data
     const updateUser = async (event) => {
         event.preventDefault()
+        if (isSubmitting) {
+            // If the button is already submitting, ignore the click
+            return;
+        }
+        setIsSubmitting(true);
         console.log(canEdit)
         // Check if the 'Password' and 'Confirm Password' fields match
         if (password !== confirmPassword) {
             setPasswordError("Passwords do not match");
             toast.error("Passwords do not match");
+            setIsSubmitting(false);
             return; // Stop the form submission
         } else {
             setPasswordError(''); // Reset the password error if they match
@@ -125,6 +132,7 @@ const AdminEditUserForm = ({user}) => {
             } catch (error) {
                 console.log('User update failed:', error);
                 toast.error(error.response.data.message);
+                setIsSubmitting(false);
             }
         }
     };
@@ -351,8 +359,8 @@ const AdminEditUserForm = ({user}) => {
                             </div>
                         </div>
                         <div className="text-center">
-                            <button  className="bg-primaryColor text-white font-bold py-2 px-4 rounded">
-                                Update User
+                            <button  className="bg-primaryColor text-white font-bold py-2 px-4 rounded" disabled={isSubmitting}>
+                                {isSubmitting ? 'Updating User...' : 'Update User'}
                             </button>
                         </div>
                     </form>

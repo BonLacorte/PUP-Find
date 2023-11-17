@@ -9,12 +9,18 @@ const ProfilePage = ({profile}) => {
     const { userId, name, accessToken } = useAuth()
 
     const navigate = useNavigate()
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [sendLogout, { isLoadingLogout, isSuccessLogout, isErrorLogout, errorLogout }] = useSendLogoutMutation();
 
     const toggleLogout = () =>  {
+        if (isSubmitting) {
+            // If the button is already submitting, ignore the click
+            return;
+        }
+        setIsSubmitting(true);
         localStorage.removeItem("userInfo");
         sendLogout();
+        setIsSubmitting(false);
         toast.success("User successfully logged out!");
         navigate('/');
     }
@@ -68,8 +74,9 @@ const ProfilePage = ({profile}) => {
                                         className="text-white text-center text-sm md:text-lg font-semibold"
                                         role="menuitem"
                                         onClick={toggleLogout}
-                                        >
-                                        Logout
+                                        disabled={isSubmitting}
+                                    >
+                                        {isSubmitting ? 'Logging out...' : 'Logout'}
                                     </button>
                                 </div>
                             </div>

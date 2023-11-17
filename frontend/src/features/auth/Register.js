@@ -22,6 +22,7 @@ const Register = () => {
     const [facebookLink, setFacebookLink] = useState("")
     const [specificationLabel, setSpecificationLabel] = useState('Section: (Ex: BSIT 3-2)');
     const [passwordError, setPasswordError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const onNameChanged = (e) => setName(e.target.value);
     const onIdNumChanged = (e) => setIdNum(e.target.value);
@@ -83,9 +84,16 @@ const Register = () => {
     const register = async (event) => {
         console.log(canSave)
         event.preventDefault();
+
+        if (isSubmitting) {
+            // If the button is already submitting, ignore the click
+            return;
+        }
+        setIsSubmitting(true);
         if (password !== confirmPassword) {
             setPasswordError("Passwords do not match");
             toast.error("Passwords do not match");
+            setIsSubmitting(false);
             return; // Stop the form submission
         } else {
             setPasswordError(''); // Reset the password error if they match
@@ -116,6 +124,7 @@ const Register = () => {
             } catch (error) {
                 console.log('User registration failed:', error);
                 toast.error(error.response.data.message);
+                setIsSubmitting(false);
             }
         }
     }
@@ -425,8 +434,8 @@ const Register = () => {
                                             />
                                         </div>
                                         <div className="text-center">
-                                            <button type="submit" className="border-solid border-primaryColor bg-primaryColor font-semibold py-2 px-4 rounded-md w-full mt-4 text-white">
-                                                Register
+                                            <button type="submit" className="border-solid border-primaryColor bg-primaryColor font-semibold py-2 px-4 rounded-md w-full mt-4 text-white" disabled={isSubmitting}>
+                                                {isSubmitting ? 'Logging in...' : 'Login'}
                                             </button>
                                         </div>
                                     </form>

@@ -14,6 +14,7 @@ const NewMissingForm = () => {
     const { selectedChat, setSelectedChat, chats, setChats, selectedReport, setSelectedReport } = ChatState();
     const navigate = useNavigate()
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [itemName, setItemName] = useState("");
     const [dateFound, setDateFound] = useState("");
     const [selectedLocation, setSelectedLocation] = useState('Choose Location');
@@ -72,7 +73,15 @@ const NewMissingForm = () => {
         event.preventDefault()
         console.log(`cansave`,canSave)
         console.log(`name`,name)
+        
+        if (isSubmitting) {
+            // If the button is already submitting, ignore the click
+            return;
+        }
+
         try {
+            setIsSubmitting(true);
+
             const config = {
                 headers: {
                     "Content-type": "application/json",
@@ -102,7 +111,9 @@ const NewMissingForm = () => {
             console.log(error)
             console.log('NewReportForm')
             toast.error(error.response.data.message);
-        };
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
     const fetchChats = async () => {
@@ -293,8 +304,8 @@ const NewMissingForm = () => {
                                     </div>
                                 </div>
 
-                                <button className="border-solid border-primaryColor bg-primaryColor font-semibold py-2 px-4 rounded-md w-full mt-4 text-white">
-                                        Submit report
+                                <button className="border-solid border-primaryColor bg-primaryColor font-semibold py-2 px-4 rounded-md w-full mt-4 text-white" disabled={isSubmitting}>
+                                    {isSubmitting ? 'Submitting...' : 'Submit report'}
                                 </button>
                                 
                             </form>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers, faArrowLeft, faFolder, faHashtag, faHome, faMessage, faUser, faRightFromBracket, faEnvelope,  } from '@fortawesome/free-solid-svg-icons';
@@ -16,14 +16,20 @@ import { toast } from 'react-toastify';
 const AdminDashSidebar = () => {
 
     const { userId, name, accessToken } = useAdminAuth()
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate()
 
     const [sendLogout, { isLoadingLogout, isSuccessLogout, isErrorLogout, errorLogout }] = useSendLogoutMutation();
 
     const toggleLogout = () =>  {
+        if (isSubmitting) {
+            // If the button is already submitting, ignore the click
+            return;
+        }
+        setIsSubmitting(true);
         localStorage.removeItem("userInfo");
         sendLogout();
+        setIsSubmitting(false);
         toast.success("User successfully logged out!");
         navigate('/admin/');
     }
@@ -93,10 +99,11 @@ const AdminDashSidebar = () => {
                             className="flex justify-start items-center pl-4 text-sm w-full border-purple-500 hover:bg-yellow-100"
                             role="menuitem"
                             onClick={toggleLogout}
+                            disabled={isSubmitting}
                             >
                                 <div className="mb-1 gap-2 h-14 w-full flex flex-row items-center ">
                                     <FontAwesomeIcon icon={faRightFromBracket} size='xl'/>
-                                    <span className='ml-2 hidden md:flex'>Logout</span>
+                                    <span className='ml-2 hidden md:flex'>{isSubmitting ? 'Logging out...' : 'Logout'}</span>
                                 </div>
                         </button>
                     </ul>

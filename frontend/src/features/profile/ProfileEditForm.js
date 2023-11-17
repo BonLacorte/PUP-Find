@@ -45,13 +45,19 @@ const ProfileEditForm = ({ user }) => {
     const [error, setError] = useState()
     const [isSuccess, setIsSuccess] = useState(false)
     const [profile, setProfile] = useState()
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
     
     const canEdit = [name, email, image, selectedMembership, phoneNumber, specification, twitterLink, facebookLink, password] 
 
     // Function to update user data
     const updateUser = async (event) => {
         event.preventDefault()
+
+        if (isSubmitting) {
+            // If the button is already submitting, ignore the click
+            return;
+        }
+        setIsSubmitting(true)
         console.log(canEdit)
         // Check if the 'Password' and 'Confirm Password' fields match
         if (password !== confirmPassword) {
@@ -62,6 +68,7 @@ const ProfileEditForm = ({ user }) => {
             setPasswordError(''); // Reset the password error if they match
 
             try {
+                setIsSubmitting(true)
                 const config = {
                     headers: {
                         'Content-Type': 'application/json',
@@ -90,6 +97,8 @@ const ProfileEditForm = ({ user }) => {
             } catch (error) {
                 console.log('User update failed:', error);
                 toast.error(error.response.data.message);
+            } finally {
+                setIsSubmitting(false);
             }
         }
     };
@@ -375,8 +384,8 @@ const ProfileEditForm = ({ user }) => {
                                         </div>
                                     </div>
                                     <div className="text-center">
-                                        <button  className="border-solid border-primaryColor bg-primaryColor font-semibold py-2 px-4 rounded-md w-full mt-4 text-white">
-                                            Update User
+                                        <button  className="border-solid border-primaryColor bg-primaryColor font-semibold py-2 px-4 rounded-md w-full mt-4 text-white" disabled={isSubmitting}>
+                                            {isSubmitting ? 'Updating...' : 'Update User'}
                                         </button>
                                     </div>
                                 </form>

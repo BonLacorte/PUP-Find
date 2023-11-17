@@ -22,6 +22,7 @@ const AdminNewFoundForm = ({ users }) => {
     const [reportStatus, setReportStatus] = useState("Processing")
     const [idNum, setIdNum] = useState("");
     const [creatorId, setCreatorId] = useState(null)
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const onItemNameChanged = (e) => setItemName(e.target.value);
     const onDateFound = (e) => setDateFound(e.target.value);
@@ -75,13 +76,18 @@ const AdminNewFoundForm = ({ users }) => {
 
     const addReport = async (event) => {
         event.preventDefault()
-
+        if (isSubmitting) {
+            // If the button is already submitting, ignore the click
+            return;
+        }
+        setIsSubmitting(true);
         // Check if the entered UID exists in users and get the _id
         const creatorId = findUserIdByUid(idNum);
 
         if (!creatorId) {
             console.log('User with this UID does not exist');
             toast.error('User with this UID does not exist');
+            setIsSubmitting(false);
         return;
         }
 
@@ -114,6 +120,7 @@ const AdminNewFoundForm = ({ users }) => {
             console.log(error)
             console.log('NewReportForm')
             toast.error(error.response.data.message);
+            setIsSubmitting(false);
         };
 
         
@@ -248,7 +255,7 @@ const AdminNewFoundForm = ({ users }) => {
 
                     <button className="border-solid border-primaryColor bg-primaryColor flex flex-col justify-center w-full h-12 shrink-0 items-center border-2 mt-4 font-sans font-medium text-white">
                         {/* <button className=""> */}
-                            Submit report
+                        {isSubmitting ? 'Submitting found report...' : 'Submit found report'}
                         {/* </button> */}
                     </button>
                     

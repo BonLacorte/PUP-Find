@@ -28,6 +28,7 @@ const Login = () => {
     // Background Photos
     const backgroundPhotos = [pup1, pup2, pup3, pup4, pup5];
     const [currentBackgroundPhotoIndex, setCurrentBackgroundPhotoIndex] = useState(0);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         emailRef.current.focus();
@@ -50,6 +51,11 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            if (isSubmitting) {
+                // If the button is already submitting, ignore the click
+                return;
+            }
+            setIsSubmitting(true);
             const data = await login({ email, password }).unwrap()
             const accessToken = data.accessToken
             localStorage.setItem("userInfo", JSON.stringify(data))
@@ -57,6 +63,7 @@ const Login = () => {
             dispatch(setCredentials({ accessToken }))
             setEmail('')
             setPassword('')
+            setIsSubmitting(false);
             toast.success("User successfully logged in!");
             navigate('/dash/')
         } catch (err) {
@@ -145,8 +152,8 @@ const Login = () => {
                             Trust This Device
                         </label>
                         </div>
-                        <button className="border-primaryColor bg-primaryColor text-white font-semibold py-2 px-4 rounded-md w-full mt-4">
-                            Sign In
+                        <button className="border-primaryColor bg-primaryColor text-white font-semibold py-2 px-4 rounded-md w-full mt-4" disabled={isSubmitting}>
+                            {isSubmitting ? 'Logging in...' : 'Login'}
                         </button>
                         <div className="text-center mt-4">
                         {/* <Link to="#" className="text-red-700 font-semibold hover:underline">
