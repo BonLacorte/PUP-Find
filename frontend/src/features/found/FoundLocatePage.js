@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import map from '../../img/map.png'
-import Lightbox from '@seafile/react-image-lightbox';
-import '@seafile/react-image-lightbox/style.css';
+import Lightbox from 'react-18-image-lightbox';
+// import 'react-18-image-lightbox/style.css';
 
 const FoundLocatePage = () => {
 
