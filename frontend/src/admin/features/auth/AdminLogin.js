@@ -64,7 +64,7 @@ const AdminLogin = () => {
             dispatch(setCredentials({ accessToken }))
             setEmail('')
             setPassword('')
-            toast.success("User successfully logged in!");
+            // toast.success("User successfully logged in!");
             navigate('/admin/dash')
         } catch (err) {
             if (!err.status) {
