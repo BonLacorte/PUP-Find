@@ -1645,3 +1645,14 @@ Use mongoose.model(name, schema)	POST	/chat/add-lostitem-processes	http://localh
 20231117	12:24:15	ea10d450-68c1-494a-9726-1fefa1d0caec	CastError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"	GET	/user/undefined	http://localhost:3501
 20231117	12:24:56	c9b6dee4-7c94-4e1c-bc18-507388eb28dd	CastError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"	GET	/user/undefined	http://localhost:3501
 20231117	12:24:56	0a48075c-1593-4a0e-8291-507ea09fc048	CastError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"	GET	/user/undefined	http://localhost:3501
+20231117	22:38:55	78c3c2c4-149e-48f3-899a-e62b0d63fe04	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
+20231117	22:38:55	464bafec-993f-4a6c-baf0-92d1abacdf78	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
+20231117	22:38:55	cf510e5f-b712-4258-b1c5-6ef23bf54c8c	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
+20231117	22:39:12	f225db46-8858-4d6c-a9c9-529b9f53ae0b	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-23467-MN-0	http://localhost:3501
+20231117	22:39:26	31858dbe-7710-4c89-990a-7039cbff0732	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
+20231117	22:39:27	9da1fbcf-1741-4c5f-bfb1-5255afb86200	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
+20231117	22:39:27	022e26d2-0cd1-4ee2-9c6c-fbb95aa83e63	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
+20231117	22:39:48	15201af8-b687-46d3-aef3-a6c85c63ac88	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
+20231117	22:39:48	dfb7d3e3-2fc5-4121-96c6-13e6a3c9f4fc	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
+20231117	22:39:48	0766b31f-3ee1-499e-a307-fa816b2b6420	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
+20231117	22:39:48	57501eae-e2c9-4c51-a58d-bfe7047385ad	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501

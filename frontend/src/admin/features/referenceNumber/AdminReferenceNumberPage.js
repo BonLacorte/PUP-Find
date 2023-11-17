@@ -154,7 +154,7 @@ const AdminReferenceNumberPage = () => {
                     >
                         Info
                     </button>
-                    <button
+                    {/* <button
                         onClick={() => {
                             setClaimedReportToDelete(params.row.original);
                             console.log(`delete`, claimedReportToDelete)
@@ -164,7 +164,7 @@ const AdminReferenceNumberPage = () => {
                         className="text-red-500 font-bold py-2 px-2 rounded mr-2"
                     >
                         Delete
-                    </button>
+                    </button> */}
                     <button
                         onClick={() => {
                             setClaimedReportToDownload(params.row.original);
