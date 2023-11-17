@@ -216,7 +216,7 @@ const AdminFoundReportPage = () => {
                         Info
                     </button>
 
-                    {params.row.reportStatus === 'Claimable' ? 
+                    {params.row.original.reportStatus === 'Claimable' ? 
                         <button
                         onClick={() => {
                             navigate(`/admin/dash/reports/found/${params.row.original.id}`, {state: { report: params.row.original}})
