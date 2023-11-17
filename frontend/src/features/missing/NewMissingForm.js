@@ -73,14 +73,14 @@ const NewMissingForm = () => {
         event.preventDefault()
         console.log(`cansave`,canSave)
         console.log(`name`,name)
-        
+        setIsSubmitting(true);
         if (isSubmitting) {
             // If the button is already submitting, ignore the click
             return;
         }
 
         try {
-            setIsSubmitting(true);
+            // setIsSubmitting(true);
 
             const config = {
                 headers: {
@@ -158,7 +158,7 @@ const NewMissingForm = () => {
             console.log(`setSelectedChat2 ${setSelectedChat}`)
             setLoadingChat(false)
             if (loadingChat === false) {
-                navigate(`/dash/chats`)
+                // navigate(`/dash/chats`)
             }
             
         } catch (err) {

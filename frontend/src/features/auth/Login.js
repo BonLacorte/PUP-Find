@@ -68,16 +68,24 @@ const Login = () => {
             navigate('/dash/')
         } catch (err) {
         if (!err.status) {
-            setErrMsg('No Server Response');
+            // setErrMsg('No Server Response');
+            toast.error(err);
+            setIsSubmitting(false);
         } else if (err.status === 400) {
-            setErrMsg('Missing Username or Password');
+            // setErrMsg('Missing Username or Password');
+            toast.error(err);
+            setIsSubmitting(false);
         } else if (err.status === 401) {
-            setErrMsg('Unauthorized');
+            // setErrMsg('Unauthorized');
+            toast.error(err);
+            setIsSubmitting(false);
         } else {
-            setErrMsg(err.data?.message);
-            toast.error(err.response.data.message);
+            // setErrMsg(err.data?.message);
+            toast.error(err);
+            setIsSubmitting(false);
         }
         errRef.current.focus();
+        setIsSubmitting(false);
         }
     };
 
