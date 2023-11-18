@@ -181,29 +181,10 @@ const AdminFoundReportPage = () => {
             sortable: false,
             Cell: (params) => (
                 <>
-                    {/* <button 
-                        onClick={() => {
-                            // console.log('user', params.row)
-                            // console.log('id', params.row.id)
-                            navigate(`/admin/dash/users/edit/${params.row.id}`, {state: { user: params.row}})
-                        }} 
-                        className='text-blue-500 font-bold py-2 px-2 rounded mr-2'
-                    >
-                        Edit
-                    </button>
                     <button
                         onClick={() => {
-                            setUserToDelete(params.row)
-                            onOpen()
-                        }}
-                        className="text-red-500 font-bold py-2 px-2 rounded"
-                    >
-                        Delete
-                    </button> */}
-                    <button
-                        onClick={() => {
-                            console.log('report', params.row.original)
-                            // navigate(`/admin/dash/reports/found/edit/${params.row.original.id}`, {state: { report: params.row.original}})
+                            // console.log('report', params.row.original)
+                            navigate(`/admin/dash/reports/found/edit/${params.row.original.id}`, {state: { report: params.row.original}})
                     }} className="text-blue-500 font-bold py-2 px-2 rounded mr-2">
                         Edit
                     </button> 
