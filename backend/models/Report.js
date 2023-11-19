@@ -36,5 +36,21 @@ const reportSchema = mongoose.Schema(
     { timestamps: true }
 );
 
+reportSchema.pre("remove", async function (next) {
+    try {
+      // Remove related ClaimedReport record
+        await mongoose.model("ClaimedReport").deleteMany({
+            $or: [
+            { foundReportId: this._id },
+            { missingReportId: this._id },
+            ],
+        });
+
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
+
 const Report = mongoose.model("Report", reportSchema);
 module.exports = Report;

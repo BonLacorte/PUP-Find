@@ -206,7 +206,7 @@ const AdminFoundReportPage = () => {
                         </button> : null
                     }
 
-                    {/* <button
+                    <button
                         onClick={() => {
                             setReportToDelete(params.row.original)
                             console.log(`delete click`, params.row.original)
@@ -215,7 +215,7 @@ const AdminFoundReportPage = () => {
                         className="text-red-500 font-bold py-2 px-2 rounded"
                     >
                         Delete
-                    </button> */}
+                    </button>
                 </>
             ),
         },

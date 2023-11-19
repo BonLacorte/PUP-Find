@@ -90,10 +90,17 @@ const AdminItemPage = () => {
                 },
             };
             
+            // const { data } = await axios.post(`${server}/claimedReport/`,
+            //     {
+            //         foundReportId: report.report.id, 
+            //         missingReportId: selectedReport.id, 
+            //     },
+            // config
+            // );
             const { data } = await axios.post(`${server}/claimedReport/`,
                 {
-                    foundReportId: report.report.id, 
-                    missingReportId: selectedReport.id, 
+                    foundReport: report.report, 
+                    missingReport: selectedReport, 
                 },
             config
             );

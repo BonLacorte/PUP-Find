@@ -44,6 +44,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminFoundReportPage from './admin/features/report/AdminFoundReportPage';
 import AdminMissingReportPage from './admin/features/report/AdminMissingReportPage';
+import RequireAuth from './features/auth/RequireAuth';
 // const socket = socketIOClient('http://localhost:3500');
 
 function App() {
@@ -59,23 +60,25 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route element={<PersistLogin />}>
               
-              <Route exact path="dash" element={<DashLayout/>}>
-                <Route index element={<HomePage1 />} />
-                <Route path="chats" element={<ChatPage/>} />
-                <Route path="missing">
-                  <Route index element={<MissingPage/>}/>
-                  <Route path="locate" element={<MissingLocatePage/>}/>
-                  <Route path="new" element={<NewMissingForm />}/>
+              <Route element={<RequireAuth />}> 
+                <Route exact path="dash" element={<DashLayout/>}>
+                  <Route index element={<HomePage1 />} />
+                  <Route path="chats" element={<ChatPage/>} />
+                  <Route path="missing">
+                    <Route index element={<MissingPage/>}/>
+                    <Route path="locate" element={<MissingLocatePage/>}/>
+                    <Route path="new" element={<NewMissingForm />}/>
+                  </Route>
+                  <Route path="found">
+                    <Route path="new" element={<NewFoundForm/>}/>
+                    <Route path="done" element={<DonePage/>}/>
+                    <Route path="locate" element={<FoundLocatePage/>}/>
+                  </Route>
+                  <Route path='profile'>
+                    <Route index element={<ProfilePageLoad/>}/>
+                    <Route path='edit/:id' element={<ProfileEditLoad/>}/>
+                  </Route> 
                 </Route>
-                <Route path="found">
-                  <Route path="new" element={<NewFoundForm/>}/>
-                  <Route path="done" element={<DonePage/>}/>
-                  <Route path="locate" element={<FoundLocatePage/>}/>
-                </Route>
-                <Route path='profile'>
-                  <Route index element={<ProfilePageLoad/>}/>
-                  <Route path='edit/:id' element={<ProfileEditLoad/>}/>
-                </Route> 
               </Route>
             </Route>
           

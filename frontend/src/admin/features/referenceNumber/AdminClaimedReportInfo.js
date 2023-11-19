@@ -9,13 +9,13 @@ const AdminClaimedReportInfo = () => {
     console.log(claimedReport)
 
     const [selectedMissingImage, setSelectedMissingImage] = useState(null);
-    const [itemFirstMissingImage, setItemFirstMissingImage] = useState( claimedReport.claimedReport.missingReportId.itemImage === null || claimedReport.claimedReport.missingReportId.itemImage === undefined || claimedReport.claimedReport.missingReportId.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : claimedReport.claimedReport.missingReportId.itemImage[0].url)
-    const [oldMissingImage, setOldMissingImage] = useState(claimedReport.claimedReport.missingReportId.itemImage === null || claimedReport.claimedReport.missingReportId.itemImage === undefined || claimedReport.claimedReport.missingReportId.itemImage.length === 0 ? [] : claimedReport.claimedReport.missingReportId.itemImage);
+    const [itemFirstMissingImage, setItemFirstMissingImage] = useState( claimedReport.claimedReport.missingReport.itemImage === null || claimedReport.claimedReport.missingReport.itemImage === undefined || claimedReport.claimedReport.missingReport.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : claimedReport.claimedReport.missingReport.itemImage[0].url)
+    const [oldMissingImage, setOldMissingImage] = useState(claimedReport.claimedReport.missingReport.itemImage === null || claimedReport.claimedReport.missingReport.itemImage === undefined || claimedReport.claimedReport.missingReport.itemImage.length === 0 ? [] : claimedReport.claimedReport.missingReport.itemImage);
 
     
     const [selectedFoundImage, setSelectedFoundImage] = useState(null);
-    const [itemFirstFoundImage, setItemFirstFoundImage] = useState(claimedReport.claimedReport.foundReportId.itemImage === null || claimedReport.claimedReport.foundReportId.itemImage === undefined || claimedReport.claimedReport.foundReportId.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : claimedReport.claimedReport.foundReportId.itemImage[0].url)
-    const [oldFoundImage, setOldFoundImage] = useState(claimedReport.claimedReport.foundReportId.itemImage === null || claimedReport.claimedReport.foundReportId.itemImage === undefined || claimedReport.claimedReport.foundReportId.itemImage.length === 0 ? [] : claimedReport.claimedReport.foundReportId.itemImage);
+    const [itemFirstFoundImage, setItemFirstFoundImage] = useState(claimedReport.claimedReport.foundReport.itemImage === null || claimedReport.claimedReport.foundReport.itemImage === undefined || claimedReport.claimedReport.foundReport.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : claimedReport.claimedReport.foundReport.itemImage[0].url)
+    const [oldFoundImage, setOldFoundImage] = useState(claimedReport.claimedReport.foundReport.itemImage === null || claimedReport.claimedReport.foundReport.itemImage === undefined || claimedReport.claimedReport.foundReport.itemImage.length === 0 ? [] : claimedReport.claimedReport.foundReport.itemImage);
 
     const content = claimedReport && claimedReport.claimedReport ? 
         claimedReport ? 
@@ -43,16 +43,16 @@ const AdminClaimedReportInfo = () => {
                             <h1 className="text-3xl font-bold">Missing Report</h1>
                             </p>
                             <p className="mb-2">
-                            <h1 className="text-2xl font-bold">{claimedReport.claimedReport.missingReportId.itemName}</h1>
+                            <h1 className="text-2xl font-bold">{claimedReport.claimedReport.missingReport.itemName}</h1>
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Date Found:</span> {new Date(claimedReport.claimedReport.missingReportId.date).toISOString().slice(0, 10)}
+                            <span className="font-bold">Date Found:</span> {new Date(claimedReport.claimedReport.missingReport.date).toISOString().slice(0, 10)}
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Founded in:</span> {claimedReport.claimedReport.missingReportId.location}
+                            <span className="font-bold">Founded in:</span> {claimedReport.claimedReport.missingReport.location}
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Description:</span> {claimedReport.claimedReport.missingReportId.itemDescription}
+                            <span className="font-bold">Description:</span> {claimedReport.claimedReport.missingReport.itemDescription}
                             </p>
                         </div>
 
@@ -64,16 +64,16 @@ const AdminClaimedReportInfo = () => {
                             </div>
                             <div className='flex flex-row justify-start'>
                                 <img
-                                        src={claimedReport.claimedReport.missingReportId.creatorId.pic.url}
+                                        src={claimedReport.claimedReport.missingReport.creator.pic.url}
                                         alt=""
                                         className="w-12 rounded-lg mb-2"
                                 />
                                 <div className='flex flex-col mx-2'>
                                     <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.missingReportId.creatorId.name}</span>
+                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.name}</span>
                                     </p>
                                     <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.missingReportId.creatorId.membership}</span>
+                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.membership}</span>
                                     </p>
                                 </div>
                             </div>
@@ -84,13 +84,13 @@ const AdminClaimedReportInfo = () => {
                             {!selectedMissingImage && (
                             <div className='flex h-auto w-auto justify-center'>
                                 {/* // <h2>Selected Image:</h2> */}
-                                <img className="w-auto h-auto object-contain" src={ claimedReport.claimedReport.missingReportId.itemImage === null || claimedReport.claimedReport.missingReportId.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : itemFirstMissingImage } alt="" />
+                                <img className="w-auto h-auto object-contain" src={ claimedReport.claimedReport.missingReport.itemImage === null || claimedReport.claimedReport.missingReport.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : itemFirstMissingImage } alt="" />
                             </div>
                             )}
                             {selectedMissingImage && (
                             <div className='flex h-full w-full justify-center'>
                                 {/* // <h2>Selected Image:</h2> */}
-                                <img className="w-auto h-full object-contain" src={claimedReport.claimedReport.missingReportId.itemImage === null || claimedReport.claimedReport.missingReportId.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : selectedMissingImage} alt="Selected Product Preview" />
+                                <img className="w-auto h-full object-contain" src={claimedReport.claimedReport.missingReport.itemImage === null || claimedReport.claimedReport.missingReport.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : selectedMissingImage} alt="Selected Product Preview" />
                             </div>
                             )}
                         </div>
@@ -126,16 +126,16 @@ const AdminClaimedReportInfo = () => {
                             <h1 className="text-3xl font-bold">Found Report</h1>
                             </p>
                             <p className="mb-2">
-                            <h1 className="text-2xl font-bold">{claimedReport.claimedReport.foundReportId.itemName}</h1>
+                            <h1 className="text-2xl font-bold">{claimedReport.claimedReport.foundReport.itemName}</h1>
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Date Found:</span> {new Date(claimedReport.claimedReport.foundReportId.date).toISOString().slice(0, 10)}
+                            <span className="font-bold">Date Found:</span> {new Date(claimedReport.claimedReport.foundReport.date).toISOString().slice(0, 10)}
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Founded in:</span> {claimedReport.claimedReport.foundReportId.location}
+                            <span className="font-bold">Founded in:</span> {claimedReport.claimedReport.foundReport.location}
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Description:</span> {claimedReport.claimedReport.foundReportId.itemDescription}
+                            <span className="font-bold">Description:</span> {claimedReport.claimedReport.foundReport.itemDescription}
                             </p>
                         </div>
 
@@ -147,16 +147,16 @@ const AdminClaimedReportInfo = () => {
                             </div>
                             <div className='flex flex-row justify-start'>
                                 <img
-                                        src={claimedReport.claimedReport.foundReportId.creatorId.pic.url}
+                                        src={claimedReport.claimedReport.foundReport.creator.pic.url}
                                         alt=""
                                         className="w-12 rounded-lg mb-2"
                                 />
                                 <div className='flex flex-col mx-2'>
                                     <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.foundReportId.creatorId.name}</span>
+                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.name}</span>
                                     </p>
                                     <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.foundReportId.creatorId.membership}</span>
+                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.membership}</span>
                                     </p>
                                 </div>
                             </div>
@@ -167,13 +167,13 @@ const AdminClaimedReportInfo = () => {
                             {!selectedFoundImage && (
                             <div className='flex h-auto w-auto justify-center'>
                                 {/* // <h2>Selected Image:</h2> */}
-                                <img className="w-auto h-auto object-contain" src={ claimedReport.claimedReport.foundReportId.itemImage === null || claimedReport.claimedReport.foundReportId.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : itemFirstFoundImage } alt="" />
+                                <img className="w-auto h-auto object-contain" src={ claimedReport.claimedReport.foundReport.itemImage === null || claimedReport.claimedReport.foundReport.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : itemFirstFoundImage } alt="" />
                             </div>
                             )}
                             {selectedFoundImage && (
                             <div className='flex h-full w-full justify-center'>
                                 {/* // <h2>Selected Image:</h2> */}
-                                <img className="w-auto h-full object-contain" src={ claimedReport.claimedReport.foundReportId.itemImage === null || claimedReport.claimedReport.foundReportId.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : selectedFoundImage} alt="Selected Product Preview" />
+                                <img className="w-auto h-full object-contain" src={ claimedReport.claimedReport.foundReport.itemImage === null || claimedReport.claimedReport.foundReport.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : selectedFoundImage} alt="Selected Product Preview" />
                             </div>
                             )}
                         </div>

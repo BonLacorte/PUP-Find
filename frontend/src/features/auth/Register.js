@@ -435,7 +435,7 @@ const Register = () => {
                                         </div>
                                         <div className="text-center">
                                             <button type="submit" className="border-solid border-primaryColor bg-primaryColor font-semibold py-2 px-4 rounded-md w-full mt-4 text-white" disabled={isSubmitting}>
-                                                {isSubmitting ? 'Logging in...' : 'Login'}
+                                                {isSubmitting ? 'Registering...' : 'Register'}
                                             </button>
                                         </div>
                                     </form>

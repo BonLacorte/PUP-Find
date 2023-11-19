@@ -158,7 +158,7 @@ const NewMissingForm = () => {
             console.log(`setSelectedChat2 ${setSelectedChat}`)
             setLoadingChat(false)
             if (loadingChat === false) {
-                // navigate(`/dash/chats`)
+                navigate(`/dash/chats`)
             }
             
         } catch (err) {

@@ -197,17 +197,7 @@ const AdminMissingReportPage = () => {
                     }} className="text-blue-500 font-bold py-2 px-2 rounded mr-2">
                         Info
                     </button>
-
-                    {/* {selectedReportType === 'Found' && params.row.reportStatus === 'Claimable' ? 
-                        <button
-                        onClick={() => {
-                            navigate(`/admin/dash/reports/found/${params.row.id}`, {state: { report: params.row}})
-                        }} className="text-blue-500 font-bold py-2 px-2 rounded mr-2">
-                            Claim
-                        </button> : null
-                    } */}
-
-                    {/* <button
+                    <button
                         onClick={() => {
                             setReportToDelete(params.row.original)
                             console.log(`delete click`, params.row.original)
@@ -216,7 +206,7 @@ const AdminMissingReportPage = () => {
                         className="text-red-500 font-bold py-2 px-2 rounded"
                     >
                         Delete
-                    </button> */}
+                    </button>
                 </>
             ),
         },

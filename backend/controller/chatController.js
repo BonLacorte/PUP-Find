@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Chat = require("../models/Chat");
 const User = require("../models/User");
-const LostItem = require("../models/LostItem")
 const Message = require("../models/Message")
 
 //@description     Create or fetch One to One Chat
@@ -71,77 +70,77 @@ const accessChat = asyncHandler(async (req, res, next) => {
 //@description     add LostItem data to chat's lostItemProcesses
 //@route           POST http://localhost:3500/chat/add-lostitem-processes
 //@access          Protected
-const addLostItemProcessesToChatData = asyncHandler(async (req, res, next) => {
-    const { userId, lostItemId } = req.body;
+// const addLostItemProcessesToChatData = asyncHandler(async (req, res, next) => {
+//     const { userId, lostItemId } = req.body;
 
-    console.log(req.body);
+//     console.log(req.body);
 
-    if (!userId || !lostItemId) {
-        return res.sendStatus(400);
-    }
+//     if (!userId || !lostItemId) {
+//         return res.sendStatus(400);
+//     }
 
-    try {
-        // Find chat that have these users: userId(admin), and req.user._id(client)  are
-        let chat = await Chat.findOne({
-            isGroupChat: false,
-            $or: [
-                { users: { $all: [req.user._id, userId] } },
-                { users: { $all: [userId, req.user._id] } },
-            ],
-        }).populate("users", "-password");
+//     try {
+//         // Find chat that have these users: userId(admin), and req.user._id(client)  are
+//         let chat = await Chat.findOne({
+//             isGroupChat: false,
+//             $or: [
+//                 { users: { $all: [req.user._id, userId] } },
+//                 { users: { $all: [userId, req.user._id] } },
+//             ],
+//         }).populate("users", "-password");
 
-        // If there's no chat founded that contains userId(admin), and req.user._id(client), then create a new chat conversation
-        if (!chat) {
-            chat = await Chat.create({
-                chatName: "sender",
-                isGroupChat: false,
-                users: [req.user._id, userId],
-            });
-        }
+//         // If there's no chat founded that contains userId(admin), and req.user._id(client), then create a new chat conversation
+//         if (!chat) {
+//             chat = await Chat.create({
+//                 chatName: "sender",
+//                 isGroupChat: false,
+//                 users: [req.user._id, userId],
+//             });
+//         }
 
-        const lostItem = await LostItem.findById(lostItemId).exec();
+//         const lostItem = await LostItem.findById(lostItemId).exec();
 
-        console.log('value of lostItem in chatController', lostItem);
+//         console.log('value of lostItem in chatController', lostItem);
 
-        if (!lostItem) {
-            return res.status(404).json({ message: "LostItem not found" });
-        }
+//         if (!lostItem) {
+//             return res.status(404).json({ message: "LostItem not found" });
+//         }
 
-        // Update the reportStatus of the lost item to "Processing"
-        lostItem.reportStatus = 'Processing';
-        await lostItem.save();
+//         // Update the reportStatus of the lost item to "Processing"
+//         lostItem.reportStatus = 'Processing';
+//         await lostItem.save();
 
-        const existingLostItem = chat.lostItemProcesses.find(item => item.toString() === lostItemId);
+//         const existingLostItem = chat.lostItemProcesses.find(item => item.toString() === lostItemId);
 
-        if (!existingLostItem) {
-            chat.lostItemProcesses.push(lostItemId);
-        }
+//         if (!existingLostItem) {
+//             chat.lostItemProcesses.push(lostItemId);
+//         }
 
-        await chat.save();
+//         await chat.save();
 
-        chat = await Chat.findById(chat._id)
-            .populate("users", "-password")
-            .populate({
-                path: "lostItemProcesses",
-                populate: [
-                    {
-                        path: "founderId",
-                        select: "name pic email phoneNumber facebookLink twitterLink membership specification",
-                    },
-                    {
-                        path: "ownerId",
-                        select: "name pic email phoneNumber facebookLink twitterLink membership specification",
-                    },
-                ],
-            })
-            .populate("latestMessage");
+//         chat = await Chat.findById(chat._id)
+//             .populate("users", "-password")
+//             .populate({
+//                 path: "lostItemProcesses",
+//                 populate: [
+//                     {
+//                         path: "founderId",
+//                         select: "name pic email phoneNumber facebookLink twitterLink membership specification",
+//                     },
+//                     {
+//                         path: "ownerId",
+//                         select: "name pic email phoneNumber facebookLink twitterLink membership specification",
+//                     },
+//                 ],
+//             })
+//             .populate("latestMessage");
 
-        res.status(200).json(chat);
-    } catch (error) {
-        res.status(400).json({ message: "Server Error" });
-        next(error);
-    }
-});
+//         res.status(200).json(chat);
+//     } catch (error) {
+//         res.status(400).json({ message: "Server Error" });
+//         next(error);
+//     }
+// });
 
 
 
@@ -360,7 +359,6 @@ const updateLastSeenMessage = asyncHandler(async (req, res, next) => {
 
     module.exports = {
     accessChat,
-    addLostItemProcessesToChatData,
     fetchChats,
     updateLastSeenMessage,
 

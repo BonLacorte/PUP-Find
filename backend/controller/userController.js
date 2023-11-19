@@ -1,4 +1,8 @@
 const User = require('../models/User')
+const Report = require('../models/Report')
+const Message = require('../models/Message')
+const Chat = require('../models/Chat')
+const ClaimedReport = require('../models/ClaimedReport')
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
 const cloudinary = require("../utils/cloudinary");
@@ -242,28 +246,59 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
 // @access Private
 const deleteUser = asyncHandler(async (req, res, next) => {
     try {
-        // const { userId } = req.params.userId
-        // console.log(req.params.userId)
-        // console.log(userId)
-
         // Does the user exist to delete?
         let user = await User.findById(req.params.userId)
 
-        // console.log(user)
-
         // Confirm if user exists
-        if(!user) {
+        if (!user) {
             return res.status(400).json({ message: 'User was not found' })
         }
 
+        // // Show related Chat records to be deleted
+        // const chatToDelete = await Chat.find({ users: user._id });
+        // console.log("Chat records to be deleted:", chatToDelete);
+
+        // // Show related Message records to be deleted
+        // const messagesToDelete = await Message.find({ sender: user._id });
+        // console.log("Message records to be deleted:", messagesToDelete);
+
+        // // Show related Report records to be deleted
+        // const reportsToDelete = await Report.find({ creatorId: user._id });
+        // console.log("Report records to be deleted:", reportsToDelete);
+
+        // // Show related ClaimedReport records to be deleted
+        // const claimedReportsToDelete = await ClaimedReport.find({
+        //     $or: [
+        //         { foundReportId: { $in: user.reports } },
+        //         { missingReportId: { $in: user.reports } },
+        //     ],
+        // });
+        // console.log("ClaimedReport records to be deleted:", claimedReportsToDelete);
+
         // Delete the avatar from cloudinary
-        if ((user.pic.public_id !== undefined || user.pic.public_id !== null) && user.pic.length > 0){
-            
-                await cloudinary.uploader.destroy(user.pic.public_id);
+        if (user.pic.public_id) {
+            await cloudinary.uploader.destroy(user.pic.public_id);
         }
 
+        // Delete related Chat records
+        await Chat.deleteMany({ users: user._id });
+
+        // Delete related Message records
+        await Message.deleteMany({ sender: user._id });
+
+        // Delete related Report records
+        await Report.deleteMany({ creatorId: user._id });
+
+        // Delete related ClaimedReport records
+        // await ClaimedReport.deleteMany({
+        //     $or: [
+        //         { foundReportId: { $in: user.reports } },
+        //         { missingReportId: { $in: user.reports } },
+        //     ],
+        // });
+
         // Delete the user from the database
-        user = await user.deleteOne()
+        await user.deleteOne()
 
         return res.status(200).json({ success: true });
 
@@ -271,7 +306,8 @@ const deleteUser = asyncHandler(async (req, res, next) => {
         console.log(error);
         next(error);
     }
-})
+});
+
 
 module.exports = {
     getAllUsers,

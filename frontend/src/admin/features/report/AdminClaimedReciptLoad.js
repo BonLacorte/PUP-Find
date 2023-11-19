@@ -13,6 +13,10 @@ const AdminClaimedReciptLoad = () => {
 
     const [claimedReport, setClaimedReport] = useState()
 
+    console.log(`reports`, reports)
+    console.log(`reports.missingReport`, reports.missingReport)
+    console.log(`reports.foundReport `, reports.foundReport )
+
     const fetchClaimedReportInfo = async () => {
         try {
             const config = {
@@ -23,7 +27,7 @@ const AdminClaimedReciptLoad = () => {
 
         const { data } = await axios.get(`${server}/claimedReport/${reports.missingReport}/${reports.foundReport}`, config);
         
-        console.log(data)
+        console.log(`fetchClaimedReportInfo`, data)
         setClaimedReport(data)
         } catch (error) {
             console.log(error)
@@ -35,6 +39,7 @@ const AdminClaimedReciptLoad = () => {
         // console.log("I am at admin claimed receipt")
     }, []);
 
+    
     const content = reports && reports.missingReport && reports.foundReport ? 
         claimedReport ? 
             <AdminClaimedReceipt claimedReport={claimedReport}/> 

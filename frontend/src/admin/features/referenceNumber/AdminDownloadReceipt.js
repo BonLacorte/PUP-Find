@@ -11,7 +11,7 @@ const AdminDownloadReceipt = () => {
     console.log(claimedReport)
 
     const { toPDF, targetRef } = usePDF({
-        filename: `PUPFind-Claimed-${claimedReport.claimedReport.id}-${claimedReport.claimedReport.foundReportId.itemName}.pdf`,
+        filename: `PUPFind-Claimed-${claimedReport.claimedReport.id}-${claimedReport.claimedReport.foundReport.itemName}.pdf`,
         page: { margin: Margin.LARGE }
     });
 
@@ -46,11 +46,11 @@ const AdminDownloadReceipt = () => {
                         </div>
                         <div className='flex flex-row justify-between mb-2'>
                             <h1>Item Name:</h1>
-                            <h1 className='font-bold'>{claimedReport.claimedReport.foundReportId.itemName}</h1>
+                            <h1 className='font-bold'>{claimedReport.claimedReport.foundReport.itemName}</h1>
                         </div>
                         <div className='flex flex-row justify-between mb-2'>
                             <h1>Claimed By:</h1>
-                            <h1 className='font-bold'>{claimedReport.claimedReport.missingReportId.creatorId.name}</h1>
+                            <h1 className='font-bold'>{claimedReport.claimedReport.missingReport.creator.name}</h1>
                         </div>
                     </div>
                     <div className='border-dashed border-t-2 py-10'>

@@ -10,9 +10,6 @@ router.route("/")
     .get(chatController.fetchChats)
     .post(chatController.accessChat)
 
-router.route("/add-lostitem-processes")
-    .post(verifyJWT, chatController.addLostItemProcessesToChatData)
-
 router.route("/update-last-seen-message")
     .post(verifyJWT, chatController.updateLastSeenMessage)
 

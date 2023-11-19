@@ -67,22 +67,26 @@ const AdminReferenceNumberPage = () => {
     const handleDeleteClaimedReport = async () => {
         
         try {
-        const config = {
-            headers: {
-            token: `Bearer ${accessToken}`,
-            },
-        };
+            const config = {
+                headers: {
+                token: `Bearer ${accessToken}`,
+                },
+            };
+            
+            // console.log(`claimedReportToDelete.id`, claimedReportToDelete.id)
+            // Send a DELETE request to your API to delete the report
+            const { data } = await axios.delete(`${server}/claimedReport/${claimedReportToDelete.id}`, config);
         
-        // Send a DELETE request to your API to delete the report
-        const { data } = await axios.delete(`${server}/claimedReport/${claimedReportToDelete.id}`, config);
-    
-        // Remove the deleted user from the users array
-        setClaimedReports((prevClaimedReports) => prevClaimedReports.filter((claimedReport) => claimedReport.id !== claimedReportToDelete._id));
-    
-        // Close the delete confirmation modal
-        onClose();
+            // Remove the deleted user from the users array
+            // setClaimedReports((prevClaimedReports) => prevClaimedReports.filter((claimedReport) => claimedReport.id !== claimedReportToDelete._id));
+        
+            // Close the delete confirmation modal
+            onClose()
+            toast.success("Claimed report deleted successfully!");
+            window.location.reload()
         } catch (error) {
-        console.log(error);
+            console.log(error);
+            toast.error(error.response.data.message);
         }
     };
 
@@ -147,24 +151,24 @@ const AdminReferenceNumberPage = () => {
                     <button
                         onClick={() => {
                             navigate(`/admin/dash/referenceNumber/info/`, { state: { claimedReport: params.row.original } });
-                            // console.log(`admin report page`,params.row)
+                            // console.log(`admin report page`,params.row.original)
                         }}
                         className="text-blue-500 font-bold py-2 px-2 rounded mr-2"
                         
                     >
                         Info
                     </button>
-                    {/* <button
+                    <button
                         onClick={() => {
                             setClaimedReportToDelete(params.row.original);
-                            console.log(`delete`, claimedReportToDelete)
-                            console.log(`delete`, claimedReportToDelete.id)
+                            console.log(`claimedReportToDelete`, claimedReportToDelete)
+                            // console.log(`claimedReportToDelete id`, claimedReportToDelete.id)
                             onOpen();
                         }}
                         className="text-red-500 font-bold py-2 px-2 rounded mr-2"
                     >
                         Delete
-                    </button> */}
+                    </button>
                     <button
                         onClick={() => {
                             setClaimedReportToDownload(params.row.original);
@@ -184,70 +188,70 @@ const AdminReferenceNumberPage = () => {
         () => 
         claimedReports.map((item) => {
         // console.log(`item`,item)
-        const images = item.foundReportId.itemImage && item.foundReportId.itemImage.length > 0 ? item.foundReportId.itemImage.map(image => ({
+        const images = item.foundReport.itemImage && item.foundReport.itemImage.length > 0 ? item.foundReport.itemImage.map(image => ({
             public_id: image.public_id,
             url: image.url,
         })) : null;
         return {
             image: images && images.length > 0 ? images[0].url : 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png',
-            itemName: item.foundReportId.itemName, // Add this line to include the itemName property
+            itemName: item.foundReport.itemName, // Add this line to include the itemName property
             id: item._id, 
             createdAt: item.createdAt,
             updatedAt: item.updatedAt,
-            foundReportId: {
-                creatorId:{
-                    id: item.foundReportId.creatorId._id,
-                    name: item.foundReportId.creatorId.name,
-                    uid: item.foundReportId.creatorId.uid,
-                    email: item.foundReportId.creatorId.email,
-                    phoneNumber: item.foundReportId.creatorId.phoneNumber,
-                    membership: item.foundReportId.creatorId.membership,
-                    specification: item.foundReportId.creatorId.specification,
-                    facebookLink: item.foundReportId.creatorId.facebookLink,
-                    twitterLink: item.foundReportId.creatorId.twitterLink,
+            foundReport: {
+                creator:{
+                    id: item.foundReport.creator._id,
+                    name: item.foundReport.creator.name,
+                    uid: item.foundReport.creator.uid,
+                    email: item.foundReport.creator.email,
+                    phoneNumber: item.foundReport.creator.phoneNumber,
+                    membership: item.foundReport.creator.membership,
+                    specification: item.foundReport.creator.specification,
+                    facebookLink: item.foundReport.creator.facebookLink,
+                    twitterLink: item.foundReport.creator.twitterLink,
                     pic:
                     {
-                        public_id: item.foundReportId.creatorId.pic.public_id,
-                        url: item.foundReportId.creatorId.pic.url,
+                        public_id: item.foundReport.creator.pic.public_id,
+                        url: item.foundReport.creator.pic.url,
                     }
                 },
                 itemImage: images,
-                itemDescription: item.foundReportId.itemDescription,
-                itemName: item.foundReportId.itemName,
-                location: item.foundReportId.location,
-                date: item.foundReportId.date,
-                reportStatus: item.foundReportId.reportStatus,
-                reportType: item.foundReportId.reportType,
-                id: item.foundReportId._id, 
+                itemDescription: item.foundReport.itemDescription,
+                itemName: item.foundReport.itemName,
+                location: item.foundReport.location,
+                date: item.foundReport.date,
+                reportStatus: item.foundReport.reportStatus,
+                reportType: item.foundReport.reportType,
+                id: item.foundReport._id, 
             },
-            missingReportId: {
-                creatorId:{
-                    id: item.missingReportId.creatorId._id,
-                    name: item.missingReportId.creatorId.name,
-                    uid: item.missingReportId.creatorId.uid,
-                    email: item.missingReportId.creatorId.email,
-                    phoneNumber: item.missingReportId.creatorId.phoneNumber,
-                    membership: item.missingReportId.creatorId.membership,
-                    specification: item.missingReportId.creatorId.specification,
-                    facebookLink: item.missingReportId.creatorId.facebookLink,
-                    twitterLink: item.missingReportId.creatorId.twitterLink,
+            missingReport: {
+                creator:{
+                    id: item.missingReport.creator.id,
+                    name: item.missingReport.creator.name,
+                    uid: item.missingReport.creator.uid,
+                    email: item.missingReport.creator.email,
+                    phoneNumber: item.missingReport.creator.phoneNumber,
+                    membership: item.missingReport.creator.membership,
+                    specification: item.missingReport.creator.specification,
+                    facebookLink: item.missingReport.creator.facebookLink,
+                    twitterLink: item.missingReport.creator.twitterLink,
                     pic:
                     {
-                        public_id: item.missingReportId.creatorId.pic.public_id,
-                        url: item.missingReportId.creatorId.pic.url,
+                        public_id: item.missingReport.creator.pic.public_id,
+                        url: item.missingReport.creator.pic.url,
                     }
                 },
-                itemImage: item.missingReportId.itemImage && item.missingReportId.itemImage.length > 0 ? [{
-                    public_id: item.missingReportId.itemImage[0].public_id,
-                    url: item.missingReportId.itemImage[0].url,
+                itemImage: item.missingReport.itemImage && item.missingReport.itemImage.length > 0 ? [{
+                    public_id: item.missingReport.itemImage[0].public_id,
+                    url: item.missingReport.itemImage[0].url,
                 }] : null,
-                itemDescription: item.missingReportId.itemDescription,
-                itemName: item.missingReportId.itemName,
-                location: item.missingReportId.location,
-                date: item.missingReportId.date,
-                reportStatus: item.missingReportId.reportStatus,
-                reportType: item.missingReportId.reportType,
-                id: item.missingReportId._id, 
+                itemDescription: item.missingReport.itemDescription,
+                itemName: item.missingReport.itemName,
+                location: item.missingReport.location,
+                date: item.missingReport.date,
+                reportStatus: item.missingReport.reportStatus,
+                reportType: item.missingReport.reportType,
+                id: item.missingReport._id, 
             }
         }
     }),
@@ -296,12 +300,12 @@ const AdminReferenceNumberPage = () => {
         const reversedClaimedReports = [...claimedReports].reverse(); // Reverse the sortedReports array
 
         const reportsToExport = reversedClaimedReports.map((report) => ({
-            Item: report.foundReportId.itemName,
+            Item: report.foundReport.itemName,
             'Report Status': "Claimed",
             'Date Claimed': new Date(report.createdAt).toLocaleDateString(),
             'Ref. Number': report._id,
-            'Founder Name': report.foundReportId.creatorId.name || '-',
-            'Owner Name': report.missingReportId.creatorId.name || '-'
+            'Founder Name': report.foundReport.creator.name || '-',
+            'Owner Name': report.missingReport.creator.name || '-'
         }));
     
         const csvData = [];

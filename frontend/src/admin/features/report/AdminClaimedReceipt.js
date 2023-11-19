@@ -8,7 +8,7 @@ import { Margin, usePDF } from "react-to-pdf";
 const AdminClaimedReceipt = ({ claimedReport }) => {
 
     const { toPDF, targetRef } = usePDF({
-        filename: `PUPFind-Claimed-${claimedReport._id}-${claimedReport.foundReportId.itemName}.pdf`,
+        filename: `PUPFind-Claimed-${claimedReport._id}-${claimedReport.foundReport.itemName}.pdf`,
         page: { margin: Margin.LARGE }
     });
 
@@ -41,11 +41,11 @@ const AdminClaimedReceipt = ({ claimedReport }) => {
                 </div>
                 <div className='flex flex-row justify-between mb-2'>
                     <h1>Item Name:</h1>
-                    <h1 className='font-bold'>{claimedReport.foundReportId.itemName}</h1>
+                    <h1 className='font-bold'>{claimedReport.foundReport.itemName}</h1>
                 </div>
                 <div className='flex flex-row justify-between mb-2'>
                     <h1>Claimed By:</h1>
-                    <h1 className='font-bold'>{claimedReport.missingReportId.creatorId.name}</h1>
+                    <h1 className='font-bold'>{claimedReport.missingReport.creator.name}</h1>
                 </div>
             </div>
             <div className='border-dashed border-t-2 py-10'>

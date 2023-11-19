@@ -10,7 +10,7 @@ const AdminChatInfo = () => {
     const { selectedChat, user } = ChatState();
     const { uid, accessToken } = useAdminAuth();
 
-    console.log(`ADMIN UID`, )
+    console.log(selectedChat)
 
     const getChatMate = () => {
         if (selectedChat && selectedChat.users) {
@@ -27,8 +27,8 @@ const AdminChatInfo = () => {
 
     // Create a function to fetch all reports of a user
     const getAllReportsByUser = async () => {
-        console.log(`chatMate.uid `,chatMate.uid)
-        console.log(`chatMate`,chatMate)
+        // console.log(`chatMate.uid `,chatMate.uid)
+        // console.log(`chatMate`,chatMate)
         let creatorId = chatMate.uid
         
         try {
@@ -41,10 +41,10 @@ const AdminChatInfo = () => {
 
             let url = `${server}/report/creator/${creatorId}`;
             
-            console.log(url)
+            // console.log(url)
             const { data } = await axios.get(url, config); // Replace with your API endpoint
             
-            console.log(`data`,data)
+            // console.log(`data`,data)
             
             const foundReport = data.filter((report) => report.reportType === 'FoundReport');
             const missingReport = data.filter((report) => report.reportType === 'MissingReport');
@@ -52,7 +52,7 @@ const AdminChatInfo = () => {
             setReports(data); // Set the reports in state
             setFoundReports(foundReport)
             setMissingReports(missingReport)
-            console.log(`reports`,reports)
+            // console.log(`reports`,reports)
         } catch (error) {
             console.error(error);
         }

@@ -1656,3 +1656,4 @@ Use mongoose.model(name, schema)	POST	/chat/add-lostitem-processes	http://localh
 20231117	22:39:48	dfb7d3e3-2fc5-4121-96c6-13e6a3c9f4fc	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
 20231117	22:39:48	0766b31f-3ee1-499e-a307-fa816b2b6420	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
 20231117	22:39:48	57501eae-e2c9-4c51-a58d-bfe7047385ad	TypeError: Cannot read properties of null (reading 'uid')	GET	/report/creator/2020-01234-MN-0	http://localhost:3501
+20231118	18:48:33	9c9f506c-42cc-4c6c-b65d-9d7b9711b5d6	ReferenceError: ClaimedReport is not defined	DELETE	/user/6557982ea12c9471e1955ce1	http://localhost:3501

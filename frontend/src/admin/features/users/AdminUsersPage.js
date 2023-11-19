@@ -125,7 +125,7 @@ const AdminUsersPage = () => {
             
             await axios.delete(`${server}/user/${userToDelete.id}`, config)
 
-            setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userToDelete.id))
+            // setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userToDelete.id))
             onClose()
             window.location.reload()
             toast.success("User account deleted successfully!");
@@ -209,7 +209,7 @@ const AdminUsersPage = () => {
                         >
                             Edit
                         </button>
-                        {/* <button
+                        <button
                             onClick={() => {
                                 console.log(params.row.original)
                                 setUserToDelete(params.row.original)
@@ -218,7 +218,7 @@ const AdminUsersPage = () => {
                             className="text-red-500 font-bold py-2 px-2 rounded"
                         >
                             Delete
-                        </button> */}
+                        </button>
                     </>
                 )
             },
