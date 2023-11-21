@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import items from '../img/items1.png'
 import front from '../img/front.png'
 
 const Public = () => {
-    const content = (
+    const navigate = useNavigate()
 
+    return (
         <div className="bg-white flex flex-col items-start">
             {/* Header */}
             <div className="w-full bg-primaryColor top-0 left-0 flex-row justify-between items-center hidden lg:flex lg:px-32 xl:px-56 lg:h-[10vh]" id="NAVBAR">
@@ -36,17 +37,12 @@ const Public = () => {
                         </div>
                         <div className="flex flex-col w-full lg:flex-row gap-5 items-center justify-center">
                             
-                                <button className="bg-primaryColor flex flex-col justify-center items-center rounded-md w-full py-2 px-2">
-                                    <Link to={`/login`} className="text-center text-lg font-semibold text-white">
-                                        LOGIN
-
-                                    </Link>
+                                <button className="bg-primaryColor flex flex-col justify-center items-center rounded-md w-full py-2 px-2 text-center text-lg font-semibold text-white" onClick={() => {navigate(`/login`)}}>
+                                    LOGIN
                                 </button>
                             
-                                <button className="bg-secondaryColor flex flex-col justify-center items-center rounded-md w-full py-2 px-2">
-                                    <Link to={`/register`} className="text-center text-lg font-semibold text-black">
-                                        REGISTER
-                                    </Link>
+                                <button className="bg-secondaryColor flex flex-col justify-center items-center rounded-md w-full py-2 px-2 text-center text-lg font-semibold" onClick={() => {navigate(`/register`)}}>
+                                    REGISTER
                                 </button>
                             
                         </div>
@@ -71,8 +67,6 @@ const Public = () => {
                 </div>
             </div>
         </div>
-
     )
-    return content
 }
 export default Public
