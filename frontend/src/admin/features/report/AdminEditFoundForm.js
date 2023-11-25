@@ -125,7 +125,7 @@ const AdminEditFoundForm = () => {
 
     return (
         <>
-            <div className='p-8 lg:p-20 w-full'>
+            <div className='p-8 lg:p-20 w-full rounded-lg border'>
                 <div className='md:pb-4 flex flex-col md:flex-row md:justify-between gap-4 md:gap-0'>
                     <h1 className='text-3xl font-bold text-primaryColor'>
                         Edit a Found Report

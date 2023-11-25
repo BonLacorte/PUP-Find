@@ -133,6 +133,19 @@ const AdminReferenceNumberPage = () => {
             },
         },
         {
+            // accessor: 'reportStatus',
+            Header: 'Status',
+            Cell: (params) => {
+                return (
+                    <div>
+                        <div className='flex justify-center border-2 border-green-500 font-semibold text-green-500 rounded-3xl'>
+                            <p>Claimed</p>
+                        </div>
+                    </div>
+                );
+            },
+        },
+        {
             accessor: 'id',
             Header: 'Ref. Number',
         },
@@ -153,7 +166,9 @@ const AdminReferenceNumberPage = () => {
                             navigate(`/admin/dash/referenceNumber/info/`, { state: { claimedReport: params.row.original } });
                             // console.log(`admin report page`,params.row.original)
                         }}
-                        className="text-blue-500 font-bold py-2 px-2 rounded mr-2"
+                        // className="text-blue-500 font-bold py-2 px-2 rounded mr-2 border"
+                        className="bg-blue-500 text-white font-bold py-2 px-2 rounded mr-2 border 
+                        hover:bg-blue-700 transition duration-200"
                         
                     >
                         Info
@@ -165,7 +180,9 @@ const AdminReferenceNumberPage = () => {
                             // console.log(`claimedReportToDelete id`, claimedReportToDelete.id)
                             onOpen();
                         }}
-                        className="text-red-500 font-bold py-2 px-2 rounded mr-2"
+                        className="
+                        bg-red-500 text-white font-bold py-2 px-2 rounded mr-2 border
+                        hover:bg-red-700 transition duration-200"
                     >
                         Delete
                     </button>
@@ -174,7 +191,7 @@ const AdminReferenceNumberPage = () => {
                             setClaimedReportToDownload(params.row.original);
                             navigate(`/admin/dash/referenceNumber/download/`, { state: { claimedReport: params.row.original } });
                         }}
-                        className="text-green-500 font-bold py-2 px-2 rounded mr-2"
+                        className="bg-green-500 text-white font-bold py-2 px-2 rounded mr-2 border hover:bg-green-700 transition duration-200"
                     >
                         Download
                     </button>
@@ -328,7 +345,7 @@ const AdminReferenceNumberPage = () => {
 
     const content = (
         <>
-            <div className='p-8 lg:p-20 w-full'>
+            <div className='p-8 lg:p-20 w-full rounded-lg border'>
                 <div className='md:pb-4 flex flex-col md:flex-row md:justify-between gap-4 md:gap-0'>
                     <h1 className='text-3xl font-bold text-primaryColor'>Claimed Reports</h1>
 
@@ -397,14 +414,16 @@ const AdminReferenceNumberPage = () => {
                             <button
                                 onClick={() => previousPage()}
                                 disabled={!canPreviousPage}
-                                className="bg-primaryColor text-white font-bold py-2 px-4 rounded mr-2"
+                                className="bg-primaryColor text-white font-bold py-2 px-4 rounded mr-2 cursor-pointer
+                                disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 Previous
                             </button>
                             <button
                                 onClick={() => nextPage()}
                                 disabled={!canNextPage}
-                                className="bg-primaryColor text-white font-bold py-2 px-4 rounded"
+                                className="bg-primaryColor text-white font-bold py-2 px-4 rounded cursor-pointer
+                                disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 Next
                             </button>

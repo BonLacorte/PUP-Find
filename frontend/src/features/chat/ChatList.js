@@ -147,11 +147,6 @@ const ChatList = ({ fetchAgain }) => {
     return (
         <>
             <div className={`${selectedChat ? 'hidden' : 'flex'} lg:${selectedChat ? 'flex' : 'flex'} flex-col items-center p-3 bg-white w-full lg:w-1/3 rounded-lg border border-gray-300`}>
-                <div >
-                    <div className="pb-3 px-3 flex justify-center text-xl font-bold font-work-sans w-full">
-                        My Chats
-                    </div>
-                </div>
                 <div className="flex flex-col p-3 bg-gray-200 w-full h-full rounded-lg overflow-hidden">
                 {chats ? (
                     <div className="overflow-y-scroll scrollbar-none">

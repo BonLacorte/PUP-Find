@@ -20,7 +20,7 @@ const AdminClaimedReportInfo = () => {
     const content = claimedReport && claimedReport.claimedReport ? 
         claimedReport ? 
         <>
-            <div className="p-20 w-full border-l-amber-600">
+            <div className="p-20 w-full rounded-lg border">
                 <div className="pb-4 flex justify-between">
                     <h1 className="text-3xl font-bold text-primaryColor">Claimed Report Info</h1>
             
@@ -96,7 +96,7 @@ const AdminClaimedReportInfo = () => {
                         </div>
                         
                         <div className='flex justify-center '>
-                            <div className="grid grid-cols-5 gap-4 p-4">
+                        <div className=" border-blue-600 w-full grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 xl:p-4">
                             {oldMissingImage !== null 
                             ?   oldMissingImage.map((image, index) => (
                                 <img
@@ -117,7 +117,7 @@ const AdminClaimedReportInfo = () => {
                     </div>
                 </div> 
 
-                <div className=" rounded-lg  flex flex-col lg:flex-row p-10">
+                <div className="rounded-lg flex flex-col lg:flex-row p-10">
                     <div className="w-full lg:w-1/2 p-4 lg:border-r border-gray-400">
                     {/* Lost Item info */}
 
@@ -179,7 +179,7 @@ const AdminClaimedReportInfo = () => {
                         </div>
                         
                         <div className='flex justify-center '>
-                            <div className="grid grid-cols-5 gap-4 p-4">
+                            <div className="w-full grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 xl:p-4">
                             {oldFoundImage !== null 
                             ?   oldFoundImage.map((image, index) => (
                                 <img

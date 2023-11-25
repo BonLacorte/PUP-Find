@@ -7,7 +7,7 @@ const HomePage1 = () => {
     const navigate = useNavigate()
 
     return (
-        <div className="bg-white flex flex-row items-end justify-center w-screen h-screen lg:h-[90vh] border border-green-700">
+        <div className="bg-white flex flex-row items-end justify-center w-screen h-screen lg:h-[90vh] border-green-700">
             {/* Left Div (Logo and Images) */}
             <div className="flex-col lg:w-[50%] h-full items-center justify-center hidden lg:flex py-20 border-orange-700">
                 {/* <img alt="" src="https://file.rendit.io/n/6pqpGxjbbyM1B8AnjoDp.svg" className="w-[111px] h-40 absolute top-24 left-0"/> */}
@@ -19,7 +19,7 @@ const HomePage1 = () => {
             {/* Right Div (Text and Buttons) */}
             <div className="flex flex-col lg:w-[50%] h-full items-start justify-center px-4 lg:px-8 pb-56  border-violet-700">
                     <img alt="" src="https://file.rendit.io/n/6pqpGxjbbyM1B8AnjoDp.svg" className="hidden lg:flex w-[111px] h-40 absolute top-24 right-0"/>
-                    <div className='lg:px-2 w-full border border-blue-700'>
+                    <div className='lg:px-2 w-full border-blue-700'>
                         <div className="flex flex-col justify-end items-center pb-8  lg:pb-16">
                             <img alt="" src="https://file.rendit.io/n/033oE67RrtllAVLok4Ha.png"/>
                             <span className="text-4xl lg:text-8xl font-bold text-primaryColor">
@@ -29,7 +29,7 @@ const HomePage1 = () => {
                                 Find what's lost, surrender what's found
                             </span>
                         </div>
-                        <div className="flex flex-col w-full lg:flex-row gap-5 items-center justify-center border border-orange-700">
+                        <div className="flex flex-col w-full lg:flex-row gap-5 items-center justify-center border-orange-700">
                             
                                 <button className="bg-primaryColor flex flex-col justify-center items-center rounded-md w-full py-2 px-2 text-center text-lg font-semibold text-white" onClick={() => {navigate(`/dash/missing`)}}>
                                     CREATE MISSING REPORT

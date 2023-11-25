@@ -58,10 +58,12 @@ const AdminPersistLogin = () => {
     } else if (isError) { //persist: yes, token: no
         console.log('error')
         content = (
-            <p className='errmsg'>
-                {error?.data?.message}
-                <Link to="/admin/login">Please login again</Link>.
-            </p>
+            <div className="w-full h-screen flex items-center justify-center">
+                <p className='flex flex-col items-center justify-center errmsg text-lg font-medium'>
+                    {`${error?.data?.message}`}
+                    <Link to="/admin/login" className="text-white border bg-primaryColor rounded-lg p-2">Please login again</Link>.
+                </p>
+            </div>
         )
     } else if (isSuccess && trueSuccess) { //persist: yes, token: yes
         console.log('success')

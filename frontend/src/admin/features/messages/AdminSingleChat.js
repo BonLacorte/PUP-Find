@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ChatState } from '../../../context/ChatProvider'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faXmark, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 // import { getSender, getSenderAvatar, getSenderFull } from '../features/config/ChatLogic';
 import { getSender, getSenderAvatar, getSenderFull } from '../../../features/config/ChatLogic';
 import ScrollableChat from '../../components/ScrollableChat';
@@ -105,7 +105,7 @@ const AdminSingleChat = ({ fetchAgain, setFetchAgain }) => {
     };
 
     const sendMessage = async (event) => {
-        if (event.key === "Enter" && newMessage) {
+        if ((event.key === "Enter" && newMessage) || (event.target.classList.contains("send-icon") && newMessage)) {
             // socket.emit("stop typing", selectedChat._id);
             try {
                 const config = {
@@ -227,7 +227,7 @@ const AdminSingleChat = ({ fetchAgain, setFetchAgain }) => {
                             {!selectedChat.isGroupChat ? (
                                 <div className='flex flex-row'>
 
-                                    <div className='flex flex-row items-center' onClick={() => setOpenChatInfo(true)}>
+                                    <div className='flex flex-row items-center hover:bg-gray-400 cursor-pointer p-2 rounded-lg' onClick={() => setOpenChatInfo(true)}>
                                         <img src={getSenderAvatar(user, selectedChat.users)} alt="" className="w-10 h-10 rounded-full mr-2"/>
                                         <b>{getSender(user, selectedChat.users)}</b>
                                     </div>
@@ -245,7 +245,7 @@ const AdminSingleChat = ({ fetchAgain, setFetchAgain }) => {
                                 </>
                                 )}
                         </div>
-                        <div className="flex flex-col justify-end p-3  w-full h-[92vh] rounded-lg overflow-hidden border-red-700">
+                        <div className="flex flex-col justify-end p-3 w-full h-[92vh] rounded-lg overflow-hidden border-red-700">
                             {loading ? (
                                 <div className="self-center">
                                     {/* <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-b-2 border-gray-500"></div> */}
@@ -257,27 +257,34 @@ const AdminSingleChat = ({ fetchAgain, setFetchAgain }) => {
                                 </div>
                             )}
 
-                            <div className="mt-3">
-                                {/* {istyping && (
-                                    <div>
-                                        <Lottie
-                                            options={defaultOptions}
-                                            // height={50}
-                                            width={70}
-                                            style={{ marginBottom: 15, marginLeft: 0 }}
-                                        />
-                                    </div>
-                                )} */}
+                                <div className="flex flex-row mt-3 gap-2">
+                                    {/* {istyping && (
+                                        <div>
+                                            <Lottie
+                                                options={defaultOptions}
+                                                // height={50}
+                                                width={70}
+                                                style={{ marginBottom: 15, marginLeft: 0 }}
+                                            />
+                                        </div>
+                                    )} */}
 
-                                <input
-                                type="text"
-                                className="w-full bg-gray-300 p-2 rounded"
-                                placeholder="Enter a message.."
-                                value={newMessage}
-                                onChange={typingHandler}
-                                onKeyDown={sendMessage}
-                                />
-                            </div>
+                                    <input
+                                    type="text"
+                                    className="w-full bg-gray-300 p-2 rounded"
+                                    placeholder="Enter a message.."
+                                    value={newMessage}
+                                    onChange={typingHandler}
+                                    onKeyDown={sendMessage}
+                                    />
+                                    <button className='flex items-center px-3 bg-gray-300 rounded send-icon
+                                    hover:bg-gray-400 transition duration-200' onClick={sendMessage} >
+                                            <FontAwesomeIcon 
+                                                icon={faPaperPlane}
+                                                className="send-icon"
+                                            />
+                                    </button>
+                                </div>
                             </div>
                     </>
                 ) 

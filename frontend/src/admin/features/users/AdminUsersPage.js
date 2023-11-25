@@ -205,7 +205,8 @@ const AdminUsersPage = () => {
                                 // console.log('rowData', params)
                                 console.log('user', params.row.original)
                                 navigate(`/admin/dash/users/edit/${params.row.original.id}`, {state: { user: params.row.original}})
-                            }} className='text-blue-500 font-bold py-2 px-2 rounded mr-2'
+                            }} className='bg-blue-500 text-white font-bold py-2 px-2 rounded mr-2 border 
+                            hover:bg-blue-700 transition duration-200'
                         >
                             Edit
                         </button>
@@ -215,7 +216,8 @@ const AdminUsersPage = () => {
                                 setUserToDelete(params.row.original)
                                 onOpen()
                             }}
-                            className="text-red-500 font-bold py-2 px-2 rounded"
+                            className="bg-red-500 text-white font-bold py-2 px-2 rounded mr-2 border
+                            hover:bg-red-700 transition duration-200"
                         >
                             Delete
                         </button>
@@ -403,14 +405,16 @@ const AdminUsersPage = () => {
                                 <button
                                     onClick={() => previousPage()}
                                     disabled={!canPreviousPage}
-                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded mr-2"
+                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded mr-2 cursor-pointer
+                                    disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Previous
                                 </button>
                                 <button
                                     onClick={() => nextPage()}
                                     disabled={!canNextPage}
-                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded"
+                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded cursor-pointer
+                                    disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Next
                                 </button>

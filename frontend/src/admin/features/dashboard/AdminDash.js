@@ -124,7 +124,7 @@ const AdminDash = () => {
     } else {
         content = (
             <>
-                <div className='p-8 lg:p-20 w-full flex flex-col gap-4'>
+                <div className='p-8 lg:p-20 w-full flex flex-col gap-4 rounded-lg border'>
                     
                     {/* <p>{today}</p> */}
                     <div className=' flex flex-col sm:flex-row justify-between gap-4 sm:gap-0'>

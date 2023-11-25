@@ -17,7 +17,7 @@ const AdminReportInfo = () => {
     const content = report && report.report ? 
     report ? 
         <>
-            <div className="p-20 w-full border-l-amber-600">
+            <div className="p-20 w-full rounded-lg border">
                 <div className="pb-4 flex justify-between">
                     <h1 className="text-3xl font-bold text-primaryColor">{report.report.reportType === 'FoundReport' ? 'Found Item' : 'Missing Item'}</h1>
             
@@ -30,13 +30,12 @@ const AdminReportInfo = () => {
                     </div>
                 </div>
 
-                <div className=" rounded-lg  flex flex-col md:flex-row p-10">
-                    <div className="w-1/2 p-4 border-r border-gray-400">
-                    
-
+                <div className=" rounded-lg flex flex-col md:flex-row p-10">
+                    <div className="w-full lg:w-1/2 p-4 lg:border-r border-gray-400">
+                
                         <div className='p-4 border-b border-gray-400'>
                             <p className="mb-2">
-                            <h1 className="text-2xl font-bold">{report.report.itemName}</h1>
+                            <h1 className="text-3xl font-bold">{report.report.itemName}</h1>
                             </p>
                             <p className="mb-2">
                             <span className="font-bold">Date Found:</span> {new Date(report.report.date).toISOString().slice(0, 10)}
@@ -72,7 +71,7 @@ const AdminReportInfo = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="w-1/2 p-4 flex justify-center items-center flex-col ">
+                    <div className="w-full lg:w-1/2 p-4 flex justify-center items-center flex-col ">
                         <div className='h-80 w-full flex justify-center border border-gray-400'>
                             {!selectedImage && (
                             <div className='flex h-auto w-auto justify-center'>
@@ -88,11 +87,12 @@ const AdminReportInfo = () => {
                             )}
                         </div>
                         
-                        <div className='flex justify-center '>
-                            <div className="grid grid-cols-5 gap-4 p-4">
+                        <div className=' border-red-600 flex justify-center '>
+                            <div className=" border-blue-600 w-full grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 xl:p-4">
                             {oldImage !== null 
                             ?   oldImage.map((image, index) => (
                                 <img
+                                    // className="w-full h-full object-contain cursor-pointer"
                                     className="w-24 h-auto object-contain cursor-pointer"
                                     key={index}
                                     src={image.url}
@@ -101,6 +101,7 @@ const AdminReportInfo = () => {
                                 />
                                 ))
                             : <img
+                                // className="w-full h-full object-contain cursor-pointer"
                                 className="w-24 h-auto object-contain cursor-pointer"
                                 src={oldImage}
                                 alt="itemImage"

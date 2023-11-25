@@ -182,7 +182,8 @@ const AdminChatList = ({ fetchAgain }) => {
                         }}
                         className={`cursor-pointer p-3 mb-2 rounded-lg ${
                             selectedChat ? selectedChat._id === chat._id ? 'bg-primaryColor text-white' : 'bg-gray-300' : 'bg-gray-300'
-                        }`}
+                        }
+                        hover:bg-gray-400`}
                         >
                             <div className='flex flex-row'>
                                 <img src={getSenderAvatar(loggedUser, chat.users)} alt="" className="w-10 h-10 rounded-full mr-2"/>

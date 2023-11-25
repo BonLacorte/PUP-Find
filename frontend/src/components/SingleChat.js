@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ChatState } from '../context/ChatProvider'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faXmark, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { getSender, getSenderAvatar } from '../features/config/ChatLogic';
 import ScrollableChat from './ScrollableChat';
 import animationData from '../animations/typing.json'
@@ -124,35 +124,36 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     };
 
     const sendMessage = async (event) => {
-        if (event.key === "Enter" && newMessage) {
+        // if (event.key === "Enter" && newMessage) {
+            if ((event.key === "Enter" && newMessage) || (event.target.classList.contains("send-icon") && newMessage)) {
             // socket.emit("stop typing", selectedChat._id);
-            try {
-                const config = {
-                    headers: {
-                        "Content-type": "application/json",
-                        token: `Bearer ${accessToken}`,
-                    },
+                try {
+                    const config = {
+                        headers: {
+                            "Content-type": "application/json",
+                            token: `Bearer ${accessToken}`,
+                        },
+                    };
+                    setNewMessage("");
+                    const { data } = await axios.post(`${server}/message`,
+                        {
+                            content: newMessage,
+                            chatId: selectedChat,
+                        },
+                    config
+                    );
+
+                    await updateLastSeenMessage(data)
+
+                    socket.emit("new message", data);
+                    // console.log("new message", data)
+                    setMessages([...messages, data]);
+                    console.log({messages})
+                    // console.log('SingleChat sendMessage-selectedChat ',{selectedChat})
+                } catch (error) {
+                    console.log(error)
+                    console.log('SingleChat sendMessage-Failed to send the Message')
                 };
-                setNewMessage("");
-                const { data } = await axios.post(`${server}/message`,
-                    {
-                        content: newMessage,
-                        chatId: selectedChat,
-                    },
-                config
-                );
-
-                await updateLastSeenMessage(data)
-
-                socket.emit("new message", data);
-                // console.log("new message", data)
-                setMessages([...messages, data]);
-                console.log({messages})
-                // console.log('SingleChat sendMessage-selectedChat ',{selectedChat})
-            } catch (error) {
-                console.log(error)
-                console.log('SingleChat sendMessage-Failed to send the Message')
-            };
         }
     }
 
@@ -240,7 +241,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                         <div className='flex items-center justify-between pb-3 px-2 w-full '>
                         {/* <div className={`md:${selectedChat ? 'hidden' : 'hidden' }flex items-center justify-between pb-3 px-2 w-full`}> */}
                             <button
-                                className='lg:hidden'
+                                className='hidden'
                                 onClick={() => setSelectedChat("")}
                             >
                                 <FontAwesomeIcon icon={faArrowLeft} />
@@ -248,7 +249,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             {!selectedChat.isGroupChat ? (
                                 <div className='flex flex-row'>
 
-                                    <div className='flex flex-row items-center' onClick={() => setOpenChatInfo(true)}>
+                                    <div className='flex flex-row items-center hover:bg-gray-400 cursor-pointer p-2 rounded-lg' onClick={() => setOpenChatInfo(true)}>
                                         <img src={getSenderAvatar(user, selectedChat.users)} alt="" className="w-10 h-10 rounded-full mr-2"/>
                                         <b>{getSender(user, selectedChat.users)}</b>
                                     </div>
@@ -266,7 +267,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                 </>
                                 )}
                         </div>
-                        <div className="flex flex-col justify-end p-3  w-full h-[82vh] rounded-lg overflow-hidden ">
+                        <div className="flex flex-col justify-end p-3 w-full h-[82vh] rounded-lg overflow-hidden ">
                             {loading ? (
                                 <div className="self-center">
                                     {/* <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-b-2 border-gray-500"></div> */}
@@ -278,27 +279,34 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                 </div>
                             )}
 
-                            <div className="mt-3">
-                                {/* {istyping && (
-                                    <div>
-                                        <Lottie
-                                            options={defaultOptions}
-                                            // height={50}
-                                            width={70}
-                                            style={{ marginBottom: 15, marginLeft: 0 }}
-                                        />
-                                    </div>
-                                )} */}
+                                <div className="flex flex-row mt-3 gap-2">
+                                    {/* {istyping && (
+                                        <div>
+                                            <Lottie
+                                                options={defaultOptions}
+                                                // height={50}
+                                                width={70}
+                                                style={{ marginBottom: 15, marginLeft: 0 }}
+                                            />
+                                        </div>
+                                    )} */}
 
-                                <input
-                                type="text"
-                                className="w-full bg-gray-300 p-2 rounded"
-                                placeholder="Enter a message.."
-                                value={newMessage}
-                                onChange={typingHandler}
-                                onKeyDown={sendMessage}
-                                />
-                            </div>
+                                    <input
+                                        type="text"
+                                        className="w-full bg-gray-300 p-2 rounded"
+                                        placeholder="Enter a message.."
+                                        value={newMessage}
+                                        onChange={typingHandler}
+                                        onKeyDown={sendMessage}
+                                    />
+                                    <button className='flex items-center px-3 bg-gray-300 rounded send-icon
+                                    hover:bg-gray-400 transition duration-200' onClick={sendMessage} >
+                                        <FontAwesomeIcon 
+                                            icon={faPaperPlane}
+                                            className="send-icon"
+                                        />
+                                    </button>
+                                </div>
                             </div>
                     </>
                 ) 

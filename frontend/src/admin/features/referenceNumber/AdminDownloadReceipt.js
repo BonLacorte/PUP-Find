@@ -18,7 +18,7 @@ const AdminDownloadReceipt = () => {
     const content = claimedReport && claimedReport.claimedReport ? 
         claimedReport ? 
         <>
-            <div className="p-20 w-full border-l-amber-600">
+            <div className="p-20 w-full rounded-lg border">
                 <div className="pb-10 flex justify-between">
                     <h1 className="text-3xl font-bold text-primaryColor">Claim Receipt</h1>
 

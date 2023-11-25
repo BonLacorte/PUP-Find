@@ -149,6 +149,23 @@ const AdminFoundReportPage = () => {
         {
             accessor: 'reportStatus',
             Header: 'Status',
+            Cell: (params) => {
+                return (
+                    <div>
+                        {
+                            params.row.original.reportStatus === "Claimable" 
+                                ? 
+                                <div className='flex justify-center border-2 border-green-500 font-semibold text-green-500 rounded-2xl'>
+                                    <p>Claimable</p>
+                                </div>
+                                :
+                                <div className='flex justify-center border-2 border-blue-500 font-semibold text-blue-500 rounded-2xl'>
+                                    <p>Processing</p>
+                                </div>
+                        }
+                    </div>
+                );
+            },
         },
         {
             accessor: 'createdAt',
@@ -185,26 +202,10 @@ const AdminFoundReportPage = () => {
                         onClick={() => {
                             // console.log('report', params.row.original)
                             navigate(`/admin/dash/reports/found/edit/${params.row.original.id}`, {state: { report: params.row.original}})
-                    }} className="text-blue-500 font-bold py-2 px-2 rounded mr-2">
+                    }} className="bg-blue-500 text-white font-bold py-2 px-2 rounded mr-2 border 
+                    hover:bg-blue-700 transition duration-200">
                         Edit
                     </button> 
-                    
-                    <button 
-                        onClick={() => {
-                            navigate(`/admin/dash/reports/found/info`, {state: { report: params.row.original}})
-                            // console.log(`admin report page`,params.row)
-                    }} className="text-blue-500 font-bold py-2 px-2 rounded mr-2">
-                        Info
-                    </button>
-
-                    {params.row.original.reportStatus === 'Claimable' ? 
-                        <button
-                        onClick={() => {
-                            navigate(`/admin/dash/reports/found/${params.row.original.id}`, {state: { report: params.row.original}})
-                        }} className="text-blue-500 font-bold py-2 px-2 rounded mr-2">
-                            Claim
-                        </button> : null
-                    }
 
                     <button
                         onClick={() => {
@@ -212,10 +213,30 @@ const AdminFoundReportPage = () => {
                             console.log(`delete click`, params.row.original)
                             onOpen() // Open the delete confirmation modal
                         }}
-                        className="text-red-500 font-bold py-2 px-2 rounded"
+                        className="
+                        bg-red-500 text-white font-bold py-2 px-2 rounded mr-2 border
+                        hover:bg-red-700 transition duration-200"
                     >
                         Delete
                     </button>
+
+                    <button 
+                        onClick={() => {
+                            navigate(`/admin/dash/reports/found/info`, {state: { report: params.row.original}})
+                            // console.log(`admin report page`,params.row)
+                    }} className="bg-blue-500 text-white font-bold py-2 px-2 rounded mr-2 border 
+                    hover:bg-blue-700 transition duration-200">
+                        Info
+                    </button>
+
+                    {params.row.original.reportStatus === 'Claimable' ? 
+                        <button
+                        onClick={() => {
+                            navigate(`/admin/dash/reports/found/${params.row.original.id}`, {state: { report: params.row.original}})
+                        }} className="bg-green-500 text-white font-bold py-2 px-2 rounded mr-2 border hover:bg-green-700 transition duration-200">
+                            Claim
+                        </button> : null
+                    }
                 </>
             ),
         },
@@ -323,7 +344,7 @@ const AdminFoundReportPage = () => {
     } else {
         content = (
             <>
-                <div className="p-8 lg:p-20 w-full">
+                <div className="p-8 lg:p-20 w-full rounded-lg border">
                     <div className="md:pb-4 flex flex-col md:flex-row md:justify-between gap-4 md:gap-0">
                         <h1 className="text-3xl font-bold text-primaryColor">Found Reports</h1>
                         <div className="flex flex-col md:flex-row gap-2 md:gap-0">
@@ -407,14 +428,16 @@ const AdminFoundReportPage = () => {
                                 <button
                                     onClick={() => previousPage()}
                                     disabled={!canPreviousPage}
-                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded mr-2"
+                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded mr-2 cursor-pointer
+                                    disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Previous
                                 </button>
                                 <button
                                     onClick={() => nextPage()}
                                     disabled={!canNextPage}
-                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded"
+                                    className="bg-primaryColor text-white font-bold py-2 px-4 rounded cursor-pointer
+                                    disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Next
                                 </button>

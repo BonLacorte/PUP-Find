@@ -199,6 +199,22 @@ const AdminItemPage = () => {
                 )
             },
         },
+        {
+            accessor: 'actions',
+            Header: 'Action',
+            Cell: (params) => (
+                <div>
+                    <button
+                        onClick={() => openModal(row)}
+                        // className="text-blue-500 font-bold py-2 px-2 rounded mr-2 border"
+                        className="bg-green-500 text-white font-bold py-2 px-2 rounded mr-2 border 
+                        hover:bg-green-700 transition duration-200"
+                    >
+                        Match
+                    </button>
+                </div>
+            ),
+        },
     ],[]
     )
 
@@ -291,7 +307,7 @@ const AdminItemPage = () => {
 
     return (
         <>
-            <div className="p-20 w-full border-l-amber-600">
+            <div className="p-20 w-full rounded-lg border">
                 <div className="pb-4 flex justify-between">
                     <h1 className="text-3xl font-bold text-primaryColor">Found Item</h1>
             
@@ -431,7 +447,7 @@ const AdminItemPage = () => {
                                 {page.map((row) => {
                                     prepareRow(row);
                                     return (
-                                        <Tr {...row.getRowProps()} onClick={() => openModal(row)}>
+                                        <Tr {...row.getRowProps()}>
                                         {row.cells.map((cell) => (
                                             <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
                                                 {cell.render('Cell')}
@@ -448,14 +464,14 @@ const AdminItemPage = () => {
                             <button
                                 onClick={() => previousPage()}
                                 disabled={!canPreviousPage}
-                                className="bg-primaryColor text-white font-bold py-2 px-4 rounded mr-2"
+                                className="bg-primaryColor text-white font-bold py-2 px-4 rounded mr-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 Previous
                             </button>
                             <button
                                 onClick={() => nextPage()}
                                 disabled={!canNextPage}
-                                className="bg-primaryColor text-white font-bold py-2 px-4 rounded"
+                                className="bg-primaryColor text-white font-bold py-2 px-4 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 Next
                             </button>

@@ -85,7 +85,9 @@ const ChatPage = () => {
                 {/* <div className="bg-customBackground"> */}
                 <div className="mx-auto w-screen flex justify-start flex-col">
                     <div className='flex flex-col lg:flex-row h-[90vh]'>
-                        {user && <ChatList fetchAgain={fetchAgain}/>}
+                        <div className='hidden'>
+                            {user && <ChatList fetchAgain={fetchAgain}/>}
+                        </div>
                         {user &&
                         <ChatScreen fetchAgain={fetchAgain} setFetchAgain={setFetchAgain}/>
                         } 
