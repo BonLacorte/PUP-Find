@@ -103,9 +103,9 @@ const NewMissingForm = () => {
             config
             );
 
-            console.log(`New Found Item - data 1`,data)
+            // console.log(`New Found Item - data 1`,data)
             setNewAddedFoundReport(data)
-            toast.success("Found report created successfully!");
+            toast.success("Missing report created successfully!");
             fetchChats()
         } catch (error) {
             console.log(error)

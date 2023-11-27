@@ -205,7 +205,7 @@ const AdminItemPage = () => {
             Cell: (params) => (
                 <div>
                     <button
-                        onClick={() => openModal(row)}
+                        onClick={() => openModal(params.row)}
                         // className="text-blue-500 font-bold py-2 px-2 rounded mr-2 border"
                         className="bg-green-500 text-white font-bold py-2 px-2 rounded mr-2 border 
                         hover:bg-green-700 transition duration-200"
@@ -267,7 +267,7 @@ const AdminItemPage = () => {
         [reports]
     );
 
-    console.log(`row`,row)
+    // console.log(`row`,row)
 
     // Use useEffect to fetch all reports when the component mounts
     useEffect(() => {
