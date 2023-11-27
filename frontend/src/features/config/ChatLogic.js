@@ -45,6 +45,13 @@ export const getSender = (loggedUser, users) => {
     return '';
 };
 
+export const getSenderUid = (loggedUser, users) => {
+    if (users && users.length >= 2) {
+        return users[0]?._id === loggedUser?._id ? users[1].uid : users[0].uid;
+    }
+    return '';
+}
+
 export const getSenderAvatar = (loggedUser, users) => {
     if (users && users.length >= 2) {
         const senderId = users[0]?._id === loggedUser?._id ? users[1].pic.url : users[0].pic.url;
@@ -66,24 +73,24 @@ export const latestMessage = (loggedUser, chat, userId) => {
     // console.log(`CHATTTTT`, chat)
     
     if (chat.latestMessage === null || chat.latestMessage === undefined) {
-        console.log(`chat lastMessage null`, chat)
+        // console.log(`chat lastMessage null`, chat)
         return false
     } else {
         const matchedUser = chat.lastSeenMessage.filter((user) => {
             return user.user === userId
         })
-        console.log(`chat lastMessage not null`, chat)
-        console.log(`value of matchedUser`, matchedUser)
+        // console.log(`chat lastMessage not null`, chat)
+        // console.log(`value of matchedUser`, matchedUser)
         if(matchedUser.length > 0) {
-            console.log(`matchedUser.message is not null`, matchedUser.message)
+            // console.log(`matchedUser.message is not null`, matchedUser.message)
             return (matchedUser[0].message).toString() ===  (chat.latestMessage._id).toString()
         } else {
-            console.log(`matchedUser.message is null`)
+            // console.log(`matchedUser.message is null`)
             return false
         }
         
-        console.log(`value of matchedUser`, matchedUser)
-        console.log(`matchedUser.message is null`)
+        // console.log(`value of matchedUser`, matchedUser)
+        // console.log(`matchedUser.message is null`)
 
     }
 }

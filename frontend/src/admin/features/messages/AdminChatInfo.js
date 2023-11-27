@@ -10,7 +10,7 @@ const AdminChatInfo = () => {
     const { selectedChat, user } = ChatState();
     const { uid, accessToken } = useAdminAuth();
 
-    console.log(selectedChat)
+    // console.log(selectedChat)
 
     const getChatMate = () => {
         if (selectedChat && selectedChat.users) {

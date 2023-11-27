@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AdminChatLoading from '../../components/AdminChatLoading'
 // import { getSender } from '../config/ChatLogic';
-import { getSender, getSenderAvatar, latestMessage } from '../../../features/config/ChatLogic'
+import { getSender, getSenderUid, getSenderAvatar, latestMessage } from '../../../features/config/ChatLogic'
 import useAdminAuth from '../../hooks/useAdminAuth';
 import axios from 'axios';
 import { ChatState } from '../../../context/ChatProvider';
@@ -14,7 +14,7 @@ var socket
 const AdminChatList = ({ fetchAgain }) => {
 
     const { userId, accessToken } = useAdminAuth();
-
+    const [searchTerm, setSearchTerm] = useState('');
     const [loggedUser, setLoggedUser] = useState();
 
     const {
@@ -162,18 +162,37 @@ const AdminChatList = ({ fetchAgain }) => {
         }
     }
 
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    }
+
+    const filteredChats = chats.filter(chat => {
+        const sender = getSenderUid(loggedUser, chat.users) || getSender(loggedUser, chat.users) 
+        console.log(sender, "sender")
+        return sender.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+
     return (
         <>
             <div className={`${selectedChat ? 'hidden' : 'flex'} lg:${selectedChat ? 'flex' : 'flex'} flex-col items-center p-3 bg-white lg:w-1/5 rounded-lg border border-gray-300`}>
-                <div >
+                <div className='w-full'>
                     <div className="pb-3 px-3 flex justify-center w-full">
                         <h1 className="text-3xl font-bold text-primaryColor">Messages</h1>
+                    </div>
+                    <div className="pb-3 flex justify-center items-center w-full">
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            value={searchTerm}
+                            onChange={handleSearch}
+                            className="bg-gray-100 border-2 w-full px-2 py-1 rounded-lg"
+                        />
                     </div>
                 </div>
                 <div className="flex flex-col p-3 bg-gray-200 w-full h-full rounded-lg overflow-hidden">
                 {chats ? (
                     <div className="w-full overflow-y-scroll scrollbar-none">
-                    {chats.map((chat) => (
+                    {filteredChats.map((chat) => (
                         <div
                         key={chat._id}
                         onClick={() => {
