@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import successIcon from './../../../img/successIcon.png'
 import { Margin, usePDF } from "react-to-pdf";
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const AdminDownloadReceipt = () => {
 
@@ -68,7 +69,12 @@ const AdminDownloadReceipt = () => {
                 </div>
             </div>
         </>
-        : <p>Loading...</p> 
+        : 
+            <div className="w-full h-screen flex items-center justify-center">
+                <div className="flex justify-center">
+                    <PulseLoader  color={"#000"} />
+                </div>
+            </div>
         :
         <div>
             <p>Data not available. Please navigate through the appropriate route.</p>

@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import AdminClaimedReceipt from './AdminClaimedReceipt';
 import { server } from '../../../server';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const AdminClaimedReciptLoad = () => {
 
@@ -43,7 +44,12 @@ const AdminClaimedReciptLoad = () => {
     const content = reports && reports.missingReport && reports.foundReport ? 
         claimedReport ? 
             <AdminClaimedReceipt claimedReport={claimedReport}/> 
-            : <p>Loading...</p> 
+            : 
+                <div className="w-full h-screen flex items-center justify-center">
+                    <div className="flex justify-center">
+                        <PulseLoader  color={"#000"} />
+                    </div>
+                </div>
         :
         <div>
             <p>Data not available. Please navigate through the appropriate route.</p>

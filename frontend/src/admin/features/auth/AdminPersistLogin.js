@@ -4,6 +4,7 @@ import { useRefreshMutation } from "./adminAuthApiSlice"
 import useAdminPersist from "../../hooks/useAdminPersist"
 import { useSelector } from 'react-redux'
 import { selectCurrentToken } from "./adminAuthSlice"
+import PulseLoader from "react-spinners/PulseLoader"
 
 const AdminPersistLogin = () => {
 
@@ -54,14 +55,19 @@ const AdminPersistLogin = () => {
         content = <Outlet />
     } else if (isLoading) { //persist: yes, token: no
         console.log('loading')
-        content = <p>Loading...</p>
+        content = 
+            <div className="w-full h-screen flex items-center justify-center">
+                <div className="flex justify-center">
+                    <PulseLoader  color={"#000"} />
+                </div>
+            </div>
     } else if (isError) { //persist: yes, token: no
         console.log('error')
         content = (
             <div className="w-full h-screen flex items-center justify-center">
                 <p className='flex flex-col items-center justify-center errmsg text-lg font-medium'>
                     {`${error?.data?.message}`}
-                    <Link to="/admin/login" className="text-white border bg-primaryColor rounded-lg p-2">Please login again</Link>.
+                    <Link to="/admin/login" className="text-white border bg-primaryColor rounded-lg p-2">Please login again</Link>
                 </p>
             </div>
         )

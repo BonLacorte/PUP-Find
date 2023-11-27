@@ -4,6 +4,7 @@ import AdminEditUserForm from './AdminEditUserForm';
 import useAdminAuth from '../../hooks/useAdminAuth';
 import { useParams } from 'react-router-dom';
 import { server } from '../../../server';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const AdminEditUserLoad = () => {
     const { userId, name, accessToken } = useAdminAuth()
@@ -35,7 +36,12 @@ const AdminEditUserLoad = () => {
         fetchUserInfo()
     }, []);
 
-    const content = user ? <AdminEditUserForm user={user}/> : <p>Loading...</p>
+    const content = user ? <AdminEditUserForm user={user}/> : 
+        <div className="w-full h-screen flex items-center justify-center">
+            <div className="flex justify-center">
+                <PulseLoader  color={"#000"} />
+            </div>
+        </div>
     return content
 }
 

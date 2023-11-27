@@ -16,8 +16,8 @@ const DonePage = () => {
                 </div>
                 <div className="flex flex-row justify-between lg:w-3/5 items-center w-full px-10 border-red-700">
                     
-                    <div className="flex flex-col gap-10 items-center ">
-                        <div className="gap-10 flex flex-col items-start border-orange-600">
+                    <div className="flex flex-col gap-10 items-center">
+                        <div className="gap-10 flex flex-col w-full border-orange-600">
                             <div className="flex flex-col gap-3 w-full items-start ">
                                 <span className="text-2xl md:text-4xl font-semibold w-full">
                                     Thank you for reporting found item
@@ -35,7 +35,7 @@ const DonePage = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="flex flex-col justify-between gap-4 w-full items-start">
+                        <div className="flex flex-col justify-between gap-4 items-start border-blue-700">
                             {/* <div className="text-4xl font-semibold w-5/6">
                                 Report missing item
                             </div> */}

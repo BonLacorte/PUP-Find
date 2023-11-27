@@ -254,7 +254,11 @@ const AdminDash = () => {
                                 <AdminYearSelector selectedYear={selectedYear} onYearChange={handleYearChange} />
                             </div>
                             {barLoading ? (
-                                <div>Loading...</div>
+                                <div className="w-full h-screen flex items-center justify-center">
+                                    <div className="flex justify-center">
+                                        <PulseLoader  color={"#000"} />
+                                    </div>
+                                </div>
                             ) : (
                                 <div className="overflow-x-scroll">
                                     <AdminBarChart data={chartData} />

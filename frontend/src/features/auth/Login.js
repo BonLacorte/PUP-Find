@@ -12,6 +12,7 @@ import pup5 from '../../img/PUP4.jpg';
 import puplogo from '../../img/puplogo.png';
 import Redpupfind from '../../img/Redpupfind 4.png'
 import { toast } from 'react-toastify';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const Login = () => {
     const emailRef = useRef();
@@ -94,7 +95,13 @@ const Login = () => {
 
     const errClass = errMsg ? 'errmsg' : 'offscreen';
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return (
+        <div className="w-full h-screen flex items-center justify-center">
+            <div className="flex justify-center">
+                <PulseLoader  color={"#000"} />
+            </div>
+        </div>
+    )
 
     const content = (
         <>

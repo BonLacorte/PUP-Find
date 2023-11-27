@@ -3,6 +3,7 @@ import useAuth from '../../hooks/useAuth';
 import ProfileEditForm from './ProfileEditForm';
 import axios from 'axios';
 import { server } from '../../server';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const ProfileEditLoad = () => {
     const { userId, name, accessToken } = useAuth()
@@ -30,7 +31,12 @@ const ProfileEditLoad = () => {
         fetchInfo()
     }, []);
 
-    const content = profile ? <ProfileEditForm user={profile}/> : <p>Loading...</p>
+    const content = profile ? <ProfileEditForm user={profile}/> : 
+        <div className="w-full h-screen flex items-center justify-center">
+            <div className="flex justify-center">
+                <PulseLoader  color={"#000"} />
+            </div>
+        </div>
     return content
 }
 

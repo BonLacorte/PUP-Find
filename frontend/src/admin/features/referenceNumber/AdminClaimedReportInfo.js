@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const AdminClaimedReportInfo = () => {
 
@@ -201,7 +202,12 @@ const AdminClaimedReportInfo = () => {
                 </div> 
             </div>
         </>
-        : <p>Loading...</p> 
+        : 
+            <div className="w-full h-screen flex items-center justify-center">
+                <div className="flex justify-center">
+                    <PulseLoader  color={"#000"} />
+                </div>
+            </div>
         :
         <div>
             <p>Data not available. Please navigate through the appropriate route.</p>

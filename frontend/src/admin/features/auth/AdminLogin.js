@@ -13,6 +13,7 @@ import pup4 from '../../../img/PUP3.jpg';
 import pup5 from '../../../img/PUP4.jpg';
 import puplogo from '../../../img/puplogo.png';
 import pupFindLogo from '../../../img/Redlogo 1.png';
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const AdminLogin = () => {
     const emailRef = useRef()
@@ -79,7 +80,14 @@ const AdminLogin = () => {
 
     const errClass = errMsg ? "errmsg" : "offscreen"
 
-    if (isLoading) return <p>Loading...</p>
+    if (isLoading) 
+        return (
+            <div className="w-full h-screen flex items-center justify-center">
+                <div className="flex justify-center">
+                    <PulseLoader  color={"#000"} />
+                </div>
+            </div>
+        )
 
     const content = (
         <>

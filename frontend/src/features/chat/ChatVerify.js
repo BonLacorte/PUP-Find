@@ -1,6 +1,7 @@
 import React from 'react'
 import { ChatState } from '../../context/ChatProvider';
 import ChatPage from './ChatPage';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const ChatVerify = () => {
 
@@ -15,7 +16,12 @@ const ChatVerify = () => {
     } = ChatState();
 
     const content = selectedChat
-        ? <ChatPage/> : <h1>Loading...</h1>
+        ? <ChatPage/> : 
+            <div className="w-full h-screen flex items-center justify-center">
+                <div className="flex justify-center">
+                    <PulseLoader  color={"#000"} />
+                </div>
+            </div>
 
     return content
 }

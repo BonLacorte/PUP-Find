@@ -4,6 +4,7 @@ import useAdminAuth from '../../hooks/useAdminAuth';
 import axios from 'axios';
 import AdminNewMissingForm from './AdminNewMissingForm';
 import { server } from '../../../server';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const AdminNewMissingLoad = () => {
     const { userId, name, accessToken } = useAdminAuth()
@@ -34,7 +35,12 @@ const AdminNewMissingLoad = () => {
         fetchUsers()
     }, []);
 
-    const content = users ? <AdminNewMissingForm users={users}/> : <p>Loading...</p>
+    const content = users ? <AdminNewMissingForm users={users}/> : 
+        <div className="w-full h-screen flex items-center justify-center">
+            <div className="flex justify-center">
+                <PulseLoader  color={"#000"} />
+            </div>
+        </div>
     return content
 }
 

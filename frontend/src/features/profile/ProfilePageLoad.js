@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import ProfilePage from './ProfilePage';
 import useAuth from '../../hooks/useAuth';
 import { server } from '../../server';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 const ProfilePageLoad = () => {
 
@@ -31,7 +32,12 @@ const ProfilePageLoad = () => {
         fetchInfo()
     }, []);
 
-    const content = profile ? <ProfilePage profile={profile}/> : <p>Loading...</p>
+    const content = profile ? <ProfilePage profile={profile}/> :
+        <div className="w-full h-screen flex items-center justify-center">
+            <div className="flex justify-center">
+                <PulseLoader  color={"#000"} />
+            </div>
+        </div>
     return content
 }
 
