@@ -60,6 +60,7 @@ const AdminReportPage = () => {
             'Date Reported': new Date(report.createdAt).toLocaleDateString(),
             'Ref. Number': report._id,
             'Report Creator': report.creatorId.name || '-',
+            'Report Creator UID': report.creatorId.uid || '-',
             'Report Type': report.reportType
         }));
     
@@ -136,7 +137,9 @@ const AdminReportPage = () => {
                 return (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={params.row.image} alt="" className="w-10 h-10 rounded-full mr-2" />
-                        {params.row.itemName}
+                        <p>
+                            {params.row.itemName.length > 25 ? 
+                            `${params.row.itemName.substring(0, 25)}...` : params.row.itemName}</p>
                     </div>
                 );
             },

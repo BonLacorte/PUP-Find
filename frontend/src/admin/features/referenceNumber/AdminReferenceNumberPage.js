@@ -127,7 +127,8 @@ const AdminReferenceNumberPage = () => {
                 return (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={params.row.original.image} alt="" className="w-10 h-10 rounded-full mr-2" />
-                        {params.row.original.itemName}
+                        {params.row.original.itemName.length > 25 ? 
+                            `${params.row.original.itemName.substring(0, 25)}...` : params.row.original.itemName}
                     </div>
                 );
             },
