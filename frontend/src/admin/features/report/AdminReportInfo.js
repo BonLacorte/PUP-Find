@@ -52,7 +52,7 @@ const AdminReportInfo = () => {
                         <div className='p-4'>
                             <div className='flex flex-row justify-between'>
                                 <p className="mb-2">
-                                    <span className="font-bold">Founder Information:</span>
+                                    <span className="font-bold">User Information:</span>
                                 </p>
                             </div>
                             <div className='flex flex-row justify-start'>
@@ -63,10 +63,25 @@ const AdminReportInfo = () => {
                                 />
                                 <div className='flex flex-col mx-2'>
                                     <p className="mb-2">
-                                        <span className="font-bold">{report.report.creatorId.name}</span>
+                                    <span className="font-bold">
+                                        {report.report.creatorId.name.length > 15 ? `${report.report.creatorId.name.substring(0, 15)}...` : report.report.creatorId.name}</span>
                                     </p>
                                     <p className="mb-2">
+                                        <span className="font-bold">{report.report.creatorId.uid}</span>
+                                    </p>
+                                </div>
+                                <div className='flex flex-col mx-2'>
+                                    <p className="mb-2">
                                         <span className="font-bold">{report.report.creatorId.membership}</span>
+                                    </p>
+                                    <p className="mb-2">
+                                        <span className="font-bold">{report.report.creatorId.specification}</span>
+                                    </p>
+                                </div>
+                                <div className='flex flex-col mx-2'>
+                                    <p className="mb-2">
+                                    <span className="font-bold">
+                                    {report.report.creatorId.email.length > 15 ? `${report.report.creatorId.email.substring(0, 15)}...` : report.report.creatorId.email}</span>
                                     </p>
                                 </div>
                             </div>

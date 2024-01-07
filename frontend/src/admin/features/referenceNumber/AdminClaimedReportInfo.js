@@ -71,18 +71,23 @@ const AdminClaimedReportInfo = () => {
                                 />
                                 <div className='flex flex-col mx-2'>
                                     <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.name.length > 10 ? `${claimedReport.claimedReport.missingReport.creator.name.substring(0, 10)}...` : claimedReport.claimedReport.missingReport.creator.name}</span>
+                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.name.length > 15 ? `${claimedReport.claimedReport.missingReport.creator.name.substring(0, 15)}...` : claimedReport.claimedReport.missingReport.creator.name}</span>
                                     </p>
                                     <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.membership}</span>
+                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.uid}</span>
                                     </p>
                                 </div>
                                 <div className='flex flex-col mx-2'>
                                     <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.email}</span>
+                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.membership}</span>
                                     </p>
                                     <p className="mb-2">
                                         <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.specification}</span>
+                                    </p>
+                                </div>
+                                <div className='flex flex-col mx-2'>
+                                    <p className="mb-2">
+                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.email.length > 15 ? `${claimedReport.claimedReport.missingReport.creator.email.substring(0, 15)}...` : claimedReport.claimedReport.missingReport.creator.email}</span>
                                     </p>
                                 </div>
                             </div>
@@ -162,18 +167,23 @@ const AdminClaimedReportInfo = () => {
                                 />
                                 <div className='flex flex-col mx-2'>
                                     <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.name.length > 10 ? `${claimedReport.claimedReport.foundReport.creator.name.substring(0, 10)}...` : claimedReport.claimedReport.foundReport.creator.name}</span>
+                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.name.length > 15 ? `${claimedReport.claimedReport.foundReport.creator.name.substring(0, 15)}...` : claimedReport.claimedReport.foundReport.creator.name}</span>
                                     </p>
                                     <p className="mb-2">
+                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.uid}</span>
+                                    </p>
+                                </div>
+                                <div className='flex flex-col mx-2'>
+                                <p className="mb-2">
                                         <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.membership}</span>
+                                    </p>
+                                    <p className="mb-2">
+                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.specification}</span>
                                     </p>
                                 </div>
                                 <div className='flex flex-col mx-2'>
                                     <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.email}</span>
-                                    </p>
-                                    <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.specification}</span>
+                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.email.length > 15 ? `${claimedReport.claimedReport.foundReport.creator.email.substring(0, 15)}...` : claimedReport.claimedReport.foundReport.creator.email}</span>
                                     </p>
                                 </div>
                             </div>

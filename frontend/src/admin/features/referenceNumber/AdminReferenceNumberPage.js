@@ -322,7 +322,9 @@ const AdminReferenceNumberPage = () => {
             'Date Claimed': new Date(report.createdAt).toLocaleDateString(),
             'Ref. Number': report._id,
             'Founder Name': report.foundReport.creator.name || '-',
-            'Owner Name': report.missingReport.creator.name || '-'
+            'Founder UID': report.foundReport.creator.uid || '-',
+            'Owner Name': report.missingReport.creator.name || '-',
+            'Owner UID': report.missingReport.creator.uid || '-',
         }));
     
         const csvData = [];

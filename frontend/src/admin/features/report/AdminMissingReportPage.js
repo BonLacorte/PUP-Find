@@ -180,7 +180,15 @@ const AdminMissingReportPage = () => {
                 return (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <img src={params.row.original.creatorPic} alt="" className="w-10 h-10 rounded-full mr-2" />
-                    {params.row.original.creatorName}
+                    <div style={{ 
+                        display: 'flex', 
+                        flexDirection:
+                        'column',
+
+                        }}>
+                        <p>{params.row.original.creatorName.length > 15 ? `${params.row.original.creatorName.substring(0, 15)}...` : params.row.original.creatorName}</p>
+                        <p>{params.row.original.creatorUid}</p>
+                    </div>
                 </div>
                 )
             },
@@ -236,7 +244,8 @@ const AdminMissingReportPage = () => {
                 url: image.url,
             })) : null;
             return {
-                creatorName: item.creatorId.uid,
+                creatorName: item.creatorId.name,
+                creatorUid: item.creatorId.uid,
                 creatorPic: item.creatorId.pic.url,
                 image: images && images.length > 0 ? images[0].url : 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png',
                 itemName: item.itemName,

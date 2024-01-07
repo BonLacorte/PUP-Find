@@ -194,7 +194,15 @@ const AdminItemPage = () => {
                 return (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={params.row.original.creatorPic} alt="" className="w-10 h-10 rounded-full mr-2" />
-                        {params.row.original.creatorName}
+                        <div style={{ 
+                            display: 'flex', 
+                            flexDirection:
+                            'column',
+
+                            }}>
+                            <p>{params.row.original.creatorName.length > 15 ? `${params.row.original.creatorName.substring(0, 15)}...` : params.row.original.creatorName}</p>
+                            <p>{params.row.original.creatorUid}</p>
+                        </div>
                     </div>
                 )
             },
@@ -230,7 +238,8 @@ const AdminItemPage = () => {
                     }))
                     : null;
                     return {
-                        creatorName: item.creatorId.uid,
+                        creatorName: item.creatorId.name,
+                        creatorUid: item.creatorId.uid,
                         creatorPic: item.creatorId.pic.url,
                         image: 
                             images && images.length > 0
@@ -343,7 +352,7 @@ const AdminItemPage = () => {
                         <div className='p-4'>
                             <div className='flex flex-row justify-between'>
                                 <p className="mb-2">
-                                    <span className="font-bold">Founder Information:</span>
+                                    <span className="font-bold">User Information:</span>
                                 </p>
                             </div>
                             <div className='flex flex-row justify-start'>
@@ -354,10 +363,25 @@ const AdminItemPage = () => {
                                 />
                                 <div className='flex flex-col mx-2'>
                                     <p className="mb-2">
-                                        <span className="font-bold">{report.report.creatorId.name}</span>
+                                    <span className="font-bold">
+                                        {report.report.creatorId.name.length > 15 ? `${report.report.creatorId.name.substring(0, 15)}...` : report.report.creatorId.name}</span>
                                     </p>
                                     <p className="mb-2">
+                                        <span className="font-bold">{report.report.creatorId.uid}</span>
+                                    </p>
+                                </div>
+                                <div className='flex flex-col mx-2'>
+                                    <p className="mb-2">
                                         <span className="font-bold">{report.report.creatorId.membership}</span>
+                                    </p>
+                                    <p className="mb-2">
+                                        <span className="font-bold">{report.report.creatorId.specification}</span>
+                                    </p>
+                                </div>
+                                <div className='flex flex-col mx-2'>
+                                <p className="mb-2">
+                                    <span className="font-bold">
+                                    {report.report.creatorId.email.length > 15 ? `${report.report.creatorId.email.substring(0, 15)}...` : report.report.creatorId.email}</span>
                                     </p>
                                 </div>
                             </div>

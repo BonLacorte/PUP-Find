@@ -47,6 +47,10 @@ const AdminClaimedReceipt = ({ claimedReport }) => {
                     <h1>Claimed By:</h1>
                     <h1 className='font-bold'>{claimedReport.missingReport.creator.name}</h1>
                 </div>
+                <div className='flex flex-row justify-between mb-2'>
+                    <h1>User UID:</h1>
+                    <h1 className='font-bold'>{claimedReport.missingReport.creator.uid}</h1>
+                </div>
             </div>
             <div className='border-dashed border-t-2 py-10'>
                 <div className='flex flex-row justify-between mb-2'>

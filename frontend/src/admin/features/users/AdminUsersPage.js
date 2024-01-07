@@ -173,7 +173,8 @@ const AdminUsersPage = () => {
                     <>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <img src={params.row.original.image} alt="" className="w-10 h-10 rounded-full mr-2" />
-                            {params.row.original.name}
+                            {params.row.original.name.length > 15 ?
+                            `${params.row.original.name.substring(0, 15)}...` : params.row.original.name}
                         </div>
                     </>
                 )
