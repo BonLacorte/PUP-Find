@@ -33,7 +33,7 @@ const NewFoundForm = () => {
 
         const files = Array.from(e.target.files);
 
-        console.log("files:", files);
+        // console.log("files:", files);
         // Empty the image array (reset)
         setImage([]);
         setImagesPreview([]);
@@ -69,8 +69,8 @@ const NewFoundForm = () => {
 
     const addReport = async (event) => {
         event.preventDefault()
-        console.log(canSave)
-        console.log(name)
+        // console.log(canSave)
+        // console.log(name)
 
         if (isSubmitting) {
             // If the button is already submitting, ignore the click
@@ -101,13 +101,13 @@ const NewFoundForm = () => {
             config
             );
 
-            // console.log(`New Found Item - data `,data)
+            // // console.log(`New Found Item - data `,data)
             setNewFoundReport(data)
-            console.log(`userId - `, userId)
+            // console.log(`userId - `, userId)
             toast.success("Found report created successfully!");
             navigate(`/dash/found/done/`, {state: { userId: userId}})
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             toast.error(error.response.data.message);
         } finally {
             setIsSubmitting(false);

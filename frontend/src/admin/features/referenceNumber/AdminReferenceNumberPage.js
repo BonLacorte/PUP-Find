@@ -73,7 +73,7 @@ const AdminReferenceNumberPage = () => {
                 },
             };
             
-            // console.log(`claimedReportToDelete.id`, claimedReportToDelete.id)
+            // // console.log(`claimedReportToDelete.id`, claimedReportToDelete.id)
             // Send a DELETE request to your API to delete the report
             const { data } = await axios.delete(`${server}/claimedReport/${claimedReportToDelete.id}`, config);
         
@@ -85,7 +85,7 @@ const AdminReferenceNumberPage = () => {
             toast.success("Claimed report deleted successfully!");
             window.location.reload()
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             toast.error(error.response.data.message);
         }
     };
@@ -108,11 +108,11 @@ const AdminReferenceNumberPage = () => {
             if (query) {
                 url +=  `?search=${query}`;
             }
-            console.log(url)
+            // console.log(url)
             const { data } = await axios.get(url, config); // Replace with your API endpoint
 
             setClaimedReports(data); // Set the reports in state
-            console.log(data)
+            // console.log(data)
         } catch (error) {
             console.error(error);
         }
@@ -164,7 +164,7 @@ const AdminReferenceNumberPage = () => {
                     <button
                         onClick={() => {
                             navigate(`/admin/dash/referenceNumber/info/`, { state: { claimedReport: params.row.original } });
-                            // console.log(`admin report page`,params.row.original)
+                            // // console.log(`admin report page`,params.row.original)
                         }}
                         // className="text-blue-500 font-bold py-2 px-2 rounded mr-2 border"
                         className="bg-blue-500 text-white font-bold py-2 px-2 rounded mr-2 border 
@@ -176,8 +176,8 @@ const AdminReferenceNumberPage = () => {
                     <button
                         onClick={() => {
                             setClaimedReportToDelete(params.row.original);
-                            console.log(`claimedReportToDelete`, claimedReportToDelete)
-                            // console.log(`claimedReportToDelete id`, claimedReportToDelete.id)
+                            // console.log(`claimedReportToDelete`, claimedReportToDelete)
+                            // // console.log(`claimedReportToDelete id`, claimedReportToDelete.id)
                             onOpen();
                         }}
                         className="
@@ -204,7 +204,7 @@ const AdminReferenceNumberPage = () => {
     const row = React.useMemo(
         () => 
         claimedReports.map((item) => {
-        // console.log(`item`,item)
+        // // console.log(`item`,item)
         const images = item.foundReport.itemImage && item.foundReport.itemImage.length > 0 ? item.foundReport.itemImage.map(image => ({
             public_id: image.public_id,
             url: image.url,
@@ -275,7 +275,7 @@ const AdminReferenceNumberPage = () => {
     [claimedReports]
 );
 
-    // console.log(`row`,row)
+    // // console.log(`row`,row)
 
     // Use useEffect to fetch all reports when the component mounts
     useEffect(() => {

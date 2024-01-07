@@ -54,10 +54,10 @@ const AdminMessagesPage = () => {
         await setChats(sortedChats);
         setIsLoading(false);
         setIsSuccess(true);
-        // console.log(`chats in ChatList`,{chats})
+        // // console.log(`chats in ChatList`,{chats})
         
         } catch (err) {
-            console.log(err)
+            // console.log(err)
             setError(err)
             setIsLoading(false);
             setIsError(true);

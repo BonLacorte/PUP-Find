@@ -24,11 +24,11 @@ const AdminEditUserLoad = () => {
 
         const { data } = await axios.get(`${server}/user/${id}`, config);
         
-        console.log(`load`)
-        console.log(data)
+        // console.log(`load`)
+        // console.log(data)
         setUser(data)
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
     }
 

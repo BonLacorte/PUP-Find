@@ -9,7 +9,7 @@ const AdminReportInfo = () => {
     const location = useLocation();
     const report  = location.state // Provide a default value if location.state is null
     
-    console.log(`report's data from report page`, report)
+    // console.log(`report's data from report page`, report)
 
     const [selectedImage, setSelectedImage] = useState(null);
     const [itemFirstImage, setItemFirstImage] = useState(report.report.itemImage === null || report.report.itemImage === undefined || report.report.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : report.report.itemImage[0].url)
@@ -39,10 +39,10 @@ const AdminReportInfo = () => {
                             <h1 className="text-3xl font-bold">{report.report.itemName}</h1>
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Date Found:</span> {new Date(report.report.date).toISOString().slice(0, 10)}
+                            <span className="font-bold">{report.report.reportType === 'FoundReport' ? 'Date found:' : 'Date lost:'}</span> {new Date(report.report.date).toISOString().slice(0, 10)}
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Founded in:</span> {report.report.location}
+                            <span className="font-bold">{report.report.reportType === 'FoundReport' ? 'Found at:' : 'Possible lost at:'}</span> {report.report.location}
                             </p>
                             <p className="mb-2">
                             <span className="font-bold">Description:</span> {report.report.itemDescription}

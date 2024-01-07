@@ -13,7 +13,7 @@ const ChatLoad = () => {
     const { reportId, setReportId } = useState()
 
     const consoleLogs = () => {
-        console.log(`${selectedReport} from chatLoad`)
+        // console.log(`${selectedReport} from chatLoad`)
     }
     
     useEffect(() => {
@@ -31,11 +31,11 @@ const ChatLoad = () => {
             const { data } = await axios.get(`${server}/lostitems/${selectedReport}`, config);
     
             setFounderId(data.founder._id)
-            // console.log(`${reportId} - reportId on ChatLoad`)
-            console.log(`${founderId} - founderId on ChatLoad`)
+            // // console.log(`${reportId} - reportId on ChatLoad`)
+            // console.log(`${founderId} - founderId on ChatLoad`)
             
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     };
 

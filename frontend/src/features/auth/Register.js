@@ -82,7 +82,7 @@ const Register = () => {
 
     // Create user
     const register = async (event) => {
-        console.log(canSave)
+        // console.log(canSave)
         event.preventDefault();
 
         if (isSubmitting) {
@@ -118,11 +118,11 @@ const Register = () => {
                 }, 
                 // config
                 );
-                console.log('User registered:', data);
+                // console.log('User registered:', data);
                 toast.success("Account created successfully!");
                 navigate(`/login`)
             } catch (error) {
-                console.log('User registration failed:', error);
+                // console.log('User registration failed:', error);
                 toast.error(error.response.data.message);
                 setIsSubmitting(false);
             }

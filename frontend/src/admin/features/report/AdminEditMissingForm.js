@@ -40,7 +40,7 @@ const AdminEditMissingForm = () => {
 
         const files = Array.from(e.target.files);
 
-        console.log("files:", files);
+        // console.log("files:", files);
         // Empty the image array (reset)
         setImage([]);
         setImagesPreview([]);
@@ -109,18 +109,18 @@ const AdminEditMissingForm = () => {
             config
             );
 
-            console.log(`Edit Missing Item - data `,data)
+            // console.log(`Edit Missing Item - data `,data)
             toast.success("Missing report updated successfully!");
             navigate(`/admin/dash/reports/missing`)
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             toast.error(error.response.data.message);
             setIsSubmitting(false);
         };
     }
 
     const consoleLogs = () => {
-        console.log(report)
+        // console.log(report)
     }
 
     return (

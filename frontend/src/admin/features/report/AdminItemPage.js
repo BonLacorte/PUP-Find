@@ -32,8 +32,8 @@ const AdminItemPage = () => {
     const location = useLocation();
     const report  = location.state
 
-    // console.log(`REPORT`, report)
-    // console.log(`REPORT.ID`, report.report.id)
+    // // console.log(`REPORT`, report)
+    // // console.log(`REPORT.ID`, report.report.id)
 
     const [selectedImage, setSelectedImage] = useState(null);
     const [itemFirstImage, setItemFirstImage] = useState(report.report.itemImage === null || report.report.itemImage === undefined || report.report.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : report.report.itemImage[0].url)
@@ -61,9 +61,9 @@ const AdminItemPage = () => {
 
     // Function to open the modal and set the selected report
     const openModal = (report) => {
-        console.log(`open modal report`, report)
+        // console.log(`open modal report`, report)
         setSelectedReport(report.original);
-        console.log(`open modal selectedReport`,selectedReport)
+        // console.log(`open modal selectedReport`,selectedReport)
         setIsModalOpen(true);
     };
 
@@ -77,11 +77,11 @@ const AdminItemPage = () => {
     const handleClaim = async () => {
         if (selectedReport) {
         // Implement your claim logic here
-        console.log('Claim clicked');
-        console.log('Missing Report:', selectedReport);
-        console.log('Found Report:', report.report);
+        // console.log('Claim clicked');
+        // console.log('Missing Report:', selectedReport);
+        // console.log('Found Report:', report.report);
 
-        // console.log(name)
+        // // console.log(name)
         try {
             const config = {
                 headers: {
@@ -105,12 +105,12 @@ const AdminItemPage = () => {
             config
             );
 
-            console.log(`New Claimed report - data `,data)
+            // console.log(`New Claimed report - data `,data)
             toast.success("Item claimed successfully!");
             navigate(`/admin/dash/reports/claimed/`, {state: { foundReport: report.report.id, missingReport: selectedReport.id }})
         } catch (error) {
-            console.log(error)
-            console.log('New Claimed report')
+            // console.log(error)
+            // console.log('New Claimed report')
             toast.error(error.response.data.message);
         };
 
@@ -147,7 +147,7 @@ const AdminItemPage = () => {
             if (query) {
                 url += reportTypeUrl ? `&search=${query}` : `?search=${query}`;
             }
-            // console.log(`report.report.creatorId.uid`,report.report.creatorId.uid)
+            // // console.log(`report.report.creatorId.uid`,report.report.creatorId.uid)
             const { data } = await axios.get(url, config);
 
             const filteredData = data.filter((item) => item.creatorId.uid !== report.report.creatorId.uid && item.reportStatus === "Missing");
@@ -221,7 +221,7 @@ const AdminItemPage = () => {
     const row = React.useMemo(
         () =>
             reports.map((item) => {
-                // console.log(`item`,item)
+                // // console.log(`item`,item)
                 
                 const images = item.itemImage && item.itemImage.length > 0
                     ? item.itemImage.map((image) => ({
@@ -267,7 +267,7 @@ const AdminItemPage = () => {
         [reports]
     );
 
-    // console.log(`row`,row)
+    // // console.log(`row`,row)
 
     // Use useEffect to fetch all reports when the component mounts
     useEffect(() => {
@@ -333,7 +333,7 @@ const AdminItemPage = () => {
                             <span className="font-bold">Date Found:</span> {new Date(report.report.date).toISOString().slice(0, 10)}
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Founded in:</span> {report.report.location}
+                            <span className="font-bold">Found at:</span> {report.report.location}
                             </p>
                             <p className="mb-2">
                             <span className="font-bold">Description:</span> {report.report.itemDescription}

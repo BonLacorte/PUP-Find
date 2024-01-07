@@ -55,8 +55,8 @@ const AdminSingleChat = ({ fetchAgain, setFetchAgain }) => {
     
         socket.emit("join chat", selectedChat._id);
         } catch (error) {
-            console.log(error)
-            console.log('SingleChat fetchMessages-Failed to fetch the Messages')
+            // console.log(error)
+            // console.log('SingleChat fetchMessages-Failed to fetch the Messages')
         }
     }
 
@@ -75,8 +75,8 @@ const AdminSingleChat = ({ fetchAgain, setFetchAgain }) => {
                 }
             , config);
         } catch (error) {
-            console.log(error)
-            console.log('SingleChat updateLastSeenMessage-Failed to update last seen message')
+            // console.log(error)
+            // console.log('SingleChat updateLastSeenMessage-Failed to update last seen message')
         }
     }
 
@@ -99,8 +99,8 @@ const AdminSingleChat = ({ fetchAgain, setFetchAgain }) => {
                 config
             );
         } catch (error) {
-            console.log(error);
-            console.log("Failed to update User2's last seen message");
+            // console.log(error);
+            // console.log("Failed to update User2's last seen message");
         }
     };
 
@@ -127,10 +127,10 @@ const AdminSingleChat = ({ fetchAgain, setFetchAgain }) => {
 
                 socket.emit("new message", data);
                 setMessages([...messages, data]);
-                console.log({messages})
+                // console.log({messages})
             } catch (error) {
-                console.log(error)
-                console.log('SingleChat sendMessage-Failed to send the Message')
+                // console.log(error)
+                // console.log('SingleChat sendMessage-Failed to send the Message')
             };
         }
     }
@@ -144,7 +144,7 @@ const AdminSingleChat = ({ fetchAgain, setFetchAgain }) => {
     
         if (!selectedChat) {
             setSelectedChat(chats[0])
-            console.log('set chat[0] as selectedChat',{selectedChat})
+            // console.log('set chat[0] as selectedChat',{selectedChat})
         };
 
         return () => {
@@ -157,9 +157,9 @@ const AdminSingleChat = ({ fetchAgain, setFetchAgain }) => {
     useEffect(() => {
         if (selectedChat && selectedChatCompare) {
             socket.emit("chat closed", selectedChatCompare);
-            console.log('chat closed')
+            // console.log('chat closed')
             socket.emit("leave chat", selectedChatCompare);
-            console.log('leave chat')
+            // console.log('leave chat')
         }
 
         fetchMessages();
@@ -171,7 +171,7 @@ const AdminSingleChat = ({ fetchAgain, setFetchAgain }) => {
         if (socket) {
             socket.on("message recieved", (newMessageReceived) => {
                 if (selectedChat && selectedChat._id === newMessageReceived.chat._id) {
-                    console.log(`newMessageReceived`,newMessageReceived)
+                    // console.log(`newMessageReceived`,newMessageReceived)
                     setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
                     updateUser2LastSeenMessage(newMessageReceived);
                 }
@@ -355,14 +355,14 @@ const ChatInfo = () => {
 
             let url = `${server}/report/creator/${creatorId}`;
             
-            console.log(url)
+            // console.log(url)
             const { data } = await axios.get(url, config); // Replace with your API endpoint
             
             // Filter out reports with 'Claimed' status
             // const filteredData = data.filter((report) => report.reportStatus !== 'Claimed');
             
-            console.log(`data`,data)
-            console.log(`selectedChat`, selectedChat)
+            // console.log(`data`,data)
+            // console.log(`selectedChat`, selectedChat)
             
             const foundReport = data.filter((report) => report.reportType === 'FoundReport');
             const missingReport = data.filter((report) => report.reportType === 'MissingReport');
@@ -370,14 +370,14 @@ const ChatInfo = () => {
             // await setReports(data); // Set the reports in state
             setFoundReports(foundReport)
             setMissingReports(missingReport)
-            // console.log(`reports`,reports)
+            // // console.log(`reports`,reports)
         } catch (error) {
             console.error(error);
         }
     };
 
     useEffect(() => {
-        // console.log('Chat Info', selectedChat);
+        // // console.log('Chat Info', selectedChat);
         if (selectedChat) {
             getAllReportsByUser()
         }

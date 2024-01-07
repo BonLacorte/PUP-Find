@@ -23,11 +23,11 @@ const AdminNewMissingLoad = () => {
 
         const { data } = await axios.get(`${server}/user/`, config);
         
-        console.log(`load`)
-        console.log(data)
+        // console.log(`load`)
+        // console.log(data)
         setUsers(data)
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
     }
 

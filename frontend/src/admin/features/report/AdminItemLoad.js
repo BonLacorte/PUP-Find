@@ -24,11 +24,11 @@ const AdminItemLoad = () => {
 
         const { data } = await axios.get(`${server}/report/${id}`, config);
         
-        console.log(`load`)
-        console.log(data)
+        // console.log(`load`)
+        // console.log(data)
         setReport(data)
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
     }
 

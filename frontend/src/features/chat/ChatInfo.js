@@ -39,13 +39,13 @@ const ChatInfo = () => {
 
             let url = `${server}/report/creator/${creatorId}`;
             
-            console.log(url)
+            // console.log(url)
             const { data } = await axios.get(url, config); // Replace with your API endpoint
             
             // Filter out reports with 'Claimed' status
             // const filteredData = data.filter((report) => report.reportStatus !== 'Claimed');
             
-            console.log(`data`,data)
+            // console.log(`data`,data)
             
             const foundReport = data.filter((report) => report.reportType === 'FoundReport');
             const missingReport = data.filter((report) => report.reportType === 'MissingReport');
@@ -53,14 +53,14 @@ const ChatInfo = () => {
             // await setReports(data); // Set the reports in state
             setFoundReports(foundReport)
             setMissingReports(missingReport)
-            // console.log(`reports`,reports)
+            // // console.log(`reports`,reports)
         } catch (error) {
             console.error(error);
         }
     };
 
     useEffect(() => {
-        // console.log('Chat Info', selectedChat);
+        // // console.log('Chat Info', selectedChat);
         if (selectedChat) {
             getAllReportsByUser()
         }
@@ -234,11 +234,15 @@ const ChatInfo = () => {
                     </div>
                 </>
             ) : (
-                <div className="flex items-center justify-center h-full">
-                    <p className="text-3xl pb-3 font-work-sans">
-                        No chat selected.
-                    </p>
-                </div>
+                <div>
+
+                        <p className="text-3xl pb-3 font-work-sans">
+                            Chat with admin is only available for users with missing reports.
+                        </p>
+                        <p className="text-3xl pb-3 font-work-sans">
+                            Users with found reports are expected to surrender the found item to the Public Desk Office.
+                        </p>
+                    </div>
             )}
         </div>
     );

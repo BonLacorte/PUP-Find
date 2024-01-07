@@ -28,7 +28,7 @@ const AdminPersistLogin = () => {
         if (effectRan.current === true || process.env.NODE_ENV !== 'development') { // React 18 Strict Mode
 
             const verifyRefreshToken = async () => {
-                console.log('verifying refresh token')
+                // console.log('verifying refresh token')
                 try {
                     //const response = 
                     await refresh()
@@ -51,10 +51,10 @@ const AdminPersistLogin = () => {
 
     let content
     if (!adminPersist) { // persist: no
-        console.log('no persist')
+        // console.log('no persist')
         content = <Outlet />
     } else if (isLoading) { //persist: yes, token: no
-        console.log('loading')
+        // console.log('loading')
         content = 
             <div className="w-full h-screen flex items-center justify-center">
                 <div className="flex justify-center">
@@ -62,7 +62,7 @@ const AdminPersistLogin = () => {
                 </div>
             </div>
     } else if (isError) { //persist: yes, token: no
-        console.log('error')
+        // console.log('error')
         content = (
             <div className="w-full h-screen flex items-center justify-center">
                 <p className='flex flex-col items-center justify-center errmsg text-lg font-medium'>
@@ -72,11 +72,11 @@ const AdminPersistLogin = () => {
             </div>
         )
     } else if (isSuccess && trueSuccess) { //persist: yes, token: yes
-        console.log('success')
+        // console.log('success')
         content = <Outlet />
     } else if (token && isUninitialized) { //persist: yes, token: yes
-        console.log('token and uninit')
-        console.log(isUninitialized)
+        // console.log('token and uninit')
+        // console.log(isUninitialized)
         content = <Outlet />
     }
 

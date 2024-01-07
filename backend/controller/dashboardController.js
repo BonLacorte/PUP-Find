@@ -17,7 +17,7 @@ const getReportCounts = async (req, res, next) => {
 
         // Calculate location counts
         missingReports.forEach((report) => {
-            // console.log(report)
+            // // console.log(report)
             const { location } = report;
             if (locationCounts[location]) {
                 locationCounts[location]++;
@@ -25,7 +25,7 @@ const getReportCounts = async (req, res, next) => {
                 locationCounts[location] = 1;
             }
         });
-        // console.log(locationCounts)
+        // // console.log(locationCounts)
 
         // Calculate user specifications counts
         for (const report of missingReports) {
@@ -92,7 +92,7 @@ const getReportCounts = async (req, res, next) => {
 
 const getBarChartData = async (req, res, next) => {
     try {
-        console.log(req.params.year)
+        // console.log(req.params.year)
         const year = parseInt(req.params.year); // Parse the year from the URL parameter
         const startOfYear = new Date(year, 0, 1); // January 1st of the selected year
         const endOfYear = new Date(year, 11, 31, 23, 59, 59); // December 31st of the selected year
@@ -150,7 +150,7 @@ const getBarChartData = async (req, res, next) => {
 
                 return monthA - monthB;
             });
-            console.log(`formattedData`, formattedData)
+            // console.log(`formattedData`, formattedData)
             return formattedData;
         };
 

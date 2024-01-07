@@ -12,6 +12,7 @@ import { io } from 'socket.io-client';
 import { Image, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon, Box} from "@chakra-ui/react";
 import ScrollableFeed from 'react-scrollable-feed';
 import { server } from '../server';
+import { Link } from 'react-router-dom';
 
 const ENDPOINT = `${server}`
 var socket, selectedChatCompare
@@ -41,8 +42,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     };
 
     const fetchMessages = async () => {
-        // console.log('value of chats in SingleChat - fetchMessages',{chats})
-        // console.log('value of selectedChat in SingleChat - fetchMessages',{selectedChat})
+        // // console.log('value of chats in SingleChat - fetchMessages',{chats})
+        // // console.log('value of selectedChat in SingleChat - fetchMessages',{selectedChat})
         if (!selectedChat) {
             return
         };
@@ -61,24 +62,24 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
         
         setMessages(data);
-        // console.log({messages})
+        // // console.log({messages})
         setLoading(false);
     
         socket.emit("join chat", selectedChat._id);
         } catch (error) {
-            console.log(error)
-            console.log('SingleChat fetchMessages-Failed to fetch the Messages')
+            // console.log(error)
+            // console.log('SingleChat fetchMessages-Failed to fetch the Messages')
         }
     }
 
     const updateLastSeenMessage = async (message) => {
         try {
-            // console.log("From ULS User 1")
-            // console.log('chatId User 1', selectedChat._id)
+            // // console.log("From ULS User 1")
+            // // console.log('chatId User 1', selectedChat._id)
             
-            // console.log('lastMessageId User 1',messages[messages?.length - 1]?._id)
+            // // console.log('lastMessageId User 1',messages[messages?.length - 1]?._id)
             
-            // console.log('lastMessageId User 1', message)
+            // // console.log('lastMessageId User 1', message)
             const config = {
                 headers: {
                     token: `Bearer ${accessToken}`,
@@ -93,15 +94,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             , config);
             // setLastMessage(data);
         } catch (error) {
-            console.log(error)
-            console.log('SingleChat updateLastSeenMessage-Failed to update last seen message')
+            // console.log(error)
+            // console.log('SingleChat updateLastSeenMessage-Failed to update last seen message')
         }
     }
 
     // Function to update User2's last seen message
     const updateUser2LastSeenMessage = async (newMessageReceived) => {
         try {
-            // console.log("From ULS User 2")
+            // // console.log("From ULS User 2")
             // Make an API request to update User2's last seen message
             const config = {
                 headers: {
@@ -118,8 +119,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 config
             );
         } catch (error) {
-            console.log(error);
-            console.log("Failed to update User2's last seen message");
+            // console.log(error);
+            // console.log("Failed to update User2's last seen message");
         }
     };
 
@@ -146,13 +147,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     await updateLastSeenMessage(data)
 
                     socket.emit("new message", data);
-                    // console.log("new message", data)
+                    // // console.log("new message", data)
                     setMessages([...messages, data]);
-                    console.log({messages})
-                    // console.log('SingleChat sendMessage-selectedChat ',{selectedChat})
+                    // console.log({messages})
+                    // // console.log('SingleChat sendMessage-selectedChat ',{selectedChat})
                 } catch (error) {
-                    console.log(error)
-                    console.log('SingleChat sendMessage-Failed to send the Message')
+                    // console.log(error)
+                    // console.log('SingleChat sendMessage-Failed to send the Message')
                 };
         }
     }
@@ -166,7 +167,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     
         if (!selectedChat) {
             setSelectedChat(chats[0])
-            console.log('set chat[0] as selectedChat',{selectedChat})
+            // console.log('set chat[0] as selectedChat',{selectedChat})
         };
 
         return () => {
@@ -179,9 +180,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     useEffect(() => {
         if (selectedChat && selectedChatCompare) {
             socket.emit("chat closed", selectedChatCompare);
-            console.log('chat closed')
+            // console.log('chat closed')
             socket.emit("leave chat", selectedChatCompare);
-            console.log('leave chat')
+            // console.log('leave chat')
         }
 
         fetchMessages();
@@ -193,7 +194,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         if (socket) {
             socket.on("message recieved", (newMessageReceived) => {
                 if (selectedChat && selectedChat._id === newMessageReceived.chat._id) {
-                    console.log(`newMessageReceived`,newMessageReceived)
+                    // console.log(`newMessageReceived`,newMessageReceived)
                     setMessages((prevMessages) => [...prevMessages, newMessageReceived]);
                     updateUser2LastSeenMessage(newMessageReceived);
                 }
@@ -235,7 +236,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     return (
         <div className='h-[90vh]border-blue-700'>
             {
-                selectedChat 
+                selectedChat || selectedChat !== undefined
                 ? (
                     <>
                         <div className='flex items-center justify-between pb-3 px-2 w-full '>
@@ -311,10 +312,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     </>
                 ) 
                 : (
-                    <div className="flex items-center justify-center h-full">
-                        <p className="text-3xl pb-3 font-work-sans">
-                            Click on a user to start chatting
+                    <div className="flex flex-col items-center justify-center h-full gap-4">
+                        <p className="text-2xl pb-3 font-work-sans">
+                            Chat with admin feature is only available for users with missing reports.
                         </p>
+                        <p className="text-2xl pb-3 font-work-sans">
+                            Users with found reports are expected to surrender the found item to the Public Assistance & Complaint Desk.
+                        </p>
+                        <button className="bg-secondaryColor flex flex-col justify-center items-center rounded-md py-2 px-4">
+                                <Link to={`/dash/missing/locate`} className="text-center text-sm md:text-lg font-semibold">
+                                    OPEN PUP MAP
+                                </Link>
+                            </button>
                     </div>
                 )
             }
@@ -377,14 +386,14 @@ const ChatInfo = () => {
 
             let url = `${server}/report/creator/${creatorId}`;
             
-            console.log(url)
+            // console.log(url)
             const { data } = await axios.get(url, config); // Replace with your API endpoint
             
             // Filter out reports with 'Claimed' status
             // const filteredData = data.filter((report) => report.reportStatus !== 'Claimed');
             
-            console.log(`data`,data)
-            console.log(`selectedChat`, selectedChat)
+            // console.log(`data`,data)
+            // console.log(`selectedChat`, selectedChat)
             
             const foundReport = data.filter((report) => report.reportType === 'FoundReport');
             const missingReport = data.filter((report) => report.reportType === 'MissingReport');
@@ -392,14 +401,14 @@ const ChatInfo = () => {
             // await setReports(data); // Set the reports in state
             setFoundReports(foundReport)
             setMissingReports(missingReport)
-            // console.log(`reports`,reports)
+            // // console.log(`reports`,reports)
         } catch (error) {
             console.error(error);
         }
     };
 
     useEffect(() => {
-        // console.log('Chat Info', selectedChat);
+        // // console.log('Chat Info', selectedChat);
         if (selectedChat) {
             getAllReportsByUser()
         }
@@ -409,6 +418,7 @@ const ChatInfo = () => {
 
     return (
         <div>
+            { selectedChat === undefined && <p>Chat is undefined</p>}
             {selectedChat ? (
                 <div className='border-orange-700 lg:h-[60vh] flex flex-col'>
                     <div className="pb-3 px-3 flex justify-center text-xl font-bold font-work-sans w-full">
@@ -577,7 +587,14 @@ const ChatInfo = () => {
                                 </div>
                             </div>
                         ) : (
-                            <p className="p-3">No chat mate information available.</p>
+                            <div>
+                                <p className="text-3xl pb-3 font-work-sans">
+                                    Chat with admin is only available for users with missing reports.
+                                </p>
+                                <p className="text-3xl pb-3 font-work-sans">
+                                    Users with found reports are expected to surrender the found item to the Public Desk Office.
+                                </p>
+                            </div>
                         )}
 
                     </div>

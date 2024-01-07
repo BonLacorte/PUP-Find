@@ -55,7 +55,7 @@ const AdminLogin = () => {
             const data = await login({ email, password }).unwrap()
             const accessToken = data.accessToken
             localStorage.setItem("userInfo", JSON.stringify(data))
-            console.log(`response`, data)
+            // console.log(`response`, data)
             dispatch(setCredentials({ accessToken }))
             setEmail('')
             setPassword('')

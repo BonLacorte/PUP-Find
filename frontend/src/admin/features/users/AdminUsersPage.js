@@ -115,7 +115,7 @@ const AdminUsersPage = () => {
     }
 
     const handleDeleteUser = async () => {
-        console.log(`clicked delete button`,userToDelete)
+        // console.log(`clicked delete button`,userToDelete)
         try {
             const config = {
                 headers: {
@@ -130,7 +130,7 @@ const AdminUsersPage = () => {
             window.location.reload()
             toast.success("User account deleted successfully!");
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             toast.error(error.response.data.message);
         } finally {}
     }
@@ -153,7 +153,7 @@ const AdminUsersPage = () => {
             setUsers(data)
         } catch (error) {
             setError(error)
-            console.log(error)
+            // console.log(error)
         } finally {
             setLoading(false)
         }
@@ -202,8 +202,8 @@ const AdminUsersPage = () => {
                     <>
                         <button 
                             onClick={() => {
-                                // console.log('rowData', params)
-                                console.log('user', params.row.original)
+                                // // console.log('rowData', params)
+                                // console.log('user', params.row.original)
                                 navigate(`/admin/dash/users/edit/${params.row.original.id}`, {state: { user: params.row.original}})
                             }} className='bg-blue-500 text-white font-bold py-2 px-2 rounded mr-2 border 
                             hover:bg-blue-700 transition duration-200'
@@ -212,7 +212,7 @@ const AdminUsersPage = () => {
                         </button>
                         <button
                             onClick={() => {
-                                console.log(params.row.original)
+                                // console.log(params.row.original)
                                 setUserToDelete(params.row.original)
                                 onOpen()
                             }}

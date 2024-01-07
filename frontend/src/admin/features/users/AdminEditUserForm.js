@@ -10,7 +10,7 @@ const AdminEditUserForm = ({user}) => {
     const { id } = useParams();
     const location = useLocation();
     // const user  = location.state
-    console.log(`admin edit form`, user)
+    // console.log(`admin edit form`, user)
 
     const [name, setName] = useState(user.name);
     const [idNum, setIdNum] = useState(user.uid);
@@ -94,7 +94,7 @@ const AdminEditUserForm = ({user}) => {
             return;
         }
         setIsSubmitting(true);
-        console.log(canEdit)
+        // console.log(canEdit)
         // Check if the 'Password' and 'Confirm Password' fields match
         if (password !== confirmPassword) {
             setPasswordError("Passwords do not match");
@@ -128,9 +128,9 @@ const AdminEditUserForm = ({user}) => {
     
                 toast.success("Profile updated successfully!");
                 navigate(`/admin/dash/users/`)
-                console.log('User updated:', data);
+                // console.log('User updated:', data);
             } catch (error) {
-                console.log('User update failed:', error);
+                // console.log('User update failed:', error);
                 toast.error(error.response.data.message);
                 setIsSubmitting(false);
             }

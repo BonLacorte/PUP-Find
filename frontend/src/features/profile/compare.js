@@ -43,7 +43,7 @@ const ProfileEditForm = () => {
 
     const onUpdateProfileClicked = async (event) => {
         event.preventDefault();
-        console.log(canSave)
+        // console.log(canSave)
         try {
             const config = {
                 headers: {
@@ -67,7 +67,7 @@ const ProfileEditForm = () => {
 
             // toast.success("Profile updated successfully!");
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             // toast.error("Error updating the profile");
         }
     };
@@ -81,14 +81,14 @@ const ProfileEditForm = () => {
             };
 
             const { data } = await axios.get(`http://localhost:3500/user/${userId}`, config);
-            console.log(data)
+            // console.log(data)
             
             setProfile(data)
 
             setIsLoading(false);
             setIsSuccess(true);
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             setError(error)
             setIsLoading(false);
             setIsError(true);

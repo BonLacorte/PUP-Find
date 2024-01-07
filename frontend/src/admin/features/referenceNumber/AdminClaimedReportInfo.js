@@ -7,7 +7,7 @@ const AdminClaimedReportInfo = () => {
     const location = useLocation();
     const claimedReport  = location.state // Provide a default value if location.state is null
 
-    console.log(claimedReport)
+    // console.log(claimedReport)
 
     const [selectedMissingImage, setSelectedMissingImage] = useState(null);
     const [itemFirstMissingImage, setItemFirstMissingImage] = useState( claimedReport.claimedReport.missingReport.itemImage === null || claimedReport.claimedReport.missingReport.itemImage === undefined || claimedReport.claimedReport.missingReport.itemImage.length === 0 ? 'https://www.greenheath.co.uk/wp-content/uploads/2015/09/no_image_available1.png' : claimedReport.claimedReport.missingReport.itemImage[0].url)
@@ -47,10 +47,10 @@ const AdminClaimedReportInfo = () => {
                             <h1 className="text-2xl font-bold">{claimedReport.claimedReport.missingReport.itemName}</h1>
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Date Found:</span> {new Date(claimedReport.claimedReport.missingReport.date).toISOString().slice(0, 10)}
+                            <span className="font-bold">Date lost:</span> {new Date(claimedReport.claimedReport.missingReport.date).toISOString().slice(0, 10)}
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Founded in:</span> {claimedReport.claimedReport.missingReport.location}
+                            <span className="font-bold">Possible lost at:</span> {claimedReport.claimedReport.missingReport.location}
                             </p>
                             <p className="mb-2">
                             <span className="font-bold">Description:</span> {claimedReport.claimedReport.missingReport.itemDescription}
@@ -60,7 +60,7 @@ const AdminClaimedReportInfo = () => {
                         <div className='p-4'>
                             <div className='flex flex-row justify-between'>
                                 <p className="mb-2">
-                                    <span className="font-bold">Owner Information:</span>
+                                    <span className="font-bold">User Information:</span>
                                 </p>
                             </div>
                             <div className='flex flex-row justify-start'>
@@ -71,10 +71,18 @@ const AdminClaimedReportInfo = () => {
                                 />
                                 <div className='flex flex-col mx-2'>
                                     <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.name}</span>
+                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.name.length > 10 ? `${claimedReport.claimedReport.missingReport.creator.name.substring(0, 10)}...` : claimedReport.claimedReport.missingReport.creator.name}</span>
                                     </p>
                                     <p className="mb-2">
                                         <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.membership}</span>
+                                    </p>
+                                </div>
+                                <div className='flex flex-col mx-2'>
+                                    <p className="mb-2">
+                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.email}</span>
+                                    </p>
+                                    <p className="mb-2">
+                                        <span className="font-bold">{claimedReport.claimedReport.missingReport.creator.specification}</span>
                                     </p>
                                 </div>
                             </div>
@@ -133,7 +141,7 @@ const AdminClaimedReportInfo = () => {
                             <span className="font-bold">Date Found:</span> {new Date(claimedReport.claimedReport.foundReport.date).toISOString().slice(0, 10)}
                             </p>
                             <p className="mb-2">
-                            <span className="font-bold">Founded in:</span> {claimedReport.claimedReport.foundReport.location}
+                            <span className="font-bold">Found at:</span> {claimedReport.claimedReport.foundReport.location}
                             </p>
                             <p className="mb-2">
                             <span className="font-bold">Description:</span> {claimedReport.claimedReport.foundReport.itemDescription}
@@ -143,7 +151,7 @@ const AdminClaimedReportInfo = () => {
                         <div className='p-4'>
                             <div className='flex flex-row justify-between'>
                                 <p className="mb-2">
-                                    <span className="font-bold">Owner Information:</span>
+                                    <span className="font-bold">User Information:</span>
                                 </p>
                             </div>
                             <div className='flex flex-row justify-start'>
@@ -154,10 +162,18 @@ const AdminClaimedReportInfo = () => {
                                 />
                                 <div className='flex flex-col mx-2'>
                                     <p className="mb-2">
-                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.name}</span>
+                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.name.length > 10 ? `${claimedReport.claimedReport.foundReport.creator.name.substring(0, 10)}...` : claimedReport.claimedReport.foundReport.creator.name}</span>
                                     </p>
                                     <p className="mb-2">
                                         <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.membership}</span>
+                                    </p>
+                                </div>
+                                <div className='flex flex-col mx-2'>
+                                    <p className="mb-2">
+                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.email}</span>
+                                    </p>
+                                    <p className="mb-2">
+                                        <span className="font-bold">{claimedReport.claimedReport.foundReport.creator.specification}</span>
                                     </p>
                                 </div>
                             </div>

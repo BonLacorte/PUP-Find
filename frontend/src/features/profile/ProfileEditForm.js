@@ -58,7 +58,7 @@ const ProfileEditForm = ({ user }) => {
             return;
         }
         setIsSubmitting(true)
-        console.log(canEdit)
+        // console.log(canEdit)
         // Check if the 'Password' and 'Confirm Password' fields match
         if (password !== confirmPassword) {
             setPasswordError("Passwords do not match");
@@ -93,9 +93,9 @@ const ProfileEditForm = ({ user }) => {
                 
                 toast.success("Profile updated successfully!");
                 navigate(`/dash/profile/`)
-                console.log('User updated:', data);
+                // console.log('User updated:', data);
             } catch (error) {
-                console.log('User update failed:', error);
+                // console.log('User update failed:', error);
                 toast.error(error.response.data.message);
             } finally {
                 setIsSubmitting(false);

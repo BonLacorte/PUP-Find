@@ -11,7 +11,7 @@ const accessChat = asyncHandler(async (req, res, next) => {
 
     // if other user's id is not sent with request
 
-    console.log(req.user._id)
+    // console.log(req.user._id)
     const admin =  await User.findOne({ isAdmin: true });
 
     try {
@@ -59,7 +59,7 @@ const accessChat = asyncHandler(async (req, res, next) => {
             res.status(200).json(FullChat);
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         next(error);
         throw new Error(error.message);
     }
@@ -73,7 +73,7 @@ const accessChat = asyncHandler(async (req, res, next) => {
 // const addLostItemProcessesToChatData = asyncHandler(async (req, res, next) => {
 //     const { userId, lostItemId } = req.body;
 
-//     console.log(req.body);
+//     // console.log(req.body);
 
 //     if (!userId || !lostItemId) {
 //         return res.sendStatus(400);
@@ -100,7 +100,7 @@ const accessChat = asyncHandler(async (req, res, next) => {
 
 //         const lostItem = await LostItem.findById(lostItemId).exec();
 
-//         console.log('value of lostItem in chatController', lostItem);
+//         // console.log('value of lostItem in chatController', lostItem);
 
 //         if (!lostItem) {
 //             return res.status(404).json({ message: "LostItem not found" });
@@ -187,7 +187,7 @@ const fetchChats = asyncHandler(async (req, res) => {
 const updateLastSeenMessage = asyncHandler(async (req, res, next) => {
     const { chatId, messageId, messageContent } = req.body;
 
-    // console.log(req.body)
+    // // console.log(req.body)
     if (!chatId || !messageId) {
     return res.sendStatus(400);
     }
@@ -226,7 +226,7 @@ const updateLastSeenMessage = asyncHandler(async (req, res, next) => {
             });
         }
 
-        // console.log(chat)
+        // // console.log(chat)
         
         // Save the updated chat
         await chat.save();

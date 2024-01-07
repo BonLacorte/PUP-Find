@@ -36,7 +36,7 @@ const NewMissingForm = () => {
 
         const files = Array.from(e.target.files);
 
-        console.log("files:", files);
+        // console.log("files:", files);
         // Empty the image array (reset)
         setImage([]);
         setImagesPreview([]);
@@ -71,8 +71,8 @@ const NewMissingForm = () => {
 
     const addReport = async (event) => {
         event.preventDefault()
-        console.log(`cansave`,canSave)
-        console.log(`name`,name)
+        // console.log(`cansave`,canSave)
+        // console.log(`name`,name)
         setIsSubmitting(true);
         if (isSubmitting) {
             // If the button is already submitting, ignore the click
@@ -103,13 +103,13 @@ const NewMissingForm = () => {
             config
             );
 
-            // console.log(`New Found Item - data 1`,data)
+            // // console.log(`New Found Item - data 1`,data)
             setNewAddedFoundReport(data)
             toast.success("Missing report created successfully!");
             fetchChats()
         } catch (error) {
-            console.log(error)
-            console.log('NewReportForm')
+            // console.log(error)
+            // console.log('NewReportForm')
             toast.error(error.response.data.message);
         } finally {
             setIsSubmitting(false);
@@ -127,11 +127,11 @@ const NewMissingForm = () => {
 
             const { data } = await axios.get(`${server}/chat`,
             config);
-            console.log(`data from FetchChats = data `, data)
+            // console.log(`data from FetchChats = data `, data)
             await setChats(data);
-            console.log(`data from FetchChats = chats `,chats)
+            // console.log(`data from FetchChats = chats `,chats)
         } catch (err) {
-            console.log(`${err} - in FetchChats`)
+            // console.log(`${err} - in FetchChats`)
         }
         
         // HandleAccessChat
@@ -145,24 +145,24 @@ const NewMissingForm = () => {
             };
         
             const { data } = await axios.post(`${server}/chat`,{}, config);
-            console.log(`data from HandleAccessChat = data`, data)
+            // console.log(`data from HandleAccessChat = data`, data)
         
             if (!chats.find((c) => c._id === data._id)) {
                 setChats([data, ...chats])
             }
             
-            console.log(`List of Chats`,chats)
+            // console.log(`List of Chats`,chats)
         
             await setSelectedChat(data)
-            console.log(`setSelectedChat1`, setSelectedChat)
-            console.log(`setSelectedChat2 ${setSelectedChat}`)
+            // console.log(`setSelectedChat1`, setSelectedChat)
+            // console.log(`setSelectedChat2 ${setSelectedChat}`)
             setLoadingChat(false)
             if (loadingChat === false) {
                 navigate(`/dash/chats`)
             }
             
         } catch (err) {
-            console.log(`${err} - in HandleAccessChat`)
+            // console.log(`${err} - in HandleAccessChat`)
         }
     }
 

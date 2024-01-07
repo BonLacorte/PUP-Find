@@ -39,7 +39,7 @@ const AdminEditFoundForm = () => {
 
         const files = Array.from(e.target.files);
 
-        console.log("files:", files);
+        // console.log("files:", files);
         // Empty the image array (reset)
         setImage([]);
         setImagesPreview([]);
@@ -109,18 +109,18 @@ const AdminEditFoundForm = () => {
             config
             );
 
-            console.log(`Edit Found Item 1- data `,data)
+            // console.log(`Edit Found Item 1- data `,data)
             toast.success("Found report updated successfully!");
             navigate(`/admin/dash/reports/found`)
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             toast.error(error.response.data.message);
             setIsSubmitting(false);
         };
     }
 
     const consoleLogs = () => {
-        console.log(report)
+        // console.log(report)
     }
 
     return (

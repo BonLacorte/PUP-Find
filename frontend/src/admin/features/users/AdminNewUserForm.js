@@ -73,6 +73,8 @@ const AdminNewUserForm = () => {
             };
 
             reader.readAsDataURL(file);
+
+            // console.log(image)
         }
     };
 
@@ -85,7 +87,7 @@ const AdminNewUserForm = () => {
 
     // Create user
     const createUser = async (event) => {
-        console.log(canSave)
+        // console.log(canSave)
         event.preventDefault();
         
         if (isSubmitting) {
@@ -121,11 +123,11 @@ const AdminNewUserForm = () => {
                 }, 
                 config
                 );
-                console.log('User registered:', data);
+                // console.log('User registered:', data);
                 toast.success("User account created successfully!");
                 navigate(`/admin/dash/users`)
             } catch (error) {
-                console.log('User registration failed:', error);
+                // console.log('User registration failed:', error);
                 toast.error(error.response.data.message);
                 setIsSubmitting(false);
             }

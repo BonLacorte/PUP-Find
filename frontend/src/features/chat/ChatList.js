@@ -38,9 +38,9 @@ const ChatList = ({ fetchAgain }) => {
         const { data } = await axios.get(`${server}/chat`, config);
 
         await setChats(data);
-        // console.log(`chats in ChatList`,{chats})
+        // // console.log(`chats in ChatList`,{chats})
         } catch (err) {
-            console.log(err)
+            // console.log(err)
         }
     }
 
@@ -62,9 +62,9 @@ const ChatList = ({ fetchAgain }) => {
             }
     
             await setChats(data);
-            // console.log(`chats in ChatList`,{chats})
+            // // console.log(`chats in ChatList`,{chats})
             } catch (err) {
-                console.log(err)
+                // console.log(err)
             }
         }
 
@@ -81,7 +81,7 @@ const ChatList = ({ fetchAgain }) => {
         
         if (socket) {
             socket.on("message recieved", (newMessageReceived) => {
-                console.log('message recieved')
+                // console.log('message recieved')
                 fetchChats()
             });
         }
@@ -95,11 +95,11 @@ const ChatList = ({ fetchAgain }) => {
         // real-time updating of ChatList's list of chat conversation's latest messages whether the user are online of not and whether the user is the sender of the latest message or not
         if (socket) {
             socket.on("update chat list", (newMessageReceived) => {
-                // console.log(`newMessageReceived`, newMessageReceived)
+                // // console.log(`newMessageReceived`, newMessageReceived)
                 fetchChats()
-                console.log(`selectedChat`,selectedChat)
-                // console.log(`chats`,chats)
-                // console.log(`newMessageReceived`,newMessageReceived)
+                // console.log(`selectedChat`,selectedChat)
+                // // console.log(`chats`,chats)
+                // // console.log(`newMessageReceived`,newMessageReceived)
                 
             });
         }

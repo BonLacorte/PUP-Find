@@ -23,7 +23,7 @@ const register = asyncHandler(async (req, res, next) => {
         return res.status(409).json({ message: 'Duplicate email' })
     }
 
-    console.log(req.body.pic)
+    // console.log(req.body.pic)
     
     try {
         // Uploading avatar
@@ -68,7 +68,7 @@ const register = asyncHandler(async (req, res, next) => {
         })
         
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         next(error);
     }
 })
@@ -80,7 +80,7 @@ const register = asyncHandler(async (req, res, next) => {
 const login = asyncHandler(async (req, res, next) => {
     
     try {
-        // console.log(req.body)
+        // // console.log(req.body)
         const { email, password } = req.body
 
         if (!email || !password) {
@@ -94,7 +94,7 @@ const login = asyncHandler(async (req, res, next) => {
         }
 
         const match = await bcrypt.compare(password, foundUser.password)
-        // console.log(email, password, match)
+        // // console.log(email, password, match)
         if (!match) {
             return res.status(401).json({ message: `Unauthorized Wrong Password ${email}, ${password} ` })
         } 
@@ -142,11 +142,11 @@ const login = asyncHandler(async (req, res, next) => {
             pic: foundUser.pic, 
             uid: foundUser.uid,
             accessToken})
-        // console.log(process.env.REFRESH_TOKEN_SECRET)
+        // // console.log(process.env.REFRESH_TOKEN_SECRET)
         
     
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         next(error);    
     }
 })
@@ -157,8 +157,8 @@ const login = asyncHandler(async (req, res, next) => {
 const refresh = (req, res, next) => {
     try {
         const cookies = req.cookies
-        console.log(cookies)
-        console.log("cookies hello")
+        // console.log(cookies)
+        // console.log("cookies hello")
         if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized 1' })
 
         const refreshToken = cookies.jwt
@@ -192,7 +192,7 @@ const refresh = (req, res, next) => {
             })
         )
     } catch (error) {
-        //console.log(error);
+        //// console.log(error);
         next(`${error} - hello`);
     }
     
@@ -203,8 +203,8 @@ const refresh = (req, res, next) => {
 // @access Public - just to clear cookie if exists
 const logout = (req, res) => {
     const cookies = req.cookies
-    console.log(cookies)
-    console.log("cookies hello")
+    // console.log(cookies)
+    // console.log("cookies hello")
     if (!cookies?.jwt) return res.sendStatus(204) //No content
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
     res.json({ message: 'Cookie cleared' })

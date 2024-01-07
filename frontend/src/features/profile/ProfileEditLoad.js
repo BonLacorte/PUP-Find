@@ -20,10 +20,10 @@ const ProfileEditLoad = () => {
         };
 
         const { data } = await axios.get(`${server}/user/${userId}`, config);
-        console.log(data)
+        // console.log(data)
         setProfile(data)
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
     }
 

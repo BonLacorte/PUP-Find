@@ -52,9 +52,9 @@ const AdminChatList = ({ fetchAgain }) => {
         const sortedChats = [...chatsWithLatestMessage];
 
         await setChats(sortedChats);
-        console.log(`list of chats`, data)
+        // console.log(`list of chats`, data)
         } catch (err) {
-            console.log(err)
+            // console.log(err)
         }
     }
 
@@ -70,7 +70,7 @@ const AdminChatList = ({ fetchAgain }) => {
                 };
     
             const { data } = await axios.get(`${server}/chat`, config);
-            console.log(`list of chats`, data)
+            // console.log(`list of chats`, data)
 
             // Separate chats into two arrays: with latest message and without latest message
             const chatsWithLatestMessage = data.filter(chat => chat.latestMessage);
@@ -91,7 +91,7 @@ const AdminChatList = ({ fetchAgain }) => {
             await setChats(sortedChats);
             
             } catch (err) {
-                console.log(err)
+                // console.log(err)
             }
         }
 
@@ -108,7 +108,7 @@ const AdminChatList = ({ fetchAgain }) => {
         
         if (socket) {
             socket.on("message recieved", (newMessageReceived) => {
-                console.log('message recieved')
+                // console.log('message recieved')
                 fetchChats()
             });
         }
@@ -117,8 +117,8 @@ const AdminChatList = ({ fetchAgain }) => {
         if (socket) {
             socket.on("update chat list", (newMessageReceived) => {
                 fetchChats()
-                console.log(`selectedChat`,selectedChat)
-                console.log(`chats`,chats)
+                // console.log(`selectedChat`,selectedChat)
+                // console.log(`chats`,chats)
             });
         }
         return () => {
@@ -168,7 +168,7 @@ const AdminChatList = ({ fetchAgain }) => {
 
     const filteredChats = chats.filter(chat => {
         const sender = getSenderUid(loggedUser, chat.users) || getSender(loggedUser, chat.users) 
-        console.log(sender, "sender")
+        // console.log(sender, "sender")
         return sender.toLowerCase().includes(searchTerm.toLowerCase());
     });
 

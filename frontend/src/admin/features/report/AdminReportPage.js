@@ -32,7 +32,7 @@ const AdminReportPage = () => {
     }
 
     const handleDeleteReport = async () => {
-        console.log(`clicked delete button`,reportToDelete)
+        // console.log(`clicked delete button`,reportToDelete)
         try {
         const config = {
             headers: {
@@ -47,7 +47,7 @@ const AdminReportPage = () => {
         onClose()
         window.location.reload()
         } catch (error) {
-        console.log(error)
+        // console.log(error)
         }
     }
 
@@ -178,8 +178,8 @@ const AdminReportPage = () => {
                 <>
                     {/* <button 
                         onClick={() => {
-                            // console.log('user', params.row)
-                            // console.log('id', params.row.id)
+                            // // console.log('user', params.row)
+                            // // console.log('id', params.row.id)
                             navigate(`/admin/dash/users/edit/${params.row.id}`, {state: { user: params.row}})
                         }} 
                         className='text-blue-500 font-bold py-2 px-2 rounded mr-2'
@@ -205,7 +205,7 @@ const AdminReportPage = () => {
                     <button 
                         onClick={() => {
                             navigate(selectedReportType === 'Found' ? `/admin/dash/reports/found/info` : `/admin/dash/reports/missing/info`, {state: { report: params.row}})
-                            // console.log(`admin report page`,params.row)
+                            // // console.log(`admin report page`,params.row)
                     }} className="text-blue-500 font-bold py-2 px-2 rounded mr-2">
                         Info
                     </button>
@@ -222,7 +222,7 @@ const AdminReportPage = () => {
                     <button
                         onClick={() => {
                             setReportToDelete(params.row)
-                            console.log(`delete click`, params.row)
+                            // console.log(`delete click`, params.row)
                             onOpen() // Open the delete confirmation modal
                         }}
                         className="text-red-500 font-bold py-2 px-2 rounded"
@@ -238,7 +238,7 @@ const AdminReportPage = () => {
 
     reports &&
     reports.forEach((item) => {
-        // console.log(`item`,item)
+        // // console.log(`item`,item)
         const images = item.itemImage && item.itemImage.length > 0 ? item.itemImage.map(image => ({
             public_id: image.public_id,
             url: image.url,
@@ -273,7 +273,7 @@ const AdminReportPage = () => {
         });
     });
 
-    // console.log(`row`,row)
+    // // console.log(`row`,row)
 
     useEffect(() => {
         getAllReports(selectedReportType)

@@ -24,8 +24,8 @@ const getAllClaimedReport = asyncHandler(async (req, res, next) => {
             );
         });
 
-        // console.log(filteredReports);
-        // console.log(`Hello`,filteredReports.missingReportId);
+        // // console.log(filteredReports);
+        // // console.log(`Hello`,filteredReports.missingReportId);
         res.status(200).json(filteredReports);
     } catch (error) {
         console.error(error);
@@ -40,8 +40,8 @@ const getAllClaimedReport = asyncHandler(async (req, res, next) => {
 const getClaimedReportInfo = asyncHandler(async (req, res, next) => {
     try {
         const { missingReportId, foundReportId } = req.params;
-        console.log(`getClaimedReportInfo missingReportId req.params`, missingReportId);
-        console.log(`getClaimedReportInfo foundReportId req.params`, foundReportId);
+        // console.log(`getClaimedReportInfo missingReportId req.params`, missingReportId);
+        // console.log(`getClaimedReportInfo foundReportId req.params`, foundReportId);
 
         // Find the claimed report that matches the provided IDs
 
@@ -53,11 +53,11 @@ const getClaimedReportInfo = asyncHandler(async (req, res, next) => {
         })
 
         if (!claimedReport) {
-            console.log('Claimed report not found', claimedReport)
+            // console.log('Claimed report not found', claimedReport)
             return res.status(404).json({ message: 'Claimed report not found' });
         }
 
-        console.log(`getClaimedReportInfo claimedReport`, claimedReport);
+        // console.log(`getClaimedReportInfo claimedReport`, claimedReport);
         res.status(200).json(claimedReport);
     } catch (error) {
         console.error(error);
@@ -94,7 +94,7 @@ const getClaimedReportById = asyncHandler(async (req, res, next) => {
             return res.status(404).json({ message: 'Claimed report not found' });
         }
 
-        console.log(claimedReport)
+        // console.log(claimedReport)
         res.status(200).json(claimedReport);
     } catch (error) {
         console.error(error);
@@ -110,8 +110,8 @@ const createClaimedReport = asyncHandler(async (req, res, next) => {
     try {
         const { foundReport, missingReport } = req.body;
 
-        console.log(`foundReport`, foundReport)
-        console.log(`missingReport`, missingReport)
+        // console.log(`foundReport`, foundReport)
+        // console.log(`missingReport`, missingReport)
 
         // Extract itemImage data for foundReport
         const foundReportImages = !foundReport.itemImage || foundReport.itemImage === null || foundReport.itemImage.length === 0 ? null : foundReport.itemImage.map(image => ({
@@ -181,18 +181,18 @@ const createClaimedReport = asyncHandler(async (req, res, next) => {
         });
 
         // Update the reportStatus of the found report to "Claimed"
-        console.log(`foundReport._id`, foundReport.id)
+        // console.log(`foundReport._id`, foundReport.id)
         await Report.findByIdAndUpdate(foundReport.id, {
             $set: {reportStatus: "Claimed" }
         });
 
         // Update the reportStatus of the missing report to "Claimed"
-        console.log(`missingReport._id`,missingReport.id)
+        // console.log(`missingReport._id`,missingReport.id)
         await Report.findByIdAndUpdate(missingReport.id, {
             $set: { reportStatus: "Claimed" }
         });
 
-        console.log(`complete claimedReport`, claimedReport)
+        // console.log(`complete claimedReport`, claimedReport)
         res.status(201).json(claimedReport);
     } catch (error) {
         console.error(error);
@@ -229,7 +229,7 @@ const deleteClaimedReport = asyncHandler(async (req, res, next) => {
 
         res.status(200).json({ message: 'Claimed Report deleted successfully' });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         next(error);
     }
 });

@@ -18,13 +18,13 @@ export const adminAuthApiSlice = adminApiSlice.injectEndpoints({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled
-                    console.log(data)
+                    // console.log(data)
                     dispatch(logOut())
                     setTimeout(() => {
                         dispatch(adminApiSlice.util.resetApiState())
                     }, 1000)
                 } catch (err) {
-                    console.log(err)
+                    // console.log(err)
                 }
             }
         }),
@@ -36,11 +36,11 @@ export const adminAuthApiSlice = adminApiSlice.injectEndpoints({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled
-                    console.log(data)
+                    // console.log(data)
                     const { accessToken } = data
                     dispatch(setCredentials({ accessToken }))
                 } catch (err) {
-                    console.log(err)
+                    // console.log(err)
                 }
             }
         }),

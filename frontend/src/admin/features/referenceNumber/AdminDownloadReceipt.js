@@ -9,7 +9,7 @@ const AdminDownloadReceipt = () => {
     const location = useLocation();
     const claimedReport  = location.state // Provide a default value if location.state is null
 
-    console.log(claimedReport)
+    // console.log(claimedReport)
 
     const { toPDF, targetRef } = usePDF({
         filename: `PUPFind-Claimed-${claimedReport.claimedReport.id}-${claimedReport.claimedReport.foundReport.itemName}.pdf`,

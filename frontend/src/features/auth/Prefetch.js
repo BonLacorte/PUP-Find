@@ -7,10 +7,10 @@ const Prefetch = () => {
 
     useEffect(() => {
         // store.dispatch(adminUsersApiSlice.util.prefetch('getUsers', 'usersList', { force: true }))
-        console.log('subscribing')
+        // console.log('subscribing')
         const getUser = store.dispatch(userApiSlice.endpoints.getUser.initiate())
         return () => {
-            console.log('unsubscribing')
+            // console.log('unsubscribing')
             getUser.unsubscribe()
         }
     }, [])

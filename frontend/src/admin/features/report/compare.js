@@ -57,7 +57,7 @@ const AdminReportPage = () => {
     
         onClose()
         } catch (error) {
-        console.log(error)
+        // console.log(error)
         }
     }
 

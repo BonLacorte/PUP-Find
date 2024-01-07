@@ -27,7 +27,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
     const filters = { ...keywordFilter, ...categoryFilter };
 
     const users = await User.find({ ...filters, _id: { $ne: req.user._id } });
-    // console.log(users)
+    // // console.log(users)
     res.send(users);
 });
 
@@ -40,7 +40,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 const getUserInfo = asyncHandler(async (req, res, next) => {
     try {
         // const { userId } = req.params
-        // console.log('getUserInfo', req.params)
+        // // console.log('getUserInfo', req.params)
 
         const user = await User.findById(req.params.userId).select('-password').lean().exec()
 
@@ -52,7 +52,7 @@ const getUserInfo = asyncHandler(async (req, res, next) => {
         return res.status(201).json(user)
     } 
     catch(error) {
-        console.log(error);
+        // console.log(error);
         next(error);
     }
 })
@@ -64,7 +64,7 @@ const getUserInfo = asyncHandler(async (req, res, next) => {
 const createNewUserrr = asyncHandler(async (req, res, next) => {
 
     try {
-        console.log(req.body)
+        // console.log(req.body)
         const {
             name,
             email,
@@ -85,7 +85,7 @@ const createNewUserrr = asyncHandler(async (req, res, next) => {
 
         if (!pic || pic === '') {
             req.body.pic = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-            // console.log('Hello',req.body.pic)
+            // // console.log('Hello',req.body.pic)
         }
 
         // Check for duplicate email
@@ -94,7 +94,7 @@ const createNewUserrr = asyncHandler(async (req, res, next) => {
         if (duplicateEmail) {
             return res.status(409).json({ message: "Email already used" });
         }
-        // console.log("duplicateEmail - passed")
+        // // console.log("duplicateEmail - passed")
 
         // Check for duplicate email
         const duplicateUid = await User.findOne({ uid }).lean().exec();
@@ -102,18 +102,18 @@ const createNewUserrr = asyncHandler(async (req, res, next) => {
         if (duplicateUid) {
             return res.status(409).json({ message: "ID number already used" });
         }
-        // console.log("duplicateUid - passed")
+        // // console.log("duplicateUid - passed")
 
         // Handle image upload if a new image is provided
         let picsLinks;
 
         if (pic !== "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg") {
             // Upload the image and get the secure URL
-            // console.log("hello1")
+            // // console.log("hello1")
             const result = await cloudinary.uploader.upload(pic, {
                 folder: "Users",
             });
-            // console.log("hello2")
+            // // console.log("hello2")
 
             picsLinks = {
                 public_id: result.public_id,
@@ -131,7 +131,7 @@ const createNewUserrr = asyncHandler(async (req, res, next) => {
         // Hash password
         const hashedPwd = await bcrypt.hash(password, 10); // salt rounds
 
-        // console.log(`hashedPwd - ${hashedPwd}`)
+        // // console.log(`hashedPwd - ${hashedPwd}`)
 
         const newUser = {
             name,
@@ -146,13 +146,13 @@ const createNewUserrr = asyncHandler(async (req, res, next) => {
             facebookLink,
         };
 
-        // console.log(`newUser - ${newUser}`)
+        // // console.log(`newUser - ${newUser}`)
         // Create and store the new user
         const user = await User.create(newUser);
-        // console.log(`Userrr - ${user}`)
+        // // console.log(`Userrr - ${user}`)
         res.json(user);
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         next(error);
     }
 })
@@ -162,12 +162,12 @@ const createNewUserrr = asyncHandler(async (req, res, next) => {
 // @route PUT /users/:userId
 // @access Private
 const updateUserProfile = asyncHandler(async (req, res, next) => {
-    console.log(`req.body`,req.body)
+    // console.log(`req.body`,req.body)
     try {
         // Check if the user is authenticated by comparing the provided password with the stored hashed password
         const { password, ...updatedProfile } = req.body; // Remove password from the updatedProfile object
         const user = await User.findById(req.params.userId);
-        console.log(`user`,user)
+        // console.log(`user`,user)
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -183,7 +183,7 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
         // Check if the provided email is different from the user's email
         if (user.email !== updatedProfile.email) {
             const duplicateEmail = await User.findOne({ email: updatedProfile.email }).lean().exec();
-            console.log(`duplicateEmail`,duplicateEmail)
+            // console.log(`duplicateEmail`,duplicateEmail)
             if (duplicateEmail) {
                 return res.status(409).json({ message: "Email is already used" });
             }
@@ -235,7 +235,7 @@ const updateUserProfile = asyncHandler(async (req, res, next) => {
 
         res.json(updatedUser);
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         next(error);
     }
 });
@@ -256,15 +256,15 @@ const deleteUser = asyncHandler(async (req, res, next) => {
 
         // // Show related Chat records to be deleted
         // const chatToDelete = await Chat.find({ users: user._id });
-        // console.log("Chat records to be deleted:", chatToDelete);
+        // // console.log("Chat records to be deleted:", chatToDelete);
 
         // // Show related Message records to be deleted
         // const messagesToDelete = await Message.find({ sender: user._id });
-        // console.log("Message records to be deleted:", messagesToDelete);
+        // // console.log("Message records to be deleted:", messagesToDelete);
 
         // // Show related Report records to be deleted
         // const reportsToDelete = await Report.find({ creatorId: user._id });
-        // console.log("Report records to be deleted:", reportsToDelete);
+        // // console.log("Report records to be deleted:", reportsToDelete);
 
         // // Show related ClaimedReport records to be deleted
         // const claimedReportsToDelete = await ClaimedReport.find({
@@ -273,7 +273,7 @@ const deleteUser = asyncHandler(async (req, res, next) => {
         //         { missingReportId: { $in: user.reports } },
         //     ],
         // });
-        // console.log("ClaimedReport records to be deleted:", claimedReportsToDelete);
+        // // console.log("ClaimedReport records to be deleted:", claimedReportsToDelete);
 
         // Delete the avatar from cloudinary
         if (user.pic.public_id) {
@@ -303,7 +303,7 @@ const deleteUser = asyncHandler(async (req, res, next) => {
         return res.status(200).json({ success: true });
 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         next(error);
     }
 });

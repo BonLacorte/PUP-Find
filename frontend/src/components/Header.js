@@ -66,7 +66,7 @@ const Header = () => {
 
     const handleSearch = async (e) => {
         if (!search) {
-            console.log("Please enter something on search")
+            // console.log("Please enter something on search")
             return
         }
     
@@ -84,13 +84,13 @@ const Header = () => {
             setLoading(false);
             setSearchResult(data);
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
     }
     
     const handleAccessChat = async (userId) => {
         try {
-            console.log(`handleAccessChat (userId)`,userId)
+            // console.log(`handleAccessChat (userId)`,userId)
 
             setLoadingChat(true);
             const config = {
@@ -101,30 +101,30 @@ const Header = () => {
             };
 
             const { data } = await axios.post(`${server}/chat`, { userId }, config);
-            console.log(`data from accessChat`, data)
+            // console.log(`data from accessChat`, data)
 
             if (!chats.find((c) => c._id === data._id)) {
                 setChats([data, ...chats])
             }
             
 
-            console.log(`chats in Header`,chats) // 
+            // console.log(`chats in Header`,chats) // 
 
             setSelectedChat(data)
-            console.log(`setSelectedChat`, setSelectedChat)
+            // console.log(`setSelectedChat`, setSelectedChat)
             setLoadingChat(false)
             toggleDrawer()
         } catch (err) {
-            console.log(err)
+            // console.log(err)
             // setLoadingChat(false)
             // toast("Error, handleAccesschat", { autoClose: 7000, position: toast.POSITION.BOTTOM_LEFT })
         }
     }
 
     const consoleLogs = () => {
-        // console.log(canAccess)
-        // console.log(canAccessContent)
-        console.log(userInfo)
+        // // console.log(canAccess)
+        // // console.log(canAccessContent)
+        // console.log(userInfo)
     }
 
     const user = {

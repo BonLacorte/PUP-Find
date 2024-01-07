@@ -33,7 +33,7 @@ const AdminNewMissingForm = ({ users }) => {
 
         const files = Array.from(e.target.files);
 
-        console.log("files:", files);
+        // console.log("files:", files);
         // Empty the image array (reset)
         setImage([]);
         setImagesPreview([]);
@@ -83,7 +83,7 @@ const AdminNewMissingForm = ({ users }) => {
         const creatorId = findUserIdByUid(idNum);
 
         if (!creatorId) {
-            console.log('User with this UID does not exist.');
+            // console.log('User with this UID does not exist.');
             toast.error('User with this UID does not exist');
             setIsSubmitting(false);
             return;
@@ -111,12 +111,12 @@ const AdminNewMissingForm = ({ users }) => {
             config
             );
 
-            console.log(`New Found Item - data `,data)
+            // console.log(`New Found Item - data `,data)
             toast.success("Missing report created successfully!");
             navigate(`/admin/dash/reports/missing`)
         } catch (error) {
-            console.log(error)
-            console.log('NewReportForm')
+            // console.log(error)
+            // console.log('NewReportForm')
             toast.error(error.response.data.message);
             setIsSubmitting(false);
         };

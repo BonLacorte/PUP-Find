@@ -54,7 +54,7 @@ const AdminMissingReportPage = () => {
     }
 
     const handleDeleteReport = async () => {
-        console.log(`clicked delete button`,reportToDelete)
+        // console.log(`clicked delete button`,reportToDelete)
         try {
         const config = {
             headers: {
@@ -70,7 +70,7 @@ const AdminMissingReportPage = () => {
         toast.success("Missing report deleted successfully!");
         window.location.reload()
         } catch (error) {
-        console.log(error)
+        // console.log(error)
         toast.error(error.response.data.message);
         }
     }
@@ -119,15 +119,15 @@ const AdminMissingReportPage = () => {
             let url = `${server}/report`
 
             if (reportTypeUrl) url += `?reportType=${reportTypeUrl}`
-            console.log('reportType',url)
+            // console.log('reportType',url)
 
             if (query) url += reportTypeUrl ? `&search=${query}` : `?search=${query}`
-            console.log('reportType and query',url)
+            // console.log('reportType and query',url)
             const { data } = await axios.get(url, config) // Replace with your API endpoint
             
             const filteredData = data.filter((report) => report.reportStatus !== 'Claimed')
             setReports(filteredData)
-            console.log(`missing data`,data)
+            // console.log(`missing data`,data)
         } catch (error) {
             setError(error)
         } finally {
@@ -204,7 +204,7 @@ const AdminMissingReportPage = () => {
                     <button
                         onClick={() => {
                             setReportToDelete(params.row.original)
-                            console.log(`delete click`, params.row.original)
+                            // console.log(`delete click`, params.row.original)
                             onOpen() // Open the delete confirmation modal
                         }}
                         className="
@@ -216,7 +216,7 @@ const AdminMissingReportPage = () => {
                     <button 
                         onClick={() => {
                             navigate(`/admin/dash/reports/missing/info`, {state: { report: params.row.original}})
-                            // console.log(`admin report page`,params.row)
+                            // // console.log(`admin report page`,params.row)
                     }} className="bg-blue-500 text-white font-bold py-2 px-2 rounded mr-2 border 
                     hover:bg-blue-700 transition duration-200">
                         Info
@@ -230,7 +230,7 @@ const AdminMissingReportPage = () => {
     const row = React.useMemo(
         () =>
             reports.map((item) => {
-                console.log(`item`,item)
+                // console.log(`item`,item)
             const images = item.itemImage && item.itemImage.length > 0 ? item.itemImage.map(image => ({
                 public_id: image.public_id,
                 url: image.url,
@@ -269,7 +269,7 @@ const AdminMissingReportPage = () => {
     [reports]
 );
 
-    // console.log(`row`,row)
+    // // console.log(`row`,row)
 
     useEffect(() => {
         getAllReports()

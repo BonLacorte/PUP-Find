@@ -53,7 +53,7 @@ const AdminFoundReportPage = () => {
     }
 
     const handleDeleteReport = async () => {
-        console.log(`clicked delete button`,reportToDelete)
+        // console.log(`clicked delete button`,reportToDelete)
         try {
             const config = {
                 headers: {
@@ -69,7 +69,7 @@ const AdminFoundReportPage = () => {
             toast.success("Found report deleted successfully!");
             window.location.reload()
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             toast.error(error.response.data.message);
         }
     }
@@ -200,7 +200,7 @@ const AdminFoundReportPage = () => {
                 <>
                     <button
                         onClick={() => {
-                            // console.log('report', params.row.original)
+                            // // console.log('report', params.row.original)
                             navigate(`/admin/dash/reports/found/edit/${params.row.original.id}`, {state: { report: params.row.original}})
                     }} className="bg-blue-500 text-white font-bold py-2 px-2 rounded mr-2 border 
                     hover:bg-blue-700 transition duration-200">
@@ -210,7 +210,7 @@ const AdminFoundReportPage = () => {
                     <button
                         onClick={() => {
                             setReportToDelete(params.row.original)
-                            console.log(`delete click`, params.row.original)
+                            // console.log(`delete click`, params.row.original)
                             onOpen() // Open the delete confirmation modal
                         }}
                         className="
@@ -223,7 +223,7 @@ const AdminFoundReportPage = () => {
                     <button 
                         onClick={() => {
                             navigate(`/admin/dash/reports/found/info`, {state: { report: params.row.original}})
-                            // console.log(`admin report page`,params.row)
+                            // // console.log(`admin report page`,params.row)
                     }} className="bg-blue-500 text-white font-bold py-2 px-2 rounded mr-2 border 
                     hover:bg-blue-700 transition duration-200">
                         Info
@@ -246,7 +246,7 @@ const AdminFoundReportPage = () => {
     const row = React.useMemo(
         () =>
             reports.map((item) => {
-                // console.log(`item`,item)
+                // // console.log(`item`,item)
                 const images = item.itemImage && item.itemImage.length > 0
                     ? item.itemImage.map((image) => ({
                         public_id: image.public_id,

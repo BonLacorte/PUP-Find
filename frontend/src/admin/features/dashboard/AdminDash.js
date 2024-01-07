@@ -55,7 +55,7 @@ const AdminDash = () => {
             };
             // Make an API request to get data for the selected year
             const {data} = await axios.get(`${server}/dashboard/counts/${year}`, config);
-            console.log('fetchDataByYear',data)
+            // console.log('fetchDataByYear',data)
             setChartData(data);
         } catch (error) {
             console.error(error);
@@ -82,8 +82,8 @@ const AdminDash = () => {
             
         
             await setCounts(data); // Set the reports in state
-            console.log(counts)
-            console.log(data)
+            // console.log(counts)
+            // console.log(data)
         } catch (error) {
             console.error(error);
             setError(error)

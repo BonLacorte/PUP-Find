@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 //@access          Public
 const getAllReports = asyncHandler(async (req, res) => {
     const { search, reportType } = req.query;
-    // console.log(req.query)
+    // // console.log(req.query)
 
     const keywordFilter = search
         ? {
@@ -22,14 +22,14 @@ const getAllReports = asyncHandler(async (req, res) => {
         }
         : {};
 
-        // console.log('keywordFilter', keywordFilter)
+        // // console.log('keywordFilter', keywordFilter)
         const reportTypeFilter = reportType ? { reportType } : {};
 
         const filters = { ...keywordFilter, ...reportTypeFilter };
-        // console.log(filters)
+        // // console.log(filters)
         const reports = await Report.find({ ...filters}).populate("creatorId", "name pic email uid phoneNumber facebookLink twitterLink membership specification");
     
-        // console.log(reports)
+        // // console.log(reports)
         res.send(reports);
 })
 
@@ -38,7 +38,7 @@ const getAllReports = asyncHandler(async (req, res) => {
 //@access          Public
 const getAllReportsByUser = asyncHandler(async (req, res, next) => {
     
-    // console.log(`getAllReportsByUser req.params.creatorId`,req.params.creatorId)
+    // // console.log(`getAllReportsByUser req.params.creatorId`,req.params.creatorId)
     try {
         const { creatorUid } = req.params; // Get the creatorId from the request body
 
@@ -48,7 +48,7 @@ const getAllReportsByUser = asyncHandler(async (req, res, next) => {
                 path: 'creatorId',
                 select: 'pic name email membership specification facebookLink phoneNumber twitterLink uid',
             });
-        console.log(`creatorUid`, req.params.uid)
+        // console.log(`creatorUid`, req.params.uid)
 
         // Use creatorObjectId in the query
         const filteredReports = reports.filter((report) => {
@@ -69,7 +69,7 @@ const getAllReportsByUser = asyncHandler(async (req, res, next) => {
 const getReportInfo = asyncHandler(async (req, res, next) => {
     try {
         // const { userId } = req.params
-        // console.log('getReportInfo', req.params)
+        // // console.log('getReportInfo', req.params)
 
         const report = await Report.findById(req.params.reportId).populate("creatorId", "name pic email uid phoneNumber facebookLink twitterLink membership specification");
 
@@ -78,22 +78,22 @@ const getReportInfo = asyncHandler(async (req, res, next) => {
             return res.status(400).json({ message: 'Report not found' })
         }
 
-        console.log(report)
+        // console.log(report)
         return res.status(201).json(report)
     } 
     catch(error) {
-        console.log(error);
+        // console.log(error);
         next(error);
     }
 })
 
 
 const createReport = asyncHandler(async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     const { itemName, date, location, itemDescription } = req.body;
 
     if (!itemName  || !date || !location || !itemDescription) {
-        console.log("Invalid data passed into request");
+        // console.log("Invalid data passed into request");
         return res.sendStatus(400);
     }
 
@@ -130,7 +130,7 @@ const createReport = asyncHandler(async (req, res) => {
 
     req.body.image = imagesLinks;
 
-    // console.log(req.body.image )
+    // // console.log(req.body.image )
 
     // Convert the dateFound string to a Date object
     const parsedDate = new Date(date);
@@ -146,8 +146,8 @@ const createReport = asyncHandler(async (req, res) => {
         reportType: req.body.reportType
     };
 
-    // console.log(newReport)
-    // console.log(parsedDateFound)
+    // // console.log(newReport)
+    // // console.log(parsedDateFound)
 
     try {
         const report = await Report.create(newReport);
@@ -164,13 +164,13 @@ const createReport = asyncHandler(async (req, res) => {
 // @access Private
 const updateReport = asyncHandler(async (req, res, next) => {
     try {
-        console.log('update report')
-        console.log(req.body)
-        console.log(`req.body`)
-        // console.log(req.params.reportId)
+        // console.log('update report')
+        // console.log(req.body)
+        // console.log(`req.body`)
+        // // console.log(req.params.reportId)
         const { itemName, itemDescription, date, location, reportStatus } = req.body
         let report = await Report.findById(req.params.reportId);
-        console.log(`value of report`, report)
+        // console.log(`value of report`, report)
 
         if (location === "Choose Location") {
             return res.status(404).json({ message: "Select a location" });
@@ -183,23 +183,23 @@ const updateReport = asyncHandler(async (req, res, next) => {
         } else {
             images = req.body.image;
         }
-        // console.log('images before delete:',images)
+        // // console.log('images before delete:',images)
 
         // // Delete the old images from cloudinary
         if (images !== null){
             if (report.itemImage !== null) {
                 if (report.itemImage !== undefined && report.itemImage.length > 0){
                     for (let i = 0; i < report.itemImage.length; i++) {
-                        console.log(report.itemImage[i])
-                        console.log("delete", i)
+                        // console.log(report.itemImage[i])
+                        // console.log("delete", i)
                         await cloudinary.uploader.destroy(report.itemImage[i].public_id);
                     }
                 }
             }
-            console.log('images after delete',images)
+            // console.log('images after delete',images)
             let imagesLinks = [];
             
-            console.log('Does images have public_id:', images.some(image => image.hasOwnProperty('public_id')));
+            // console.log('Does images have public_id:', images.some(image => image.hasOwnProperty('public_id')));
 
             // Upload images to cloudinary
             if (images.some(image => image.hasOwnProperty('public_id') === false)) {
@@ -215,16 +215,16 @@ const updateReport = asyncHandler(async (req, res, next) => {
 
                 }
             } else {
-                console.log('imagesLinks before',imagesLinks);
+                // console.log('imagesLinks before',imagesLinks);
                 imagesLinks = images;
-                console.log('imagesLinks before',imagesLinks);
+                // console.log('imagesLinks before',imagesLinks);
             }
 
             req.body.image = imagesLinks;
         } else {
-            console.log("report.itemImage",report.itemImage)
+            // console.log("report.itemImage",report.itemImage)
             req.body.image = report.itemImage;
-            console.log("req.body.image",req.body.image)
+            // console.log("req.body.image",req.body.image)
         }
         
         const parsedDate = new Date(date);
@@ -239,11 +239,11 @@ const updateReport = asyncHandler(async (req, res, next) => {
 
         const updatedReport = await report.save();
 
-        console.log(updatedReport)
+        // console.log(updatedReport)
         res.json(updatedReport );
 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         next(error);
     }
 });
@@ -254,14 +254,14 @@ const updateReport = asyncHandler(async (req, res, next) => {
 const deleteReport = asyncHandler(async (req, res, next) => {
     try {
         // const { userId } = req.params.userId
-        console.log(req.params.reportId)
-        // console.log(userId)
+        // console.log(req.params.reportId)
+        // // console.log(userId)
 
         // Does the user exist to delete?
         let report = await Report.findById(req.params.reportId)
 
-        console.log("report list")
-        console.log(report)
+        // console.log("report list")
+        // console.log(report)
 
         // Confirm if user exists
         if(!report) {
@@ -281,7 +281,7 @@ const deleteReport = asyncHandler(async (req, res, next) => {
         return res.status(200).json(report);
 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         next(error);
     }
 })
